@@ -27,15 +27,32 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        // if ($request->user()->isDirty('email')) {
+        //     $request->user()->email_verified_at = null;
+        // }
 
-        $request->user()->save();
+        // $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // return Redirect::route('profile.edit')->with('status', 'profile-updated');
+
+        $request->validate([
+            'name' => 'required | max:100',
+            'username' => 'nullable | min:8 | max:16 | unique:users,username,'.Auth::user()->username,
+            'email' => 'required | email | unique:users,email,'.Auth::user()->id,
+            'position_id' => 'integer'
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->save();
+
+        toastr()->success('Profile Updated Successfully');
+
+        return redirect()->back();
     }
 
     /**
@@ -58,4 +75,5 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
 }

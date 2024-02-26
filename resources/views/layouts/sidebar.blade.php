@@ -70,34 +70,88 @@
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
       <li class="menu-item active">
-        <a href="index.html" class="menu-link">
+        <a href="{{ route('dashboard') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Dashboard</div>
         </a>
       </li>
 
       <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Pages</span>
+        <span class="menu-header-text">Data</span>
       </li>
       <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
-          <div data-i18n="Account Settings">Account Settings</div>
+          <div data-i18n="">Master Data</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{ route('branch.index') }}" class="menu-link">
+              <div data-i18n="Account">Branch</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="Account">Toko</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="Account">Gerai</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="Account">Product</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Laporan</span>
+      </li>
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <div data-i18n="">Kunjungan</div>
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
             <a href="pages-account-settings-account.html" class="menu-link">
-              <div data-i18n="Account">Account</div>
+              <div data-i18n="Account">Summary Kunjungan Karyawan</div>
             </a>
           </li>
+
           <li class="menu-item">
-            <a href="pages-account-settings-notifications.html" class="menu-link">
-              <div data-i18n="Notifications">Notifications</div>
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="Account">Summary Alasan Toko</div>
             </a>
           </li>
+        </ul>
+      </li>
+
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Pengaturan</span>
+      </li>
+      <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <div data-i18n="Account Settings">Rule</div>
+        </a>
+        <ul class="menu-sub">
           <li class="menu-item">
-            <a href="pages-account-settings-connections.html" class="menu-link">
-              <div data-i18n="Connections">Connections</div>
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="Account">Akun</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="pages-account-settings-account.html" class="menu-link">
+              <div data-i18n="Account">Website</div>
             </a>
           </li>
         </ul>

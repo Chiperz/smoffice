@@ -44,6 +44,7 @@
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/fonts/boxicons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/fontawesome/css/all.min.css') }}">
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -54,6 +55,14 @@
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+
+    {{-- TOASTR ALERT --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">\
+
+    {{-- DATATABLE --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.css">
 
     <!-- Page CSS -->
 
@@ -119,6 +128,95 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    {{-- TOASTR ALERT --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    {{-- DATATABLE --}}
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
+
+    {{-- SWEET ALERT --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- DATATABLE BUTTON --}}
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.print.min.js"></script>
+
+    {{-- ALERT --}}
+    <script>
+      @if ($errors->any())
+        @foreach ($errors->all() as $error)
+          toastr.error("{{ $error }}")
+        @endforeach
+      @endif
+    </script>
+
+    {{-- DYNAMIC DELETE ALERT --}}
+    <script>
+      $(document).ready(function(){
+
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+
+
+          $('body').on('click', '.delete-item', function(event){
+              event.preventDefault();
+
+              let deleteUrl = $(this).attr('href');
+
+              Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                  }).then((result) => {
+                  if (result.isConfirmed) {
+
+                      $.ajax({
+                          type: 'DELETE',
+                          url: deleteUrl,
+
+                          success: function(data){
+
+                              if(data.status == 'success'){
+                                  Swal.fire(
+                                      'Deleted!',
+                                      data.message,
+                                      'success'
+                                  )
+                                  window.location.reload();
+                              }else if (data.status == 'error'){
+                                  Swal.fire(
+                                      'Cant Delete',
+                                      data.message,
+                                      'error'
+                                  )
+                              }
+                          },
+                          error: function(xhr, status, error){
+                              console.log(error);
+                          }
+                      })
+                  }
+              })
+          })
+
+      })
+    </script>
+
+    @stack('scripts')
   </body>
 </html>
 
