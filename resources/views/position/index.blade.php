@@ -6,10 +6,10 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <h5>Tabel Cabang</h5>
+                <h5>Tabel Jabatan</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('branch.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    <a href="{{ route('branch.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    <a href="{{ route('position.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    <a href="{{ route('position.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
                 </div>
             </div>
         </div>

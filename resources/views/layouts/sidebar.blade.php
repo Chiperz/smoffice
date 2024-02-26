@@ -87,7 +87,13 @@
         <ul class="menu-sub">
           <li class="menu-item">
             <a href="{{ route('branch.index') }}" class="menu-link">
-              <div data-i18n="Account">Branch</div>
+              <div data-i18n="Account">Cabang</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{{ route('position.index') }}" class="menu-link">
+              <div data-i18n="Account">Jabatan</div>
             </a>
           </li>
 

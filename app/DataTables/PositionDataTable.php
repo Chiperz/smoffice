@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Branch;
+use App\Models\Position;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BranchDataTable extends DataTable
+class PositionDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,35 +22,35 @@ class BranchDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addIndexColumn()
-            ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('branch.show', $query->id)."'>Detail </a>";
-                $btnEdit = "<a class='btn btn-warning' href='".route('branch.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('branch.destroy', $query->id)."'>Hapus </a>";
+        ->addIndexColumn()
+        ->addColumn('action', function($query){
+            // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
+            $btnEdit = "<a class='btn btn-warning' href='".route('position.edit', $query->id)."'>Ubah </a>";
+            $btnDelete = "<a class='btn btn-danger delete-item' href='".route('position.destroy', $query->id)."'>Hapus </a>";
 
-                // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
-            })
-            ->addColumn('status', function($query){
-                $active = '<i class="badge badge-success">Active</i>';
-                $inactive = '<i class="badge badge-danger">Inactive</i>';
+            // return $btnShow.$btnEdit.$btnDelete;
+            return $btnEdit.$btnDelete;
+        })
+        ->addColumn('status', function($query){
+            $active = '<i class="badge badge-success">Active</i>';
+            $inactive = '<i class="badge badge-danger">Inactive</i>';
 
-                if($query->status == 1){
-                    // return $active;
-                    return 'Active';
-                }else{
-                    // return $inactive;
-                    return 'Inactive';
-                }
-            })
-            ->rawColumns(['action', 'status'])
-            ->setRowId('id');
+            if($query->status == 1){
+                // return $active;
+                return 'Active';
+            }else{
+                // return $inactive;
+                return 'Inactive';
+            }
+        })
+        ->rawColumns(['action', 'status'])
+        ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Branch $model): QueryBuilder
+    public function query(Position $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -61,12 +61,11 @@ class BranchDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('branch-table')
+                    ->setTableId('position-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip')
+                    //->dom('Bfrtip')
                     ->orderBy(1)
-                    // ->addIndex()
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -86,9 +85,7 @@ class BranchDataTable extends DataTable
         return [
             'DT_RowIndex',
             // Column::make('id'),
-            Column::make('code'),
             Column::make('name'),
-            Column::make('notes'),
             // Column::make('created_at'),
             // Column::make('updated_at'),
             Column::make('status'),
@@ -105,6 +102,6 @@ class BranchDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Branch_' . date('YmdHis');
+        return 'Position_' . date('YmdHis');
     }
 }

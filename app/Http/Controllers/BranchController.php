@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 
 use App\Datatables\BranchDataTable;
+use App\Datatables\BranchTrashedDataTable;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -62,7 +63,9 @@ class BranchController extends Controller
      */
     public function edit(string $id)
     {
-        return view('branch.edit');
+        $branch = Branch::findOrFail($id);
+
+        return view('branch.edit',compact('branch'));
     }
 
     /**
@@ -70,7 +73,23 @@ class BranchController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $branch = Branch::findOrFail($id);
+
+        $request->validate([
+            'code' => 'required | max:5 | string ',
+            'name' => 'required | max:100 | string',
+        ]);
+
+        
+        $branch->code = $request->code;
+        $branch->name = $request->name;
+        $branch->notes = $request->notes;
+        $branch->updated_by = Auth::user()->id;
+        $branch->save();
+
+        toastr()->success('Cabang berhasil diubah');
+
+        return redirect()->route('branch.index');
     }
 
     /**
@@ -78,6 +97,38 @@ class BranchController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $branch = Branch::findOrFail($id);
+        $branch->deleted_by = Auth::user()->id;
+        $branch->save();
+
+        $branch->delete();
+
+        return response(['status' => 'success', 'message' => 'Branch berhasil dihapus']);
+    }
+
+    public function trashed(BranchTrashedDataTable $dataTable){
+        return $dataTable->render('branch.trashed');
+    }
+
+    public function restore($id){
+
+        $branch = Branch::onlyTrashed()->findOrFail($id);
+        $branch->deleted_by = NULL;
+        $branch->save();
+        $branch->restore();
+
+        toastr()->success('Cabang berhasil dikembalikan');
+
+        return redirect()->route('branch.trashed');
+    }
+
+    public function forceDelete($id){
+        
+        $branch = Branch::onlyTrashed()->findOrFail($id);
+        $branch->forceDelete();
+
+        toastr()->success('Cabang berhasil dihapus permanen');
+
+        return redirect()->route('branch.trashed');
     }
 }

@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BranchDataTable extends DataTable
+class BranchTrashedDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,8 +25,8 @@ class BranchDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('branch.show', $query->id)."'>Detail </a>";
-                $btnEdit = "<a class='btn btn-warning' href='".route('branch.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('branch.destroy', $query->id)."'>Hapus </a>";
+                $btnEdit = "<a class='btn btn-info' href='".route('branch.restore', $query->id)."'>Kembalikan </a>";
+                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('branch.force-delete', $query->id)."'>Hapus Permanen</a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
                 return $btnEdit.$btnDelete;
@@ -43,6 +43,13 @@ class BranchDataTable extends DataTable
                     return 'Inactive';
                 }
             })
+            ->editColumn('deleted_at', function($query){
+                 $formatedDate = date('d-M-Y H:i:s', strtotime($query->deleted_at)); 
+                 return $formatedDate;
+            })
+            ->addColumn('by', function($query){
+                return $query->deleted_actor->name;
+           })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
@@ -52,7 +59,7 @@ class BranchDataTable extends DataTable
      */
     public function query(Branch $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->onlyTrashed();
     }
 
     /**
@@ -91,7 +98,9 @@ class BranchDataTable extends DataTable
             Column::make('notes'),
             // Column::make('created_at'),
             // Column::make('updated_at'),
-            Column::make('status'),
+            // Column::make('status'),
+            Column::make('deleted_at'),
+            Column::make('by'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
@@ -105,6 +114,6 @@ class BranchDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Branch_' . date('YmdHis');
+        return 'BranchTrashed_' . date('YmdHis');
     }
 }
