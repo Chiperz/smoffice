@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\DisplayProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::get('position/{id}/restore', [PositionController::class, 'restore'])->name('position.restore');
     Route::delete('position/{id}/force-delete', [PositionController::class, 'forceDelete'])->name('position.force-delete');
     Route::resource('position', PositionController::class);
+
+    Route::get('display/trashed', [DisplayProductController::class, 'trashed'])->name('display.trashed');
+    Route::get('display/{id}/restore', [DisplayProductController::class, 'restore'])->name('display.restore');
+    Route::delete('display/{id}/force-delete', [DisplayProductController::class, 'forceDelete'])->name('display.force-delete');
+    Route::resource('display', DisplayProductController::class);
 });
 
 require __DIR__.'/auth.php';

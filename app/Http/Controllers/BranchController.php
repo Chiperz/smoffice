@@ -103,7 +103,7 @@ class BranchController extends Controller
 
         $branch->delete();
 
-        return response(['status' => 'success', 'message' => 'Branch berhasil dihapus']);
+        return response(['status' => 'success', 'message' => 'Cabang berhasil dihapus']);
     }
 
     public function trashed(BranchTrashedDataTable $dataTable){
@@ -127,8 +127,6 @@ class BranchController extends Controller
         $branch = Branch::onlyTrashed()->findOrFail($id);
         $branch->forceDelete();
 
-        toastr()->success('Cabang berhasil dihapus permanen');
-
-        return redirect()->route('branch.trashed');
+        return response(['status' => 'success', 'message' => 'Cabang berhasil dihapus permanen']);
     }
 }

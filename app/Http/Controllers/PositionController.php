@@ -96,7 +96,7 @@ class PositionController extends Controller
 
         $position->delete();
 
-        return response(['status' => 'success', 'message' => 'Branch berhasil dihapus']);
+        return response(['status' => 'success', 'message' => 'Jabatan berhasil dihapus']);
     }
 
     public function trashed(PositionTrashedDataTable $dataTable){
@@ -120,8 +120,6 @@ class PositionController extends Controller
         $position = Position::onlyTrashed()->findOrFail($id);
         $position->forceDelete();
 
-        toastr()->success('Jabatan berhasil dihapus permanen');
-
-        return redirect()->route('position.trashed');
+        return response(['status' => 'success', 'message' => 'Jabatan berhasil dihapus permanen']);
     }
 }
