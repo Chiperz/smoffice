@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Position;
+use App\Models\CategoryProduct;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PositionTrashedDataTable extends DataTable
+class CategoryProductTrashedDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -25,8 +25,8 @@ class PositionTrashedDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('branch.show', $query->id)."'>Detail </a>";
-                $btnEdit = "<a class='btn btn-info' href='".route('position.restore', $query->id)."'>Kembalikan </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('position.force-delete', $query->id)."'>Hapus Permanen</a>";
+                $btnEdit = "<a class='btn btn-info' href='".route('category.restore', $query->id)."'>Kembalikan </a>";
+                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('category.force-delete', $query->id)."'>Hapus Permanen</a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
                 return $btnEdit.$btnDelete;
@@ -44,12 +44,12 @@ class PositionTrashedDataTable extends DataTable
                 }
             })
             ->editColumn('deleted_at', function($query){
-                 $formatedDate = date('d-M-Y H:i:s', strtotime($query->deleted_at)); 
-                 return $formatedDate;
+                $formatedDate = date('d-M-Y H:i:s', strtotime($query->deleted_at)); 
+                return $formatedDate;
             })
             ->addColumn('by', function($query){
                 return $query->deleted_actor->name;
-           })
+            })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
@@ -57,7 +57,7 @@ class PositionTrashedDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Position $model): QueryBuilder
+    public function query(CategoryProduct $model): QueryBuilder
     {
         return $model->newQuery()->onlyTrashed();
     }
@@ -68,7 +68,7 @@ class PositionTrashedDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('position-table')
+                    ->setTableId('categoryproduct-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -111,6 +111,6 @@ class PositionTrashedDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PositionTrashed_' . date('YmdHis');
+        return 'CategoryProductTrashed_' . date('YmdHis');
     }
 }

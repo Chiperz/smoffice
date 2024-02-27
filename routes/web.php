@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\DisplayProductController;
+use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\BrandProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +49,16 @@ Route::middleware('auth')->group(function () {
     Route::get('display/{id}/restore', [DisplayProductController::class, 'restore'])->name('display.restore');
     Route::delete('display/{id}/force-delete', [DisplayProductController::class, 'forceDelete'])->name('display.force-delete');
     Route::resource('display', DisplayProductController::class);
+
+    Route::get('category/trashed', [CategoryProductController::class, 'trashed'])->name('category.trashed');
+    Route::get('category/{id}/restore', [CategoryProductController::class, 'restore'])->name('category.restore');
+    Route::delete('category/{id}/force-delete', [CategoryProductController::class, 'forceDelete'])->name('category.force-delete');
+    Route::resource('category', CategoryProductController::class);
+
+    Route::get('brand/trashed', [BrandProductController::class, 'trashed'])->name('brand.trashed');
+    Route::get('brand/{id}/restore', [BrandProductController::class, 'restore'])->name('brand.restore');
+    Route::delete('brand/{id}/force-delete', [BrandProductController::class, 'forceDelete'])->name('brand.force-delete');
+    Route::resource('brand', BrandProductController::class);
 });
 
 require __DIR__.'/auth.php';

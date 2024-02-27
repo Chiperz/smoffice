@@ -104,6 +104,18 @@
           </li>
 
           <li class="menu-item">
+            <a href="{{ route('category.index') }}" class="menu-link">
+              <div data-i18n="Account">Kategori Produk</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{{ route('brand.index') }}" class="menu-link">
+              <div data-i18n="Account">Brand Produk</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
             <a href="pages-account-settings-account.html" class="menu-link">
               <div data-i18n="Account">Toko</div>
             </a>
