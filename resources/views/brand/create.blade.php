@@ -22,7 +22,7 @@
                 <div class="mb-3 col-md-12">
                   <label class="form-label" for="category">Kategori Produk</label>
                   <select id="category" class="select2 form-select" name="category">
-                    <option value="">Pilih Kategori Produk</option>
+                    <option value="0">Pilih Kategori Produk</option>
                     @foreach ($categories as $category)
                       <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach

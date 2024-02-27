@@ -38,7 +38,7 @@ class BrandProductController extends Controller
     {
         $request->validate([
             'name' => 'required | max:100 | string',
-            'category' => 'required | integer',
+            'category' => 'integer',
         ]);
 
         $brand = new BrandProduct();
@@ -80,7 +80,7 @@ class BrandProductController extends Controller
 
         $request->validate([
             'name' => 'required | max:100 | string',
-            'category' => 'required | integer',
+            'category' => 'integer',
         ]);
 
         $brand->name = $request->name;
@@ -118,7 +118,7 @@ class BrandProductController extends Controller
         $brand->save();
         $brand->restore();
 
-        toastr()->success('Kategori produk berhasil dikembalikan');
+        toastr()->success('Brand produk berhasil dikembalikan');
 
         return redirect()->route('brand.trashed');
     }

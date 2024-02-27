@@ -7,6 +7,7 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\DisplayProductController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\BrandProductController;
+use App\Http\Controllers\SubBrandProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::get('brand/{id}/restore', [BrandProductController::class, 'restore'])->name('brand.restore');
     Route::delete('brand/{id}/force-delete', [BrandProductController::class, 'forceDelete'])->name('brand.force-delete');
     Route::resource('brand', BrandProductController::class);
+
+    Route::get('sub-brand/trashed', [SubBrandProductController::class, 'trashed'])->name('sub-brand.trashed');
+    Route::get('sub-brand/{id}/restore', [SubBrandProductController::class, 'restore'])->name('sub-brand.restore');
+    Route::delete('sub-brand/{id}/force-delete', [SubBrandProductController::class, 'forceDelete'])->name('sub-brand.force-delete');
+    Route::resource('sub-brand', SubBrandProductController::class);
 });
 
 require __DIR__.'/auth.php';

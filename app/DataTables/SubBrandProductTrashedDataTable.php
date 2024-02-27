@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\BrandProduct;
+use App\Models\SubBrandProduct;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BrandProductDataTable extends DataTable
+class SubBrandProductTrashedDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,9 +24,9 @@ class BrandProductDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-                $btnEdit = "<a class='btn btn-warning' href='".route('brand.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('brand.destroy', $query->id)."'>Hapus </a>";
+                // $btnShow = "<a class='btn btn-info' href='".route('branch.show', $query->id)."'>Detail </a>";
+                $btnEdit = "<a class='btn btn-info' href='".route('sub-brand.restore', $query->id)."'>Kembalikan </a>";
+                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('sub-brand.force-delete', $query->id)."'>Hapus Permanen</a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
                 return $btnEdit.$btnDelete;
@@ -43,12 +43,26 @@ class BrandProductDataTable extends DataTable
                     return 'Inactive';
                 }
             })
+            ->editColumn('deleted_at', function($query){
+                $formatedDate = date('d-M-Y H:i:s', strtotime($query->deleted_at)); 
+                return $formatedDate;
+            })
+            ->addColumn('by', function($query){
+                return $query->deleted_actor->name;
+            })
             ->addColumn('category', function($query){
                 if(empty($query->category->name)){
                     return "TIDAK DIKETAHUI";
                 }
 
                 return $query->category->name;
+            })
+            ->addColumn('brand', function($query){
+                if(empty($query->brand->name)){
+                    return "TIDAK DIKETAHUI";
+                }
+
+                return $query->brand->name;
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
@@ -57,9 +71,9 @@ class BrandProductDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(BrandProduct $model): QueryBuilder
+    public function query(SubBrandProduct $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->onlyTrashed();
     }
 
     /**
@@ -68,7 +82,7 @@ class BrandProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('brandproduct-table')
+                    ->setTableId('subbrandproducttrashed-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -94,9 +108,12 @@ class BrandProductDataTable extends DataTable
             // Column::make('id'),
             Column::make('name'),
             Column::make('category'),
+            Column::make('brand'),
             // Column::make('created_at'),
             // Column::make('updated_at'),
-            Column::make('status'),
+            // Column::make('status'),
+            Column::make('deleted_at'),
+            Column::make('by'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
@@ -110,6 +127,6 @@ class BrandProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'BrandProduct_' . date('YmdHis');
+        return 'SubBrandProductTrashed_' . date('YmdHis');
     }
 }

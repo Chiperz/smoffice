@@ -51,6 +51,10 @@ class BrandProductTrashedDataTable extends DataTable
                 return $query->deleted_actor->name;
             })
             ->addColumn('category', function($query){
+                if(empty($query->category->name)){
+                    return "TIDAK DIKETAHUI";
+                }
+
                 return $query->category->name;
             })
             ->rawColumns(['action', 'status'])

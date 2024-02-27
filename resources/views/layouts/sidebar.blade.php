@@ -116,6 +116,12 @@
           </li>
 
           <li class="menu-item">
+            <a href="{{ route('sub-brand.index') }}" class="menu-link">
+              <div data-i18n="Account">Sub Brand Produk</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
             <a href="pages-account-settings-account.html" class="menu-link">
               <div data-i18n="Account">Toko</div>
             </a>
