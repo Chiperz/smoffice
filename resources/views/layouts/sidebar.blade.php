@@ -122,7 +122,13 @@
           </li>
 
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
+            <a href="{{ route('product.index') }}" class="menu-link">
+              <div data-i18n="Account">Produk</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{{ route('customer.index') }}" class="menu-link">
               <div data-i18n="Account">Toko</div>
             </a>
           </li>
@@ -133,11 +139,6 @@
             </a>
           </li>
 
-          <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
-              <div data-i18n="Account">Product</div>
-            </a>
-          </li>
         </ul>
       </li>
 

@@ -8,6 +8,8 @@ use App\Http\Controllers\DisplayProductController;
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\BrandProductController;
 use App\Http\Controllers\SubBrandProductController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,6 +67,16 @@ Route::middleware('auth')->group(function () {
     Route::get('sub-brand/{id}/restore', [SubBrandProductController::class, 'restore'])->name('sub-brand.restore');
     Route::delete('sub-brand/{id}/force-delete', [SubBrandProductController::class, 'forceDelete'])->name('sub-brand.force-delete');
     Route::resource('sub-brand', SubBrandProductController::class);
+
+    Route::get('product/trashed', [ProductController::class, 'trashed'])->name('product.trashed');
+    Route::get('product/{id}/restore', [ProductController::class, 'restore'])->name('product.restore');
+    Route::delete('product/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('product.force-delete');
+    Route::resource('product', ProductController::class);
+
+    Route::get('customer/{type}/trashed', [CustomerController::class, 'trashed'])->name('customer.trashed');
+    Route::get('customer/{id}/{type}/restore', [CustomerController::class, 'restore'])->name('customer.restore');
+    Route::delete('customer/{id}/{type}/force-delete', [CustomerController::class, 'forceDelete'])->name('customer.force-delete');
+    Route::resource('customer', CustomerController::class);
 });
 
 require __DIR__.'/auth.php';
