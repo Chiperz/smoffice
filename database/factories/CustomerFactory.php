@@ -17,7 +17,7 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => 'BKS'.rand(1000,9999),
+            'code' => 'BKS'.rand(100,999),
             'name' => fake()->name(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),

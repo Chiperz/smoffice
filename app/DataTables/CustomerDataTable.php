@@ -43,7 +43,23 @@ class CustomerDataTable extends DataTable
                     return 'Inactive';
                 }
             })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('regist', function($query){
+                if($query->status_registration == 'Y'){
+                    return 'Sudah Registrasi/Member';
+                }elseif($query->status_registration == 'M'){
+                    return 'Mixing/Campuran';
+                }else{
+                    return 'Belum Registrasi/Non-member';
+                }
+            })
+            ->addColumn('tipe', function($query){
+                if($query->type == 'S'){
+                    return 'Toko';
+                }else{
+                    return 'Gerai';
+                }
+            })
+            ->rawColumns(['action', 'status', 'regist', 'tipe'])
             ->setRowId('id');
     }
 
@@ -64,11 +80,12 @@ class CustomerDataTable extends DataTable
                     ->setTableId('customer-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    // ->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
+                        // ['extend' => 'collection', 'text' => 'Export', 'buttons' => ['copy', 'excel', 'pdf'],
                         Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
@@ -83,28 +100,15 @@ class CustomerDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            // 'DT_RowIndex',
-            // // Column::make('id'),
-            // Column::make('code'),
-            // Column::make('name'),
-            // Column::make('status_registration'),
-            // Column::make('type'),
-            // // Column::make('created_at'),
-            // // Column::make('updated_at'),
-            // Column::make('status'),
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(300)
-            //       ->addClass('text-center'),
             ['data' => 'DT_RowIndex', 'title' => '#'],
             ['data' => 'code', 'title' => 'kode'],
             ['data' => 'name', 'title' => 'nama'],
-            ['data' => 'status_registration', 'title' => 'registrasi'],
-            ['data' => 'type', 'title' => 'tipe'],
+            ['data' => 'regist', 'title' => 'registrasi'],
+            ['data' => 'tipe', 'title' => 'tipe'],
             ['data' => 'area', 'title' => 'area'],
             ['data' => 'subarea', 'title' => 'sub area'],
-            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center']
+            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false]
         ];
     }
 

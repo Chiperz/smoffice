@@ -9,7 +9,9 @@
                 <h5>Tabel Pelanggan</h5>
                 <div class="card-header-action">
                     <a href="{{ route('customer.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    <a href="{{ route('customer.trashed', 1) }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    <a href="{{ route('customer.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    <a href="{{ route('customer.export') }}" class="btn btn-success">Export ke excel</a>
+                    <a href="{{ route('customer.import') }}" class="btn btn-info">Import dari excel</a>
                 </div>
             </div>
         </div>

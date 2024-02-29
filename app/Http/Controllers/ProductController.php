@@ -64,7 +64,7 @@ class ProductController extends Controller
         $product = new Product();
 
         // HANDLING FILE UPLOAD(IMAGE)
-        $imagePath = $this->uploadImage($request, date('d-M-Y H:i:s'), $request->code, $request->name, 'image', 'uploads/product/');
+        $imagePath = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->name, 'image', 'uploads/product/');
         // dd($imagePath);
         $product->image = $imagePath;
         $product->code = $request->code;
@@ -131,7 +131,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         // HANDLING FILE UPLOAD(IMAGE)
-        $imagePath = $this->updateImage($request, date('d-M-Y H:i:s'), $request->code, $request->name, 'image', 'uploads/product/', $product->image);
+        $imagePath = $this->updateImage($request, date('d-M-Y His'), $request->code, $request->name, 'image', 'uploads/product/', $product->image);
         
         $product->image = empty(!$imagePath) ? $imagePath : $product->image;
         $product->code = $request->code;

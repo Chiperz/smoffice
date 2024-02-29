@@ -13,12 +13,10 @@ trait ImageUploadTraits{
             $ext = $image->getClientOriginalExtension();
             $imageName = $codeItem.'-'.$namaItem.'-'.$date.'.'.$ext;
 
-            // $filePath = $request->image->storeAs('uploads/'.$fileName);
-            // $post->image = 'storage/'.$filePath;
             $img = Image::make($image);
             $img->save(public_path($path).$imageName, 50);
 
-            return $path.$imageName;
+            return $path.'/'.$imageName;
         }
     }
 
@@ -32,7 +30,6 @@ trait ImageUploadTraits{
             $ext = $image->getClientOriginalExtension();
             $imageName = $codeItem.'-'.$namaItem.'-'.$date.'.'.$ext;
             
-            // $image->move(public_path($path), $imageName);
             $img = Image::make($image);
             $img->save(public_path($path).$imageName, 50);
 

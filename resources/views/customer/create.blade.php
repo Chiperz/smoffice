@@ -20,13 +20,13 @@
                 </div>
 
                 <div class="mb-3 col-md-12">
-                    <label for="name_customer" class="form-label">Nama Pelanggan</label>
-                    <input class="form-control" type="text" id="name_customer" name="name_customer" value="{{ old('name_customer') }}"/>
+                    <label for="customer_name" class="form-label">Nama Pelanggan</label>
+                    <input class="form-control" type="text" id="customer_name" name="customer_name" value="{{ old('customer_name') }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label for="phone_customer" class="form-label">No. Telepon Pelanggan</label>
-                  <input class="form-control" type="text" id="phone_customer" name="phone_customer" value="{{ old('phone_customer') }}"/>
+                  <label for="customer_phone" class="form-label">No. Telepon Pelanggan</label>
+                  <input class="form-control" type="text" id="customer_phone" name="customer_phone" value="{{ old('customer_phone') }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -36,17 +36,17 @@
 
                 <div class="mb-3 col-md-12">
                   <label for="description" class="form-label">Alamat</label>
-                  <textarea name="address" id="address" rows="3" class="form-control">{{ old('address') }}</textarea>
+                  <textarea name="customer_address" id="customer_address" rows="3" class="form-control">{{ old('customer_address') }}</textarea>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="la" class="form-label">Latitude</label>
-                  <input class="form-control" type="text" id="la" name="la" value="{{ old('la') }}"/>
+                  <input class="form-control" type="number" id="la" name="la" value="{{ old('la') }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="lo" class="form-label">Longitude</label>
-                  <input class="form-control" type="text" id="lo" name="lo" value="{{ old('lo') }}"/>
+                  <input class="form-control" type="number" id="lo" name="lo" value="{{ old('lo') }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -126,8 +126,8 @@
                 @csrf
               <div class="row">
                 <div class="mb-3 col-md-12">
-                  <label for="name_owner" class="form-label">Nama Pemilik</label>
-                  <input class="form-control" type="text" id="name_owner" name="name_owner" value="{{ old('name_owner') }}"/>
+                  <label for="owner_name" class="form-label">Nama Pemilik</label>
+                  <input class="form-control" type="text" id="owner_name" name="owner_name" value="{{ old('owner_name') }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -136,13 +136,13 @@
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label for="phone_owner" class="form-label">No. Telepon Pemilik</label>
-                  <input class="form-control" type="text" id="phone_owner" name="phone_owner" value="{{ old('phone_owner') }}"/>
+                  <label for="owner_phone" class="form-label">No. Telepon Pemilik</label>
+                  <input class="form-control" type="text" id="owner_phone" name="owner_phone" value="{{ old('owner_phone') }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label for="address_owner" class="form-label">Alamat Pemilik</label>
-                  <textarea name="address_owner" id="address_owner" rows="3" class="form-control">{{ old('address_owner') }}</textarea>
+                  <label for="owner_address" class="form-label">Alamat Pemilik</label>
+                  <textarea name="owner_address" id="owner_address" rows="3" class="form-control">{{ old('owner_address') }}</textarea>
                 </div>
 
               </div>

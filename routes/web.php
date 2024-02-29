@@ -73,9 +73,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('product/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('product.force-delete');
     Route::resource('product', ProductController::class);
 
-    Route::get('customer/{type}/trashed', [CustomerController::class, 'trashed'])->name('customer.trashed');
-    Route::get('customer/{id}/{type}/restore', [CustomerController::class, 'restore'])->name('customer.restore');
-    Route::delete('customer/{id}/{type}/force-delete', [CustomerController::class, 'forceDelete'])->name('customer.force-delete');
+    Route::get('customer/trashed', [CustomerController::class, 'trashed'])->name('customer.trashed');
+    Route::get('customer/{id}/restore', [CustomerController::class, 'restore'])->name('customer.restore');
+    Route::delete('customer/{id}/force-delete', [CustomerController::class, 'forceDelete'])->name('customer.force-delete');
+    Route::get('customer/export', [CustomerController::class, 'export'])->name('customer.export');
+    Route::get('customer/import', [CustomerController::class, 'import'])->name('customer.import');
     Route::resource('customer', CustomerController::class);
 });
 
