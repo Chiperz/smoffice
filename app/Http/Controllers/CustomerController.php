@@ -12,11 +12,13 @@ use App\Datatables\CustomerDataTable;
 use App\Datatables\CustomerTrashedDataTable;
 
 use App\Exports\CustomerExport;
+use App\Imports\CustomerImport;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
 use Maatwebsite\Excel\Facades\Excel;
+use File;
 
 class CustomerController extends Controller
 {
@@ -257,7 +259,18 @@ class CustomerController extends Controller
         return Excel::download(new CustomerExport, 'Ekspor Pelanggan_'.date('d-M-Y H-i-s').'.xlsx');
     }
 
-    public function import(){
-        return Excel::download(new CustomerExport, 'Ekspor Pelanggan_'.date('d-M-Y H-i-s').'.xlsx');
+    public function import(Request $request){
+        $request->validate([
+            'import' => 'required | file',
+        ]);
+        Excel::import(new CustomerImport, $request->file('import'));
+
+        toastr()->success('Data pelanggan berhasil diimpor');
+        return redirect()->back();
+    }
+
+    public function downloadFormatImport($file_name){
+        $file_path = public_path('format/'.$file_name);
+        return response()->download($file_path);
     }
 }

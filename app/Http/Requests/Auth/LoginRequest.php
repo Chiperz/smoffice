@@ -48,6 +48,18 @@ class LoginRequest extends FormRequest
         $this->merge([ 
             $login_type => $this->input('username') 
         ]); 
+
+        // $remember = $request->has('remember') ? true : false;
+
+        // if(Auth::attempt($this->only($login_type, 'password'), $this->boolean('remember'))){
+        //     RateLimiter::clear($this->throttleKey());
+        // }
+
+        // RateLimiter::hit($this->throttleKey());
+        
+        // throw ValidationException::withMessages([
+        //     'username' => trans('auth.failed'),
+        // ]);
      
         if (! Auth::attempt($this->only($login_type, 'password'), $this->boolean('remember'))) { 
             RateLimiter::hit($this->throttleKey());

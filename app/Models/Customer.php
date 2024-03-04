@@ -10,6 +10,29 @@ class Customer extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'code',
+        'name',
+        'phone',
+        'address',
+        'LA',
+        'LO',
+        'area',
+        'subarea',
+        'status_registration',
+        'type',
+        'banner',
+        'branch_id',
+        'user_id',
+        'status',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     public function deploy_branch(){
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }

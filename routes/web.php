@@ -10,6 +10,7 @@ use App\Http\Controllers\BrandProductController;
 use App\Http\Controllers\SubBrandProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,17 +24,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    // return view('welcome');
-    return view('login');
-});
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return view('login');
+// });
+Route::get('login');
+// Route::get('/', function(){
+    
+// });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -77,8 +82,11 @@ Route::middleware('auth')->group(function () {
     Route::get('customer/{id}/restore', [CustomerController::class, 'restore'])->name('customer.restore');
     Route::delete('customer/{id}/force-delete', [CustomerController::class, 'forceDelete'])->name('customer.force-delete');
     Route::get('customer/export', [CustomerController::class, 'export'])->name('customer.export');
-    Route::get('customer/import', [CustomerController::class, 'import'])->name('customer.import');
+    Route::post('customer/import', [CustomerController::class, 'import'])->name('customer.import');
+    Route::get('customer/example-file-import/{file}', [CustomerController::class, 'downloadFormatImport'])->name('customer.file-import');
     Route::resource('customer', CustomerController::class);
+
+
 });
 
 require __DIR__.'/auth.php';

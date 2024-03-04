@@ -139,6 +139,12 @@
             </a>
           </li>
 
+          {{-- <li class="menu-item">
+            <a href="{{ route('customer.index') }}" class="menu-link">
+              <div data-i18n="Account">Pengguna</div>
+            </a>
+          </li> --}}
+
         </ul>
       </li>
 
