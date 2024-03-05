@@ -11,8 +11,6 @@
                     <a href="{{ route('customer.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
                     <a href="{{ route('customer.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
                     <a href="{{ route('customer.export') }}" class="btn btn-success">Export ke excel</a>
-                    {{-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Import dari excel</button> --}}
-                    <!-- Button trigger modal -->
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Import dari Excel
                     </button>
@@ -30,7 +28,7 @@
                                     @csrf
                                     <label for="import" class="form-label">Unggah File</label>
                                     <input type="file" name="import" class="form-control mb-2">
-                                    <a href="{{ route('customer.file-import', 'Format Import Customer - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a>
+                                    <a href="{{ route('customer.file-import', 'Format Impor Pelanggan - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a>
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

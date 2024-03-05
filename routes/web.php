@@ -76,6 +76,9 @@ Route::middleware('auth')->group(function () {
     Route::get('product/trashed', [ProductController::class, 'trashed'])->name('product.trashed');
     Route::get('product/{id}/restore', [ProductController::class, 'restore'])->name('product.restore');
     Route::delete('product/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('product.force-delete');
+    Route::get('product/export', [ProductController::class, 'export'])->name('product.export');
+    Route::post('product/import', [ProductController::class, 'import'])->name('product.import');
+    Route::get('product/example-file-import/{file}', [ProductController::class, 'downloadFormatImport'])->name('product.file-import');
     Route::resource('product', ProductController::class);
 
     Route::get('customer/trashed', [CustomerController::class, 'trashed'])->name('customer.trashed');
@@ -86,7 +89,10 @@ Route::middleware('auth')->group(function () {
     Route::get('customer/example-file-import/{file}', [CustomerController::class, 'downloadFormatImport'])->name('customer.file-import');
     Route::resource('customer', CustomerController::class);
 
-
+    // Route::get('user/trashed', [UserController::class, 'trashed'])->name('user.trashed');
+    // Route::get('user/{id}/restore', [UserController::class, 'restore'])->name('user.restore');
+    // Route::delete('user/{id}/force-delete', [UserController::class, 'forceDelete'])->name('user.force-delete');
+    Route::resource('user', UserController::class);
 });
 
 require __DIR__.'/auth.php';

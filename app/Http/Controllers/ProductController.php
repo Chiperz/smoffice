@@ -12,9 +12,14 @@ use App\Models\Product;
 use App\Datatables\ProductDataTable;
 use App\Datatables\ProductTrashedDataTable;
 
+use App\Exports\ProductExport;
+use App\Imports\ProductImport;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
+use Maatwebsite\Excel\Facades\Excel;
+use File;
 
 class ProductController extends Controller
 {
@@ -54,7 +59,7 @@ class ProductController extends Controller
         ]);
 
         if(empty($request->code)){
-            $request->code = $codeProduct = 'PROD'.date('dmyhis');
+            $request->code = 'PROD'.date('dmyhis');
         }
 
         if(empty($request->competitor)){
@@ -188,5 +193,24 @@ class ProductController extends Controller
         $product->forceDelete();
 
         return response(['status' => 'success', 'message' => 'Produk berhasil dihapus permanen']);
+    }
+
+    public function export(){
+        return Excel::download(new ProductExport, 'Ekspor Produk_'.date('d-M-Y H-i-s').'.xlsx');
+    }
+
+    public function import(Request $request){
+        $request->validate([
+            'import' => 'required | file',
+        ]);
+        Excel::import(new ProductImport, $request->file('import'));
+
+        toastr()->success('Data produk berhasil diimpor');
+        return redirect()->back();
+    }
+
+    public function downloadFormatImport($file_name){
+        $file_path = public_path('format/'.$file_name);
+        return response()->download($file_path);
     }
 }

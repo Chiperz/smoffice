@@ -10,6 +10,34 @@
                 <div class="card-header-action">
                     <a href="{{ route('product.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
                     <a href="{{ route('product.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    <a href="{{ route('product.export') }}" class="btn btn-success">Export ke excel</a>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                        Import dari Excel
+                    </button>
+
+                    <!-- Modal Import -->
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <form action="{{ route('product.import') }}" enctype="multipart/form-data" method="POST">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @csrf
+                                    <label for="import" class="form-label">Unggah File</label>
+                                    <input type="file" name="import" class="form-control mb-2">
+                                    <a href="{{ route('customer.file-import', 'Format Impor Produk - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                            </div>
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>
