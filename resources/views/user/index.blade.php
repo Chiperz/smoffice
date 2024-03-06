@@ -6,12 +6,10 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <h5>Tabel Pelanggan</h5>
+                <h5>Tabel Pengguna</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('customer.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    <a href="{{ route('customer.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
-                    <a href="{{ route('customer.export') }}" class="btn btn-success">Export ke excel</a>
-                    <a href="{{ route('customer.import') }}" class="btn btn-info">Import dari excel</a>
+                    <a href="{{ route('user.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    <a href="{{ route('user.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
                 </div>
             </div>
         </div>

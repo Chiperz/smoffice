@@ -1,7 +1,7 @@
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-      <a href="index.html" class="app-brand-link">
+      <a href="{{ route('dashboard') }}" class="app-brand-link">
         <span class="app-brand-logo demo">
           <svg
             width="25"
@@ -139,12 +139,6 @@
             </a>
           </li>
 
-          {{-- <li class="menu-item">
-            <a href="{{ route('customer.index') }}" class="menu-link">
-              <div data-i18n="Account">Pengguna</div>
-            </a>
-          </li> --}}
-
         </ul>
       </li>
 
@@ -177,23 +171,84 @@
       <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
-          <div data-i18n="Account Settings">Rule</div>
+          <div data-i18n="Account Settings">Website</div>
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
-              <div data-i18n="Account">Akun</div>
+            <a href="{{ route('user.index') }}" class="menu-link">
+              <div data-i18n="Account">Pengguna</div>
             </a>
           </li>
 
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
-              <div data-i18n="Account">Website</div>
+            <a href="{{ route('main_menu.index') }}" class="menu-link">
+              <div data-i18n="Account">Main Menu</div>
             </a>
           </li>
+
+          <li class="menu-item">
+            <a href="" class="menu-link">
+              <div data-i18n="Account">Menu</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="" class="menu-link">
+              <div data-i18n="Account">Sub Menu</div>
+            </a>
+          </li>
+
         </ul>
       </li>
 
       
+    </ul>
+
+    <ul class="menu-inner py-1">
+      @foreach($mainMenus as $mMenu)
+        @if ($mMenu->parent == 1 && !empty($mMenu->url))
+          <li class="menu-item {{ Request::is($mMenu->url) ? 'active' : '' }}">
+            <a href="{{ url($mMenu->url) }}" class="menu-link">
+              <i class="{{ $mMenu->icon }}"></i>
+              <div data-i18n="Analytics">{{ $mMenu->title }}</div>
+            </a>
+          </li>
+        @else
+          <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Data</span>
+          </li>
+        @endif
+      @endforeach
+
+      {{-- PARENT MAIN MENU--}}
+      {{-- <li class="menu-item active">
+        <a href="{{ route('dashboard') }}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-home-circle"></i>
+          <div data-i18n="Analytics">Dashboard</div>
+        </a>
+      </li> --}}
+
+      {{-- PARENT MENU --}}
+      {{-- <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Data</span>
+      </li> --}}
+
+      {{-- SUB MENU --}}
+      {{-- <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-dock-top"></i>
+          <div data-i18n="">Master Data</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{ route('branch.index') }}" class="menu-link">
+              <div data-i18n="Account">Cabang</div>
+            </a>
+          </li>
+
+        </ul>
+
+      </li> --}}
+
     </ul>
   </aside>

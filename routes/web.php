@@ -11,6 +11,8 @@ use App\Http\Controllers\SubBrandProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\MainMenuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,10 +91,20 @@ Route::middleware('auth')->group(function () {
     Route::get('customer/example-file-import/{file}', [CustomerController::class, 'downloadFormatImport'])->name('customer.file-import');
     Route::resource('customer', CustomerController::class);
 
-    // Route::get('user/trashed', [UserController::class, 'trashed'])->name('user.trashed');
-    // Route::get('user/{id}/restore', [UserController::class, 'restore'])->name('user.restore');
-    // Route::delete('user/{id}/force-delete', [UserController::class, 'forceDelete'])->name('user.force-delete');
+    Route::get('user/trashed', [UserController::class, 'trashed'])->name('user.trashed');
+    Route::get('user/{id}/restore', [UserController::class, 'restore'])->name('user.restore');
+    Route::delete('user/{id}/force-delete', [UserController::class, 'forceDelete'])->name('user.force-delete');
     Route::resource('user', UserController::class);
+
+    Route::get('role/trashed', [RoleController::class, 'trashed'])->name('role.trashed');
+    Route::get('role/{id}/restore', [RoleController::class, 'restore'])->name('role.restore');
+    Route::delete('role/{id}/force-delete', [RoleController::class, 'forceDelete'])->name('role.force-delete');
+    Route::resource('role', RoleController::class);
+
+    Route::get('main_menu/trashed', [MainMenuController::class, 'trashed'])->name('main_menu.trashed');
+    Route::get('main_menu/{id}/restore', [MainMenuController::class, 'restore'])->name('main_menu.restore');
+    Route::delete('main_menu/{id}/force-delete', [MainMenuController::class, 'forceDelete'])->name('main_menu.force-delete');
+    Route::resource('main_menu', MainMenuController::class);
 });
 
 require __DIR__.'/auth.php';
