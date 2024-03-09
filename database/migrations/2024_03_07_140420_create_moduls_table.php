@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('moduls', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nulllable();
-            $table->boolean('status')->default(1);
+            $table->string('name')->nullable();
+            $table->boolean('view')->default(1);
+            $table->boolean('detail')->default(1);
+            $table->boolean('create')->default(1);
+            $table->boolean('edit')->default(1);
+            $table->boolean('delete')->default(1);
+            $table->boolean('export')->default(1);
+            $table->boolean('import')->default(1);
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
-            $table->integer('deleted_by')->nullable();
             $table->timestamps();
-            $table->SoftDeletes();
         });
     }
 
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('moduls');
     }
 };

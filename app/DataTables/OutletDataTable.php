@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\MainMenu;
+use App\Models\Outlet;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class MainMenuDataTable extends DataTable
+class OutletDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,14 +22,14 @@ class MainMenuDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'mainmenu.action')
+            ->addColumn('action', 'outlet.action')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(MainMenu $model): QueryBuilder
+    public function query(Outlet $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -40,19 +40,19 @@ class MainMenuDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('mainmenu-table')
+                    ->setTableId('outlet-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
-                        // Button::make('excel'),
-                        // Button::make('csv'),
-                        // Button::make('pdf'),
-                        // Button::make('print'),
-                        // Button::make('reset'),
-                        // Button::make('reload')
+                        Button::make('excel'),
+                        Button::make('csv'),
+                        Button::make('pdf'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
                     ]);
     }
 
@@ -68,7 +68,7 @@ class MainMenuDataTable extends DataTable
                   ->width(60)
                   ->addClass('text-center'),
             Column::make('id'),
-            Column::make('title'),
+            Column::make('add your columns'),
             Column::make('created_at'),
             Column::make('updated_at'),
         ];
@@ -79,6 +79,6 @@ class MainMenuDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'MainMenu_' . date('YmdHis');
+        return 'Outlet_' . date('YmdHis');
     }
 }

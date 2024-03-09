@@ -2,8 +2,7 @@
 
 namespace App\DataTables;
 
-// use App\Models\Role;
-use Spatie\Permission\Models\Role;
+use App\Models\StoreTrashed;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RoleDataTable extends DataTable
+class StoreTrashedDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,23 +22,14 @@ class RoleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addIndexColumn()
-            ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-                // $btnEdit = "<a class='btn btn-warning' href='".route('role.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('role.destroy', $query->id)."'>Hapus </a>";
-
-                // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
-            })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('action', 'storetrashed.action')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Role $model): QueryBuilder
+    public function query(StoreTrashed $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -50,19 +40,19 @@ class RoleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('role-table')
+                    ->setTableId('storetrashed-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
-                        // Button::make('excel'),
-                        // Button::make('csv'),
-                        // Button::make('pdf'),
-                        // Button::make('print'),
-                        // Button::make('reset'),
-                        // Button::make('reload')
+                        Button::make('excel'),
+                        Button::make('csv'),
+                        Button::make('pdf'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
                     ]);
     }
 
@@ -72,10 +62,15 @@ class RoleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            ['data' => 'DT_RowIndex', 'title' => '#'],
-            ['data' => 'name', 'title' => 'nama'],
-            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false] 
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
+            Column::make('id'),
+            Column::make('add your columns'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
         ];
     }
 
@@ -84,6 +79,6 @@ class RoleDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Role_' . date('YmdHis');
+        return 'StoreTrashed_' . date('YmdHis');
     }
 }

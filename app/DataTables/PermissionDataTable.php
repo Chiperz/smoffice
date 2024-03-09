@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-// use App\Models\Role;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RoleDataTable extends DataTable
+class PermissionDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,25 +23,19 @@ class RoleDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addIndexColumn()
-            ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-                // $btnEdit = "<a class='btn btn-warning' href='".route('role.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('role.destroy', $query->id)."'>Hapus </a>";
-
-                // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
-            })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('action', 'permission.action')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Role $model): QueryBuilder
+    public function query(Permission $model, $id): QueryBuilder
     {
-        return $model->newQuery();
+        return Permission::all();
+        // return $model->newQuery()->where();
+        // $role = Role::findOrFail($id);
+        // return $role->getAllPermissions();
     }
 
     /**
@@ -50,10 +44,10 @@ class RoleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('role-table')
+                    ->setTableId('permission-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    // ->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
@@ -72,10 +66,15 @@ class RoleDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            ['data' => 'DT_RowIndex', 'title' => '#'],
-            ['data' => 'name', 'title' => 'nama'],
-            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false] 
+            // Column::computed('action')
+            //       ->exportable(false)
+            //       ->printable(false)
+            //       ->width(60)
+            //       ->addClass('text-center'),
+            // Column::make('id'),
+            Column::make('name'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
         ];
     }
 
@@ -84,6 +83,6 @@ class RoleDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Role_' . date('YmdHis');
+        return 'Permission_' . date('YmdHis');
     }
 }

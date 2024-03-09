@@ -6,10 +6,38 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <h5>Tabel Grup Akses</h5>
+                <h5>Tabel Toko</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('role.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    {{-- <a href="{{ route('role.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a> --}}
+                    <a href="{{ route('store.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    <a href="{{ route('store.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    <a href="{{ route('store.export') }}" class="btn btn-success">Export ke excel</a>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Import dari Excel
+                    </button>
+
+                    <!-- Modal Import -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <form action="{{ route('store.import') }}" enctype="multipart/form-data" method="POST">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @csrf
+                                    <label for="import" class="form-label">Unggah File</label>
+                                    <input type="file" name="import" class="form-control mb-2">
+                                    <a href="{{ route('store.file-import', 'Format Impor Pelanggan - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                            </div>
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>

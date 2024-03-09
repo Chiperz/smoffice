@@ -22,29 +22,29 @@ class PositionDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
-        ->addColumn('action', function($query){
-            // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-            $btnEdit = "<a class='btn btn-warning' href='".route('position.edit', $query->id)."'>Ubah </a>";
-            $btnDelete = "<a class='btn btn-danger delete-item' href='".route('position.destroy', $query->id)."'>Hapus </a>";
+            ->addIndexColumn()
+            ->addColumn('action', function($query){
+                // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
+                $btnEdit = "<a class='btn btn-warning' href='".route('position.edit', $query->id)."'>Ubah </a>";
+                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('position.destroy', $query->id)."'>Hapus </a>";
 
-            // return $btnShow.$btnEdit.$btnDelete;
-            return $btnEdit.$btnDelete;
-        })
-        ->addColumn('status', function($query){
-            $active = '<i class="badge badge-success">Active</i>';
-            $inactive = '<i class="badge badge-danger">Inactive</i>';
+                // return $btnShow.$btnEdit.$btnDelete;
+                return $btnEdit.$btnDelete;
+            })
+            ->addColumn('status', function($query){
+                $active = '<i class="badge badge-success">Active</i>';
+                $inactive = '<i class="badge badge-danger">Inactive</i>';
 
-            if($query->status == 1){
-                // return $active;
-                return 'Active';
-            }else{
-                // return $inactive;
-                return 'Inactive';
-            }
-        })
-        ->rawColumns(['action', 'status'])
-        ->setRowId('id');
+                if($query->status == 1){
+                    // return $active;
+                    return 'Active';
+                }else{
+                    // return $inactive;
+                    return 'Inactive';
+                }
+            })
+            ->rawColumns(['action', 'status'])
+            ->setRowId('id');
     }
 
     /**

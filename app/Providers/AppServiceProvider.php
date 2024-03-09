@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\MainMenu;
-
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,8 +19,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $mainMenus = MainMenu::all();
+        // $mainMenus = MainMenu::all();
+        // $menus = Menu::all();
+        // $submenus = SubMenu::all();
 
-        view()->share('mainMenus', $mainMenus);
+        // view()->share([
+        //     'mainMenus' => $mainMenus,
+        //     // 'menus' => $menus,
+        //     // 'submenus' => $submenus
+        // ]);
     }
 }

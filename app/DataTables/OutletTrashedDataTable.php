@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\MainMenuTrashed;
+use App\Models\OutletTrashed;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class MainMenuTrashedDataTable extends DataTable
+class OutletTrashedDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,14 +22,14 @@ class MainMenuTrashedDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'mainmenutrashed.action')
+            ->addColumn('action', 'outlettrashed.action')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(MainMenuTrashed $model): QueryBuilder
+    public function query(OutletTrashed $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -40,7 +40,7 @@ class MainMenuTrashedDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('mainmenutrashed-table')
+                    ->setTableId('outlettrashed-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -79,6 +79,6 @@ class MainMenuTrashedDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'MainMenuTrashed_' . date('YmdHis');
+        return 'OutletTrashed_' . date('YmdHis');
     }
 }

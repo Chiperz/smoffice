@@ -128,13 +128,13 @@
           </li>
 
           <li class="menu-item">
-            <a href="{{ route('customer.index') }}" class="menu-link">
+            <a href="{{ route('store.index') }}" class="menu-link">
               <div data-i18n="Account">Toko</div>
             </a>
           </li>
 
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
+            <a href="{{ route('outlet.index') }}" class="menu-link">
               <div data-i18n="Account">Gerai</div>
             </a>
           </li>
@@ -181,7 +181,19 @@
           </li>
 
           <li class="menu-item">
-            <a href="{{ route('main_menu.index') }}" class="menu-link">
+            <a href="{{ route('role.index') }}" class="menu-link">
+              <div data-i18n="Account">Grup Akses</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{{ route('modul.index') }}" class="menu-link">
+              <div data-i18n="Account">Modul</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="" class="menu-link">
               <div data-i18n="Account">Main Menu</div>
             </a>
           </li>
@@ -204,21 +216,9 @@
       
     </ul>
 
-    <ul class="menu-inner py-1">
-      @foreach($mainMenus as $mMenu)
-        @if ($mMenu->parent == 1 && !empty($mMenu->url))
-          <li class="menu-item {{ Request::is($mMenu->url) ? 'active' : '' }}">
-            <a href="{{ url($mMenu->url) }}" class="menu-link">
-              <i class="{{ $mMenu->icon }}"></i>
-              <div data-i18n="Analytics">{{ $mMenu->title }}</div>
-            </a>
-          </li>
-        @else
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Data</span>
-          </li>
-        @endif
-      @endforeach
+    {{-- <ul class="menu-inner py-1">
+    </ul> --}}
+      
 
       {{-- PARENT MAIN MENU--}}
       {{-- <li class="menu-item active">
@@ -249,6 +249,4 @@
         </ul>
 
       </li> --}}
-
-    </ul>
   </aside>

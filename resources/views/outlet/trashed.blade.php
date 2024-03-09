@@ -6,10 +6,9 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <h5>Tabel Grup Akses</h5>
+                <h5>Data Terhapus</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('role.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    {{-- <a href="{{ route('role.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a> --}}
+                    <a href="{{ route('customer.index') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Kembali</a>
                 </div>
             </div>
         </div>

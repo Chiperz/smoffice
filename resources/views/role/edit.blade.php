@@ -8,21 +8,20 @@
       <div class="col-md-12">
 
         <div class="card mb-4">
-          <h5 class="card-header">Ubah Kategori Produk</h5>
+          <h5 class="card-header">Ubah Akses Grup</h5>
           <!-- Form -->
           <div class="card-body">
-            <form method="POST" action="{{ route('category.update', $category->id) }}">
+            <form method="POST" action="{{ route('role.update', $role->id) }}">
                 @csrf
-                @method('PUT')
               <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="name" class="form-label">Nama</label>
-                    <input class="form-control" type="text" id="name" name="name" value="{{ $category->name }}"/>
+                    <input class="form-control" type="text" id="name" name="name" value="{{ $role->name }}"/>
                 </div>
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Simpan</button>
-                <a href="{{ route('category.index') }}" class="btn btn-outline-secondary">Kembali</a>
+                <a href="{{ route('role.index') }}" class="btn btn-outline-secondary">Kembali</a>
               </div>
             </form>
           </div>
@@ -30,6 +29,31 @@
         </div>
 
       </div>
+
+      {{-- <div class="col-md-12">
+
+        <div class="card mb-4">
+          <h5 class="card-header">Hak Akses</h5>
+          <!-- Form -->
+          <div class="card-body">
+            <form method="POST" action="{{ route('role.store') }}">
+                <div class="card">
+                  
+                  {{ $dataTable->table() }}
+
+                </div>
+
+              <div class="mt-2">
+                <button type="submit" class="btn btn-primary me-2">Simpan</button>
+                <a href="{{ route('role.index') }}" class="btn btn-outline-secondary">Kembali</a>
+              </div>
+            </form>
+          </div>
+          <!-- /Form -->
+        </div>
+
+      </div> --}}
+
     </div>
   </div>
 @endsection

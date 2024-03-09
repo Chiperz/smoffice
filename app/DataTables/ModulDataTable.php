@@ -2,8 +2,7 @@
 
 namespace App\DataTables;
 
-// use App\Models\Role;
-use Spatie\Permission\Models\Role;
+use App\Models\Modul;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -13,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RoleDataTable extends DataTable
+class ModulDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -26,11 +25,10 @@ class RoleDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-                // $btnEdit = "<a class='btn btn-warning' href='".route('role.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('role.destroy', $query->id)."'>Hapus </a>";
+                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('modul.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
+                return $btnDelete;
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
@@ -39,7 +37,7 @@ class RoleDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Role $model): QueryBuilder
+    public function query(Modul $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -50,7 +48,7 @@ class RoleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('role-table')
+                    ->setTableId('modul-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -84,6 +82,6 @@ class RoleDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Role_' . date('YmdHis');
+        return 'Modul_' . date('YmdHis');
     }
 }
