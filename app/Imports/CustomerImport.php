@@ -31,7 +31,6 @@ class CustomerImport implements ToCollection, WithHeadingRow
         {   
             // return dd($row);
             if(empty($row['Kode Pelanggan'])){
-                // return dd($row);
                 $branch = Branch::where('code', $row['Kode Cabang'])->first();
                 $user = User::where('username', $row['Username'])->first();
                 // $codeBranch = Branch::where('code', $row['Kode Cabang'])->first()->code;

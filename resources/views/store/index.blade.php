@@ -28,7 +28,7 @@
                                     @csrf
                                     <label for="import" class="form-label">Unggah File</label>
                                     <input type="file" name="import" class="form-control mb-2">
-                                    <a href="{{ route('store.file-import', 'Format Impor Pelanggan - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a>
+                                    <a href="{{ route('store.file-import', 'Format Impor Toko - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a>
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

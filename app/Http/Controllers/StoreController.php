@@ -163,7 +163,6 @@ class StoreController extends Controller
             'customer_name' => 'required | string',
             'photo' => 'image | mimes:jpeg,jpg,png',
             'regist' => 'required',
-            'type' => 'required',
         ]);
 
         $customer = Customer::findOrFail($id);
@@ -177,7 +176,7 @@ class StoreController extends Controller
         $customer->area = $request->area;
         $customer->subarea = $request->subarea;
         $customer->status_registration = $request->regist;
-        $customer->type = $request->type;
+        $customer->type = 'S';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;
         $customer->branch_id = $request->branch;
         $customer->updated_by = Auth::user()->id;
@@ -247,7 +246,8 @@ class StoreController extends Controller
         
         $customer = Customer::onlyTrashed()->findOrFail($id);
         $owner = Owner::onlyTrashed()->where('customer_id', $id)->first();
-        $this->deleteImage($customer->photo);
+        // return $customer->photo;
+        !empty($customer->photo) ? $this->deleteImage($customer->photo) : '';
         $owner->forceDelete();
         $customer->forceDelete();
 
