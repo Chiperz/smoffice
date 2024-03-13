@@ -50,7 +50,6 @@ class OutletController extends Controller
             'customer_name' => 'required | string',
             'photo' => 'image | mimes:jpeg,jpg,png',
             'regist' => 'required',
-            'type' => 'required',
             'branch' => 'required | integer',
         ]);
 
@@ -106,7 +105,7 @@ class OutletController extends Controller
         $customer->area = $request->area;
         $customer->subarea = $request->subarea;
         $customer->status_registration = $request->regist;
-        $customer->type = $request->type;
+        $customer->type = 'O';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;
         $customer->branch_id = $request->branch;
         $customer->created_by = Auth::user()->id;
@@ -164,7 +163,6 @@ class OutletController extends Controller
             'customer_name' => 'required | string',
             'photo' => 'image | mimes:jpeg,jpg,png',
             'regist' => 'required',
-            'type' => 'required',
         ]);
 
         $customer = Customer::findOrFail($id);
@@ -175,10 +173,10 @@ class OutletController extends Controller
         $customer->address = $request->customer_address;
         $customer->LA = $request->la;
         $customer->LO = $request->lo;
-        $customer->area = $request->area;
+        $customer->area = $request->area;   
         $customer->subarea = $request->subarea;
         $customer->status_registration = $request->regist;
-        $customer->type = $request->type;
+        $customer->type = 'O';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;
         $customer->branch_id = $request->branch;
         $customer->updated_by = Auth::user()->id;
@@ -248,7 +246,7 @@ class OutletController extends Controller
         
         $customer = Customer::onlyTrashed()->findOrFail($id);
         $owner = Owner::onlyTrashed()->where('customer_id', $id)->first();
-        $this->deleteImage($customer->photo);
+        !empty($customer->photo) ? $this->deleteImage($customer->photo) : '';
         $owner->forceDelete();
         $customer->forceDelete();
 
@@ -256,7 +254,7 @@ class OutletController extends Controller
     }
 
     public function export(){
-        return Excel::download(new GeraiExport, 'Ekspor Gerai_'.date('d-M-Y H-i-s').'.xlsx');
+        return Excel::download(new OutletExport, 'Ekspor Gerai_'.date('d-M-Y H-i-s').'.xlsx');
     }
 
     public function import(Request $request){

@@ -115,22 +115,22 @@
               <div class="row">
                 <div class="mb-3 col-md-12">
                   <label for="owner_name" class="form-label">Nama Pemilik</label>
-                  <input class="form-control" type="text" id="owner_name" name="owner_name" value="{{ $owner->name }}"/>
+                  <input class="form-control" type="text" id="owner_name" name="owner_name" value="{{ !empty($owner->name) ? $owner->name : '' }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="nik" class="form-label">NIK</label>
-                  <input class="form-control" type="text" id="nik" name="nik" value="{{ $owner->nik }}"/>
+                  <input class="form-control" type="text" id="nik" name="nik" value="{{ !empty($owner->nik) ? $owner->nik : '' }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="owner_phone" class="form-label">No. Telepon Pemilik</label>
-                  <input class="form-control" type="text" id="owner_phone" name="owner_phone" value="{{ $owner->phone }}"/>
+                  <input class="form-control" type="text" id="owner_phone" name="owner_phone" value="{{ !empty($owner->phone) ? $owner->phone : '' }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="owner_address" class="form-label">Alamat Pemilik</label>
-                  <textarea name="owner_address" id="owner_address" rows="3" class="form-control">{{ $owner->address }}</textarea>
+                  <textarea name="owner_address" id="owner_address" rows="3" class="form-control">{{ !empty($owner->address) ? $owner->address : '' }}</textarea>
                 </div>
 
               </div>

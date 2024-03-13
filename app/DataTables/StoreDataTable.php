@@ -43,6 +43,13 @@ class StoreDataTable extends DataTable
                     return 'Inactive';
                 }
             })
+            ->addColumn('code' ,function($query){
+                if($query->status_registration == 'Y'){
+                    return 'RO-'.$query->code;
+                }else{
+                    return 'NRO-'.$query->code;
+                }
+            })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }

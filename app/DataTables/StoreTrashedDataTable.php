@@ -43,6 +43,13 @@ class StoreTrashedDataTable extends DataTable
                     return 'Inactive';
                 }
             })
+            ->addColumn('code' ,function($query){
+                if($query->status_registration == 'Y'){
+                    return 'RO-'.$query->code;
+                }else{
+                    return 'NRO-'.$query->code;
+                }
+            })
             ->editColumn('deleted_at', function($query){
                 $formatedDate = date('d-M-Y H:i:s', strtotime($query->deleted_at)); 
                 return $formatedDate;

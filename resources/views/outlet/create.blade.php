@@ -8,10 +8,10 @@
       <div class="col-md-6">
 
         <div class="card mb-4">
-          <h5 class="card-header">Data Pelanggan</h5>
+          <h5 class="card-header">Data Toko</h5>
           <!-- Form -->
           <div class="card-body">
-            <form method="POST" action="{{ route('customer.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('outlet.store') }}" enctype="multipart/form-data">
                 @csrf
               <div class="row">
                 <div class="mb-3 col-md-12">
@@ -60,30 +60,18 @@
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label class="form-label d-block">Status Registrasi/Member</label>
+                  <label class="form-label d-block">Status Registrasi</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="regist" id="regist" value="Y" />
-                        <label class="form-check-label" for="inlineRadio1">Sudah Registrasi/Member</label>
+                        <label class="form-check-label" for="inlineRadio1">Sudah Menjadi Member</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="regist" id="regist" value="M" />
-                        <label class="form-check-label" for="inlineRadio2">Mixing/Campuran</label>
+                      <input class="form-check-input" type="radio" name="regist" id="regist" value="M" />
+                      <label class="form-check-label" for="inlineRadio1">Mixing</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="regist" id="regist" value="N" />
-                      <label class="form-check-label" for="inlineRadio2">Belum Registrasi/Non-member</label>
-                    </div>
-                </div>
-
-                <div class="mb-3 col-md-12">
-                  <label class="form-label d-block">Tipe</label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="type" id="type" value="S" />
-                        <label class="form-check-label" for="inlineRadio1">Toko</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="type" id="type" value="O" />
-                        <label class="form-check-label" for="inlineRadio2">Gerai</label>
+                      <label class="form-check-label" for="inlineRadio2">Belum Menjadi Member</label>
                     </div>
                 </div>
 
@@ -148,7 +136,7 @@
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Simpan</button>
-                <a href="{{ route('customer.index') }}" class="btn btn-outline-secondary">Kembali</a>
+                <a href="{{ route('outlet.index') }}" class="btn btn-outline-secondary">Kembali</a>
               </div>
             </form>
           </div>

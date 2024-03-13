@@ -8,7 +8,7 @@
             <div class="row">
                 <h5>Data Terhapus</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('customer.index') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Kembali</a>
+                    <a href="{{ route('outlet.index') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Kembali</a>
                 </div>
             </div>
         </div>

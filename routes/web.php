@@ -9,7 +9,6 @@ use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\BrandProductController;
 use App\Http\Controllers\SubBrandProductController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\OutletController;
 use App\Http\Controllers\UserController;
@@ -84,14 +83,6 @@ Route::middleware('auth')->group(function () {
     Route::post('product/import', [ProductController::class, 'import'])->name('product.import');
     Route::get('product/example-file-import/{file}', [ProductController::class, 'downloadFormatImport'])->name('product.file-import');
     Route::resource('product', ProductController::class);
-
-    Route::get('customer/trashed', [CustomerController::class, 'trashed'])->name('customer.trashed');
-    Route::get('customer/{id}/restore', [CustomerController::class, 'restore'])->name('customer.restore');
-    Route::delete('customer/{id}/force-delete', [CustomerController::class, 'forceDelete'])->name('customer.force-delete');
-    Route::get('customer/export', [CustomerController::class, 'export'])->name('customer.export');
-    Route::post('customer/import', [CustomerController::class, 'import'])->name('customer.import');
-    Route::get('customer/example-file-import/{file}', [CustomerController::class, 'downloadFormatImport'])->name('customer.file-import');
-    Route::resource('customer', CustomerController::class);
 
     Route::get('store/trashed', [StoreController::class, 'trashed'])->name('store.trashed');
     Route::get('store/{id}/restore', [StoreController::class, 'restore'])->name('store.restore');

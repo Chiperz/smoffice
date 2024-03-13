@@ -8,10 +8,10 @@
       <div class="col-md-6">
 
         <div class="card mb-4">
-          <h5 class="card-header">Data Pelanggan</h5>
+          <h5 class="card-header">Data Toko</h5>
           <!-- Form -->
           <div class="card-body">
-            <form method="POST" action="{{ route('customer.update', $customer->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('outlet.update', $customer->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
               <div class="row">
@@ -27,7 +27,7 @@
 
                 <div class="mb-3 col-md-12">
                   <label for="customer_phone" class="form-label">No. Telepon Pelanggan</label>
-                  <input class="form-control" type="text" id="customer_phone" name="customer_phone" value="{{ $customer->name }}"/>
+                  <input class="form-control" type="text" id="customer_phone" name="customer_phone" value="{{ $customer->phone }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
@@ -64,49 +64,33 @@
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label class="form-label d-block">Status Registrasi/Member</label>
+                  <label class="form-label d-block">Status Registrasi</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="regist" id="regist" value="Y" {{ $customer->status_registration == 'Y' ? 'checked' : '' }}/>
-                        <label class="form-check-label" for="inlineRadio1">Sudah Registrasi/Member</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="regist" id="regist" value="M" {{ $customer->status_registration == 'M' ? 'checked' : '' }}/>
-                        <label class="form-check-label" for="inlineRadio2">Mixing/Campuran</label>
+                        <label class="form-check-label" for="inlineRadio1">Sudah Registrasi/RO</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="regist" id="regist" value="N" {{ $customer->status_registration == 'N' ? 'checked' : '' }}/>
-                      <label class="form-check-label" for="inlineRadio2">Belum Registrasi/Non-member</label>
-                    </div>
-                </div>
-
-                <div class="mb-3 col-md-12">
-                  <label class="form-label d-block">Tipe</label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="type" id="type" value="S" {{ $customer->type == 'S' ? 'checked' : '' }}/>
-                        <label class="form-check-label" for="inlineRadio1">Toko</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="type" id="type" value="O" {{ $customer->type == 'O' ? 'checked' : '' }}/>
-                        <label class="form-check-label" for="inlineRadio2">Gerai</label>
+                      <label class="form-check-label" for="inlineRadio2">Belum Registrasi/NRO</label>
                     </div>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" value="1" id="banner" name="banner" {{ $customer->banner == 1 ? 'checked' : '' }}/>
+                    <input class="form-check-input" type="checkbox" value="1" id="banner" name="banner" {{ $customer->status_registration == 1 ? 'checked' : '' }}/>
                     <label class="form-check-label" for="defaultCheck1"> Sudah pasang spanduk </label>
                   </div>
                 </div>
 
-                {{-- <div class="mb-3 col-md-12">
+                <div class="mb-3 col-md-12">
                   <label class="form-label" for="sub-brand">Cabang</label>
                   <select id="branch" class="select2 form-select" name="branch">
                     <option value="0">Pilih Cabang</option>
                     @foreach ($branches as $branch)
-                      <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                      <option value="{{ $branch->id }}" {{ $customer->branch_id == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
                     @endforeach
                   </select>
-                </div> --}}
+                </div>
 
               </div>
               {{-- <div class="mt-2">
@@ -127,31 +111,32 @@
           <!-- Form -->
           <div class="card-body">
             {{-- <form method="POST" action="{{ route('customer.store') }}" enctype="multipart/form-data"> --}}
+              
               <div class="row">
                 <div class="mb-3 col-md-12">
                   <label for="owner_name" class="form-label">Nama Pemilik</label>
-                  <input class="form-control" type="text" id="owner_name" name="owner_name" value="{{ empty($owner->name) ? '' : $owner->name }}"/>
+                  <input class="form-control" type="text" id="owner_name" name="owner_name" value="{{ !empty($owner->name) ? $owner->name : '' }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="nik" class="form-label">NIK</label>
-                  <input class="form-control" type="text" id="nik" name="nik" value="{{ empty($owner->nik) ? '' : $owner->nik }}"/>
+                  <input class="form-control" type="text" id="nik" name="nik" value="{{ !empty($owner->nik) ? $owner->nik : '' }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="owner_phone" class="form-label">No. Telepon Pemilik</label>
-                  <input class="form-control" type="text" id="owner_phone" name="owner_phone" value="{{ empty($owner->phone) ? '' : $owner->phone }}"/>
+                  <input class="form-control" type="text" id="owner_phone" name="owner_phone" value="{{ !empty($owner->phone) ? $owner->phone : '' }}"/>
                 </div>
 
                 <div class="mb-3 col-md-12">
                   <label for="owner_address" class="form-label">Alamat Pemilik</label>
-                  <textarea name="owner_address" id="owner_address" rows="3" class="form-control">{{ empty($owner->address) ? '' : $owner->address }}</textarea>
+                  <textarea name="owner_address" id="owner_address" rows="3" class="form-control">{{ !empty($owner->address) ? $owner->address : '' }}</textarea>
                 </div>
 
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Simpan</button>
-                <a href="{{ route('customer.index') }}" class="btn btn-outline-secondary">Kembali</a>
+                <a href="{{ route('outlet.index') }}" class="btn btn-outline-secondary">Kembali</a>
               </div>
             </form>
           </div>
