@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Position;
+use Spatie\Permission\Models\Role;
 
 use App\Datatables\UserDataTable;
 use App\Datatables\UserTrashedDataTable;
@@ -32,8 +33,9 @@ class UserController extends Controller
     public function create()
     {
         $positions = Position::all();
+        $roles = Role::all()->pluck('name');
 
-        return view('user.create', compact('positions'));
+        return view('user.create', compact('positions', 'roles'));
     }
 
     /**
@@ -77,8 +79,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $positions = Position::all();
+        $roles = Role::all()->pluck('name');
+        // return dd($user->getRoleNames);
 
-        return view('user.edit', compact('user', 'positions'));
+        return view('user.edit', compact('user', 'positions', 'roles'));
     }
 
     /**

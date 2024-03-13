@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('modul', ModulController::class);
 
+    Route::get('role/{id}/reset-permission', [RoleController::class, 'resetPermission'])->name('role.reset-permission');
     Route::resource('role', RoleController::class);
 });
 

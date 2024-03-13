@@ -26,11 +26,12 @@ class RoleDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-                // $btnEdit = "<a class='btn btn-warning' href='".route('role.edit', $query->id)."'>Ubah </a>";
+                $btnEdit = "<a class='btn btn-warning' href='".route('role.edit', $query->id)."'>Ubah </a>";
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('role.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
                 return $btnEdit.$btnDelete;
+                // return $btnDelete;
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
