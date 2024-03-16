@@ -126,4 +126,16 @@ class DisplayProductController extends Controller
 
         return response(['status' => 'success', 'message' => 'Display produk berhasil dihapus permanen']);
     }
+
+    public function autocomplete(Request $request){
+        $data = [];
+
+        if($request->filled('q')){
+            $data = DisplayProduct::select('name', 'id')
+                    ->where('name', 'LIKE', '%'.$request->get('q').'%')
+                    ->get();
+        }
+
+        return response()->json($data);
+    }
 }

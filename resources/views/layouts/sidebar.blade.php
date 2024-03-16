@@ -57,7 +57,7 @@
             </g>
           </svg>
         </span>
-        <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+        <span class="app-brand-text demo menu-text fw-bolder ms-2">SMOffice</span>
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -136,6 +136,12 @@
           <li class="menu-item">
             <a href="{{ route('outlet.index') }}" class="menu-link">
               <div data-i18n="Account">Gerai</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{{ route('unproductive-reason.index') }}" class="menu-link">
+              <div data-i18n="Account">Alasan Tidak Produktif</div>
             </a>
           </li>
 

@@ -43,9 +43,11 @@
       rel="stylesheet"
     />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
+
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/fonts/boxicons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('backend/assets/modules/fontawesome/css/all.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('template/assets/modules/fontawesome/css/all.min.css') }}"> --}}
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -58,14 +60,13 @@
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     {{-- TOASTR ALERT --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">\
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     {{-- DATATABLE --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.css">
 
-    <!-- Page CSS -->
 
     <!-- Helpers -->
     <script src="{{ asset('template/assets/vendor/js/helpers.js') }}"></script>
@@ -109,13 +110,14 @@
     <!-- / Layout wrapper -->
 
 
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('template/assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('template/assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('template/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('template/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script src="{{ asset('template/assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
@@ -158,6 +160,21 @@
           toastr.error("{{ $error }}")
         @endforeach
       @endif
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+          console.log("Geolocation is not supported by this browser.");
+        }
+      }
+
+      // function showPosition(position) {
+      //   console.log("Latitude: " + position.coords.latitude + 
+      //     "<br>Longitude: " + position.coords.longitude);
+      // }
+
+      // getLocation();
     </script>
 
     {{-- DYNAMIC DELETE ALERT --}}
@@ -219,7 +236,11 @@
       })
     </script>
 
+    @stack('geolocation')
+
     @stack('scripts')
+
+    @stack('select2')
   </body>
 </html>
 

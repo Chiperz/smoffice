@@ -14,6 +14,9 @@ use App\Http\Controllers\OutletController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnproductiveReasonController;
+
+use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,16 +62,19 @@ Route::middleware('auth')->group(function () {
     Route::get('display/trashed', [DisplayProductController::class, 'trashed'])->name('display.trashed');
     Route::get('display/{id}/restore', [DisplayProductController::class, 'restore'])->name('display.restore');
     Route::delete('display/{id}/force-delete', [DisplayProductController::class, 'forceDelete'])->name('display.force-delete');
+    Route::get('display/autocomplete', [DisplayProductController::class, 'autocomplete'])->name('display.autocomplete');
     Route::resource('display', DisplayProductController::class);
 
     Route::get('category/trashed', [CategoryProductController::class, 'trashed'])->name('category.trashed');
     Route::get('category/{id}/restore', [CategoryProductController::class, 'restore'])->name('category.restore');
     Route::delete('category/{id}/force-delete', [CategoryProductController::class, 'forceDelete'])->name('category.force-delete');
+    Route::get('category/autocomplete', [CategoryProductController::class, 'autocomplete'])->name('category.autocomplete');
     Route::resource('category', CategoryProductController::class);
 
     Route::get('brand/trashed', [BrandProductController::class, 'trashed'])->name('brand.trashed');
     Route::get('brand/{id}/restore', [BrandProductController::class, 'restore'])->name('brand.restore');
     Route::delete('brand/{id}/force-delete', [BrandProductController::class, 'forceDelete'])->name('brand.force-delete');
+    Route::get('brand/autocomplete', [BrandProductController::class, 'autocomplete'])->name('brand.autocomplete');
     Route::resource('brand', BrandProductController::class);
 
     Route::get('sub-brand/trashed', [SubBrandProductController::class, 'trashed'])->name('sub-brand.trashed');
@@ -107,8 +113,14 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('modul', ModulController::class);
 
+    Route::resource('unproductive-reason', UnproductiveReasonController::class);
+
     Route::get('role/{id}/reset-permission', [RoleController::class, 'resetPermission'])->name('role.reset-permission');
     Route::resource('role', RoleController::class);
+
+    Route::get('visit/{type}/list', [VisitController::class, 'list'])->name('visit.list');
+    Route::get('visit/{id}/create', [VisitController::class, 'create'])->name('visit.create');
+    Route::post('visit/{id}/store', [VisitController::class, 'store'])->name('visit.store');
 });
 
 require __DIR__.'/auth.php';

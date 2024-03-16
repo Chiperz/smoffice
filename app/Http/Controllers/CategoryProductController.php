@@ -122,4 +122,16 @@ class CategoryProductController extends Controller
 
         return response(['status' => 'success', 'message' => 'Kategori produk berhasil dihapus permanen']);
     }
+
+    public function autocomplete(Request $request){
+        $data = [];
+
+        if($request->filled('q')){
+            $data = CategoryProduct::select('name', 'id')
+                    ->where('name', 'LIKE', '%'.$request->get('q').'%')
+                    ->get();
+        }
+
+        return response()->json($data);
+    }
 }

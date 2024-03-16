@@ -7,6 +7,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         
           <div class="row">
+
             <div class="col-lg-3 col-md-12 col-6 mb-4">
               <div class="card">
                 <div class="card-body">
@@ -143,7 +144,26 @@
                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
                   </div>
                 </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 col-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Mulai Kunjungan Toko</h5>
+                  <a href="{{ route('visit.list', 'S') }}" class="btn btn-primary">Menuju Daftar Toko</a>
+                </div>
               </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 col-6 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Mulai Kunjungan Gerai</h5>
+                  <a href="{{ route('visit.list', 'O') }}" class="btn btn-secondary">Menuju Daftar Gerai</a>
+                </div>
+              </div>
+            </div>
+
           </div>
 
     </div>
