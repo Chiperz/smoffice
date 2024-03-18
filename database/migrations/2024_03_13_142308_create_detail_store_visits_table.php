@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('detail_store_visits', function (Blueprint $table) {
             $table->id();
-            $table->integer('visit_header_id')->nullable();
+            $table->integer('header_visit_id')->nullable();
             $table->integer('category_product_id')->nullable();
             $table->integer('display_product_id')->nullable();
             $table->timestamps();

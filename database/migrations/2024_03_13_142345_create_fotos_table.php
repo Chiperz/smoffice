@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('fotos', function (Blueprint $table) {
             $table->id();
+            $table->integer('header_visit_id')->nullable();
             $table->string('file_name')->nullable();
             $table->string('file_size')->nullable();
             $table->enum('type' ,['V', 'B', 'D'])->nullable();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('detail_outlet_visits', function (Blueprint $table) {
             $table->id();
-            $table->integer('visit_header_id')->nullable();
+            $table->integer('header_visit_id')->nullable();
             $table->double('sales_amount')->nullable(); //Qty penjualan perhari
             $table->integer('customer_id')->nullable(); //Nama Toko apabila sudah register
             $table->string('store_name')->nullable(); //Nama Toko

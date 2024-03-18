@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class StoreVisitBrand extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'header_visit_id',
+        'brand_product_id'
+    ];
 }

@@ -11,7 +11,7 @@
           <h5 class="card-header">Data Kunjungan Umum</h5>
           <!-- Form -->
           <div class="card-body">
-            <form method="POST" action="{{ route('visit.store', $customer->id) }}">
+            <form method="POST" action="{{ route('visit.store', $generalVisit->id) }}" enctype="multipart/form-data">
                 @csrf
               <div class="row">
                 <div class="mb-3 col-md-12">
@@ -28,7 +28,7 @@
 
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Foto Kunjungan</label>
-                  <input class="form-control" type="file" id="photo" name="photo"/>
+                  <input class="form-control" type="file" id="photo_visit" name="photo_visit" aaccept="image/*" capture="camera"/>
                 </div>
 
                 <div class="col-md-12 mb-2">
@@ -47,15 +47,15 @@
                   <div class="col-md-12 mb-2">
                     <label class="text-light fw-semibold d-block">Sudah Pakai Produk Hnasel?</label>
                     <div class="form-check form-check-inline mt-3">
-                      <input class="form-check-input" type="radio" id="type" value="Y" name="type">
+                      <input class="form-check-input" type="radio" id="status" value="Y" name="status">
                       <label class="form-check-label" for="inlineRadio1">Sudah</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="type" value="M" name="type">
+                      <input class="form-check-input" type="radio" id="status" value="M" name="status">
                       <label class="form-check-label" for="inlineRadio2">Sudah, Tetapi Pakai Produk Lain Juga</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="type" value="N" name="type">
+                      <input class="form-check-input" type="radio" id="status" value="N" name="status">
                       <label class="form-check-label" for="inlineRadio2">Belum Sama Sekali</label>
                     </div>
                   </div>
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label for="code" class="form-label">Produk yang tersedia</label>
+                  <label for="brand" class="form-label">Produk yang tersedia</label>
                   <select name="brand[]" id="brand" class="form-control" multiple="multiple"></select>
                 </div>
 
@@ -130,6 +130,11 @@
                     </div>
                   </div>
                 @endif --}}
+
+                <div class="mb-3 col-md-12">
+                  <label for="name" class="form-label">Foto Display</label>
+                  <input class="form-control" type="file" id="photo_display" name="photo_display" accept="image/*" capture="camera"/>
+                </div>
 
                 <div class="col-md-12 mb-2">
                   <label class="text-light fw-semibold d-block">Alasan tidak pasang display</label>

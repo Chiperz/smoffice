@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('store_visit_unproductive_reasons', function (Blueprint $table) {
             $table->id();
             $table->integer('header_visit_id')->nullable();
-            $table->integer('detail_visit_store_id')->nullable();
             $table->integer('unproductive_reason_id')->nullable();
             $table->timestamps();
         });

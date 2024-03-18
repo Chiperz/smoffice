@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Foto extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'header_visit_id',
+        'file_name',
+        'file_size',
+        'type'
+    ];
 }
