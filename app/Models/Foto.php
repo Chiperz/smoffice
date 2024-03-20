@@ -15,4 +15,8 @@ class Foto extends Model
         'file_size',
         'type'
     ];
+
+    public function headerVisit(){
+        return $this->belongsTo(HeaderVisit::class, 'header_visit_id', 'id');
+    }
 }

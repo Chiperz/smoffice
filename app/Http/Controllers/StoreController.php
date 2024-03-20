@@ -272,4 +272,17 @@ class StoreController extends Controller
         $file_path = public_path('format/'.$file_name);
         return response()->download($file_path);
     }
+
+    public function autocomplete(Request $request){
+        $data = [];
+
+        if($request->filled('q')){
+            $data = Customer::select('name', 'id', 'address')
+                    ->where('name', 'LIKE', '%'.$request->get('q').'%')
+                    ->where('type', 'S')
+                    ->get();
+        }
+
+        return response()->json($data);
+    }
 }

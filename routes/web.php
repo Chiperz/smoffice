@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::get('product/export', [ProductController::class, 'export'])->name('product.export');
     Route::post('product/import', [ProductController::class, 'import'])->name('product.import');
     Route::get('product/example-file-import/{file}', [ProductController::class, 'downloadFormatImport'])->name('product.file-import');
+    Route::get('product/autocomplete', [ProductController::class, 'autocomplete'])->name('product.autocomplete');
     Route::resource('product', ProductController::class);
 
     Route::get('store/trashed', [StoreController::class, 'trashed'])->name('store.trashed');
@@ -96,6 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('store/export', [StoreController::class, 'export'])->name('store.export');
     Route::post('store/import', [StoreController::class, 'import'])->name('store.import');
     Route::get('store/example-file-import/{file}', [StoreController::class, 'downloadFormatImport'])->name('store.file-import');
+    Route::get('store/autocomplete', [StoreController::class, 'autocomplete'])->name('store.autocomplete');
     Route::resource('store', StoreController::class);
 
     Route::get('outlet/trashed', [OutletController::class, 'trashed'])->name('outlet.trashed');
@@ -121,6 +123,8 @@ Route::middleware('auth')->group(function () {
     Route::get('visit/{type}/list', [VisitController::class, 'list'])->name('visit.list');
     Route::get('visit/{id}/create', [VisitController::class, 'create'])->name('visit.create');
     Route::post('visit/{id}/store', [VisitController::class, 'store'])->name('visit.store');
+    Route::get('visit', [VisitController::class, 'SummaryVisit'])->name('visit.summary');
+    Route::get('visit/{date}/detail/{user}/daily', [VisitController::class, 'DailyVisit'])->name('visit.detail-daily');
 });
 
 require __DIR__.'/auth.php';

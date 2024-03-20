@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 // Traits
 use App\Traits\ImageUploadTraits;
 
+// Datatable
+use App\Datatables\SummaryVisitDatatable;
+use App\Datatables\BreakdownVisitDailyDatatable;
+
 // Master
 use App\Models\Customer;
 use App\Models\BrandProduct;
@@ -85,11 +89,9 @@ class VisitController extends Controller
             'activity' => 'required',
             'banner' => 'required'
         ]);
-        
-        // dd($request->lat);
 
         $generalVisit = HeaderVisit::findOrFail($id);
-        $customer = Customer::findOrFail($id);
+        $customer = Customer::findOrFail($request->id_customer);
         
         if(empty($customer->LA) && empty($customer->LA)){
             $customer->LA = $request->lat;
@@ -108,6 +110,37 @@ class VisitController extends Controller
             $customer->save();
         }
 
+        if(!empty($request->photo_visit)){
+            $imagePathVisit = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->name, 'photo_visit', 'uploads/visit/');
+
+            $fotoVisit = Foto::insert([
+                'header_visit_id' => $id,
+                'file_name' => $imagePathVisit,
+                'file_size' => '',
+                'type' => 'V',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        if(!empty($request->other_reason)){
+            $unproductiveReason = UnproductiveReason::insert([
+                'name' => strtolower($request->name_other_reason),
+                'type' => $customer->type,
+                'created_by' => Auth::user()->id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            $lastUnproductive = UnproductiveReason::latest()->first();
+            $storeVisitUnproductiveReason = StoreVisitUnproductiveReason::insert([
+                'header_visit_id' => $id,
+                'unproductive_reason_id' => $lastUnproductive->id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+        }
+
         $generalVisit->time_out = date('H:i:s');
         $generalVisit->LA = $request->lat;
         $generalVisit->LO = $request->lon;
@@ -118,72 +151,123 @@ class VisitController extends Controller
         $generalVisit->updated_at = date('Y-m-d H:i:s');
         $generalVisit->save();
 
-        if(count($request->display) > count($request->category)){
-            // for($i=0;$i<=count($request->category);$i++){
-            //     $detailStoreVisit = DetailStoreVisit::insert([
-            //         'header_visit_id' => $id, 
-            //         'category_product_id' => empty($request->category[$i]) ? $request->category[$i-1] : $request->category[$i],
-            //         'display_product_id' => $request->display[$i]
-            //     ]);
-            // }
-            foreach($request->display as $number => $row){
-                $detailStoreVisit = DetailStoreVisit::insert([
+        if($customer->type == 'S'){
+            if(count($request->display) > count($request->category)){
+                foreach($request->display as $number => $row){
+                    $detailStoreVisit = DetailStoreVisit::insert([
+                        'header_visit_id' => $id,
+                        'category_product_id' => empty($request->category[$number]) ? $request->category[$number-1] : $request->category[$number],
+                        'display_product_id' => $row,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
+            }else{
+                foreach($request->category as $number => $row){
+                    $detailStoreVisit = DetailStoreVisit::insert([
+                        'header_visit_id' => $id,
+                        'category_product_id' => $row,
+                        'display_product_id' => empty($request->display[$number]) ? $request->display[$number-1] : $request->display[$number],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
+            }
+
+            foreach($request->brand as $row){
+                $storeVisitBrand = StoreVisitBrand::insert([
                     'header_visit_id' => $id,
-                    'category_product_id' => empty($request->category[$number]) ? $request->category[$number-1] : $request->category[$number],
-                    'display_product_id' => $row
+                    'brand_product_id' => $row,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
                 ]);
             }
+
+            foreach($request->reason as $row){
+                $storeVisitUnproductiveReason = StoreVisitUnproductiveReason::insert([
+                    'header_visit_id' => $id,
+                    'unproductive_reason_id' => $row,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+
+            if(!empty($request->photo_display)){
+                $imagePathDisplay = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->name, 'photo_display', 'uploads/display/');
+
+                $fotoDisplay = Foto::insert([
+                    'header_visit_id' => $id,
+                    'file_name' => $imagePathDisplay,
+                    'file_size' => '',
+                    'type' => 'D',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+
+            toastr()->success('Data kunjungan toko berhasil disimpan');
+            
+            return redirect()->route('dashboard');
         }else{
-            // for($i = 0; $i<=count($request->category);$i++){
-            //     $detailStoreVisit = DetailStoreVisit::insert([$id, $request->category[$i], empty($request->display[$i]) ? $request->display[$i-1] : $request->display[$i]]);
-            // }
-            foreach($request->category as $number => $row){
-                $detailStoreVisit = DetailStoreVisit::insert([
+            // dd($request->all());
+            $detailOutletVisit = new DetailOutletVisit();
+            $detailOutletVisit->header_visit_id = $id;
+            $detailOutletVisit->sales_amount = $request->sales_amount;
+            $detailOutletVisit->customer_id = $request->store;
+            $detailOutletVisit->store_name = $request->store_name;
+            $detailOutletVisit->market_name = $request->market_name;
+            $detailOutletVisit->mark = $request->mark;
+            $detailOutletVisit->created_at = date('Y-m-d H:i:s');
+            $detailOutletVisit->updated_at = date('Y-m-d H:i:s');
+            $detailOutletVisit->save();
+
+            $purchaseAmount = explode(',', $request->purchaseAmount);
+            $qtySample = explode(',', $request->qty_sample);
+
+            if(!empty($request->usedProduct)){
+                foreach($request->usedProduct as $number => $row){
+                    $outletVisitProduct = OutletVisitProduct::insert([
+                        'header_visit_id' => $id,
+                        'product_id' => $row,
+                        'purchase_price' => $purchaseAmount[$number],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
+            }
+
+            foreach($request->reason as $number => $row){
+                $outletVisitUnproductiveReason = OutletVisitUnproductiveReason::insert([
                     'header_visit_id' => $id,
-                    'category_product_id' => $row,
-                    'display_product_id' => empty($request->display[$number]) ? $request->display[$number-1] : $request->display[$number]
+                    'unproductive_reason_id' => $row,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
                 ]);
             }
+
+            foreach($request->sample as $number => $row){
+                $detailGiftVisit = DetailGiftVisit::insert([
+                    'header_visit_id' => $id,
+                    'product_id' => $row,
+                    'qty' => $qtySample[$number],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+            }
+
+            toastr()->success('Data kunjungan gerai berhasil disimpan');
+            
+            return redirect()->route('dashboard');
         }
+    }
 
-        foreach($request->brand as $row){
-            $storeVisitBrand = StoreVisitBrand::insert([
-                'header_visit_id' => $id,
-                'brand_product_id' => $row
-            ]);
-        }
+    public function SummaryVisit(SummaryVisitDatatable $dataTable){
+        return $dataTable->render('visit.summary');
+    }
 
-        foreach($request->reason as $row){
-            $storeVisitUnproductiveReason = StoreVisitUnproductiveReason::insert([
-                'header_visit_id' => $id,
-                'unproductive_reason_id' => $row
-            ]);
-        }
-
-        if(!empty($request->photo_visit)){
-            $imagePathVisit = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->name, 'photo', 'uploads/visit/');
-
-            $fotoVisit = Foto::insert([
-                'header_visit_id' => $id,
-                'file_name' => $imagePathVisit,
-                'file_size' => '',
-                'type' => 'V'
-            ]);
-        }
-
-        if(!empty($request->photo_display)){
-            $imagePathDisplay = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->name, 'photo', 'uploads/display/');
-
-            $fotoDisplay = Foto::insert([
-                'header_visit_id' => $id,
-                'file_name' => $imagePathDisplay,
-                'file_size' => '',
-                'type' => 'D'
-            ]);
-        }
-
-        toastr()->success('Data kunjungan berhasil disimpan');
-        
-        return redirect()->route('dashboard');
+    public function DailyVisit(BreakdownVisitDailyDatatable $dataTable, $date, $user){
+        // return $date.$user;
+        $headerVisit = HeaderVisit::where('date', $date)->where('user_id', $user)->first();
+        return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.daily', compact('headerVisit'));
     }
 }

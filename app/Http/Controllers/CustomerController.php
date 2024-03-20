@@ -273,4 +273,5 @@ class CustomerController extends Controller
         $file_path = public_path('format/'.$file_name);
         return response()->download($file_path);
     }
+
 }
