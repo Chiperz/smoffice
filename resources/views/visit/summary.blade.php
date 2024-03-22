@@ -8,6 +8,7 @@
             <div class="row">
                 <h5>Tabel Summary Kunjungan Karyawan</h5>
                 <div class="card-header-action">
+                    <a href="{{ route('product.export') }}" class="btn btn-success">Export ke excel</a>
                     {{-- <a href="{{ route('unproductive-reason.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a> --}}
                     {{-- <a href="{{ route('category.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a> --}}
                 </div>

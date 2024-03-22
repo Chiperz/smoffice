@@ -16,7 +16,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BreakdownVisitDailyDataTable extends DataTable
+class BreakdownVisitDailyStoreDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -73,11 +73,45 @@ class BreakdownVisitDailyDataTable extends DataTable
                     return $query->time_out;
                 }
             })
-            ->addColumn('visit_foto', function($query){
-                return "<img src='".asset($query->foto->where('type', 'V')->first()->file_name)."' 
-                width='50' id='myImg' class='myImg' alt='".$query->customer->code." - ".$query->customer->name."'>";
+            ->addColumn('display_foto', function($query){
+                if(!empty($query->foto->where('type', 'D')->first()->file_name)){
+                    return "<img src='".asset($query->foto->where('type', 'D')->first()->file_name)."' 
+                    width='50' id='myImg' class='myImg' alt='".$query->customer->code." - ".$query->customer->name."'>";
+                }
             })
-            ->rawColumns(['action', 'status', 'visit_foto', 'display_foto']);
+            ->addColumn('display', function($query){
+                $data ='';
+                $display = DetailStoreVisit::where('header_visit_id', $query->id)->distinct()->get('display_product_id');
+                foreach($display as $number => $row){
+                    $data .= $number == 0 ? $row->display->name : ', '.$row->display->name;
+                }
+                return $data;
+            })
+            ->addColumn('category', function($query){
+                $data ='';
+                $display = DetailStoreVisit::where('header_visit_id', $query->id)->distinct()->get('category_product_id');
+                foreach($display as $number => $row){
+                    $data .= $number == 0 ? $row->category->name : ', '.$row->category->name;
+                }
+                return $data;
+            })
+            ->addColumn('brand', function($query){
+                $data ='';
+                $display = StoreVisitBrand::where('header_visit_id', $query->id)->distinct()->get('brand_product_id');
+                foreach($display as $number => $row){
+                    $data .= $number == 0 ? $row->brand->name : ', '.$row->brand->name;
+                }
+                return $data;
+            })
+            ->addColumn('store_unproductive', function($query){
+                $data ='';
+                $display = StoreVisitUnproductiveReason::where('header_visit_id', $query->id)->distinct()->get('unproductive_reason_id');
+                foreach($display as $number => $row){
+                    $data .= $number == 0 ? ucfirst($row->unproductive_reason->name) : ', '.ucfirst($row->unproductive_reason->name);
+                }
+                return $data;
+            })
+            ->rawColumns(['action', 'status', 'display_foto']);
             // ->setRowId('id');
     }
 
@@ -89,8 +123,12 @@ class BreakdownVisitDailyDataTable extends DataTable
         $date = $this->date;
         $user = $this->user;
         return $model->newQuery()
+            ->with('detail_store.display')
             ->where('date', $date)
             ->where('user_id', $user)
+            ->whereHas('customer', function($query){
+                $query->where('type', 'S');
+            })
             ->orderBy('serial', 'ASC');
     }
 
@@ -100,12 +138,12 @@ class BreakdownVisitDailyDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->responsive(true)
-                    ->setTableId('breakdownvisitdaily-table')
+                    ->setTableId('breakdownvisitdailystore-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
+                    ->selectStyleSingle()
                     ->buttons([
                         // Button::make('excel'),
                         // Button::make('csv'),
@@ -122,19 +160,14 @@ class BreakdownVisitDailyDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            // ['data' => 'DT_RowIndex', 'title' => '#'],
             ['data' => 'serial', 'title' => 'urutan'],
             ['data' => 'code_customer', 'title' => 'kode'],
             ['data' => 'name_customer', 'title' => 'nama'],
-            ['data' => 'address_customer', 'title' => 'alamat'],
-            ['data' => 'type_customer', 'title' => 'tipe'],
-            ['data' => 'cekin', 'title' => 'mulai'],
-            ['data' => 'cekout', 'title' => 'selesai'],
-            ['data' => 'note', 'title' => 'catatan'],
-            ['data' => 'visit_foto', 'title' => 'foto kunjungan'],
-            // ['data' => 'display_foto', 'title' => 'foto display'],
-            // ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
-            // 'exportable' => false, 'printable' => false]
+            ['data' => 'display', 'title' => 'display'],
+            ['data' => 'category', 'title' => 'kategori'],
+            ['data' => 'brand', 'title' => 'stok tersedia'],
+            ['data' => 'store_unproductive', 'title' => 'alasan tidak display'],
+            ['data' => 'display_foto', 'title' => 'foto display'],
         ];
     }
 
@@ -143,6 +176,6 @@ class BreakdownVisitDailyDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'BreakdownVisitDaily_' . date('YmdHis');
+        return 'BreakdownVisitDailyStore_' . date('YmdHis');
     }
 }

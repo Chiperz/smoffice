@@ -13,4 +13,8 @@ class StoreVisitUnproductiveReason extends Model
         'header_visit_id',
         'unproductive_reason_id'
     ];
+
+    public function unproductive_reason(){
+        return $this->belongsTo(UnproductiveReason::class, 'unproductive_reason_id', 'id');
+    }
 }

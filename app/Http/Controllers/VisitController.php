@@ -8,6 +8,8 @@ use App\Traits\ImageUploadTraits;
 // Datatable
 use App\Datatables\SummaryVisitDatatable;
 use App\Datatables\BreakdownVisitDailyDatatable;
+use App\Datatables\BreakdownVisitDailyStoreDataTable;
+use App\Datatables\BreakdownVisitDailyOutletDataTable;
 
 // Master
 use App\Models\Customer;
@@ -152,44 +154,50 @@ class VisitController extends Controller
         $generalVisit->save();
 
         if($customer->type == 'S'){
-            if(count($request->display) > count($request->category)){
-                foreach($request->display as $number => $row){
-                    $detailStoreVisit = DetailStoreVisit::insert([
-                        'header_visit_id' => $id,
-                        'category_product_id' => empty($request->category[$number]) ? $request->category[$number-1] : $request->category[$number],
-                        'display_product_id' => $row,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ]);
+            if(!empty($request->display) && !empty($request->category)){
+                if(count($request->display) > count($request->category)){
+                    foreach($request->display as $number => $row){
+                        $detailStoreVisit = DetailStoreVisit::insert([
+                            'header_visit_id' => $id,
+                            'category_product_id' => empty($request->category[$number]) ? $request->category[$number-1] : $request->category[$number],
+                            'display_product_id' => $row,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s')
+                        ]);
+                    }
+                }else{
+                    foreach($request->category as $number => $row){
+                        $detailStoreVisit = DetailStoreVisit::insert([
+                            'header_visit_id' => $id,
+                            'category_product_id' => $row,
+                            'display_product_id' => empty($request->display[$number]) ? $request->display[$number-1] : $request->display[$number],
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s')
+                        ]);
+                    }
                 }
-            }else{
-                foreach($request->category as $number => $row){
-                    $detailStoreVisit = DetailStoreVisit::insert([
+            }
+
+            if(!empty($request->brand)){
+                foreach($request->brand as $row){
+                    $storeVisitBrand = StoreVisitBrand::insert([
                         'header_visit_id' => $id,
-                        'category_product_id' => $row,
-                        'display_product_id' => empty($request->display[$number]) ? $request->display[$number-1] : $request->display[$number],
+                        'brand_product_id' => $row,
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                 }
             }
 
-            foreach($request->brand as $row){
-                $storeVisitBrand = StoreVisitBrand::insert([
-                    'header_visit_id' => $id,
-                    'brand_product_id' => $row,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
-            }
-
-            foreach($request->reason as $row){
-                $storeVisitUnproductiveReason = StoreVisitUnproductiveReason::insert([
-                    'header_visit_id' => $id,
-                    'unproductive_reason_id' => $row,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
+            if(!empty($request->reason)){
+                foreach($request->reason as $row){
+                    $storeVisitUnproductiveReason = StoreVisitUnproductiveReason::insert([
+                        'header_visit_id' => $id,
+                        'unproductive_reason_id' => $row,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
             }
 
             if(!empty($request->photo_display)){
@@ -236,23 +244,27 @@ class VisitController extends Controller
                 }
             }
 
-            foreach($request->reason as $number => $row){
-                $outletVisitUnproductiveReason = OutletVisitUnproductiveReason::insert([
-                    'header_visit_id' => $id,
-                    'unproductive_reason_id' => $row,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
+            if(!empty($request->reason)){
+                foreach($request->reason as $number => $row){
+                    $outletVisitUnproductiveReason = OutletVisitUnproductiveReason::insert([
+                        'header_visit_id' => $id,
+                        'unproductive_reason_id' => $row,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
             }
 
-            foreach($request->sample as $number => $row){
-                $detailGiftVisit = DetailGiftVisit::insert([
-                    'header_visit_id' => $id,
-                    'product_id' => $row,
-                    'qty' => $qtySample[$number],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
+            if(!empty($request->sample)){
+                foreach($request->sample as $number => $row){
+                    $detailGiftVisit = DetailGiftVisit::insert([
+                        'header_visit_id' => $id,
+                        'product_id' => $row,
+                        'qty' => $qtySample[$number],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+                }
             }
 
             toastr()->success('Data kunjungan gerai berhasil disimpan');
@@ -266,8 +278,68 @@ class VisitController extends Controller
     }
 
     public function DailyVisit(BreakdownVisitDailyDatatable $dataTable, $date, $user){
-        // return $date.$user;
-        $headerVisit = HeaderVisit::where('date', $date)->where('user_id', $user)->first();
-        return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.daily', compact('headerVisit'));
+        $headerVisit = HeaderVisit::selectRaw(
+            'header_visits.date as date,
+            header_visits.user_id as user_id, 
+            users.name as user_name,
+            min(header_visits.time_in) as min_time_in,
+            max(header_visits.time_out) as max_time_out,
+            count(distinct header_visits.serial) as total_visit,
+            count(case customers.type when "S" then 1 else NULL end) as store_visit,
+            count(case customers.type when "O" then 1 else NULL end) as outlet_visit'
+            // count(case fotos.type when "V" then 1 else NULL end) as visit_foto'
+        )
+        ->groupBy('header_visits.date', 'header_visits.user_id', 'users.name')
+        ->join('users', 'header_visits.user_id', '=', 'users.id')
+        ->join('customers', 'header_visits.customer_id', '=', 'customers.id')
+        // ->leftjoin('fotos', 'header_visits.id', 'fotos.header_visit_id')
+        ->where('date', $date)
+        ->where('header_visits.user_id', $user)->first();
+        // dd($headerVisit);
+        return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.header-daily', compact('headerVisit'));
+    }
+
+    public function DailyVisitStore(BreakdownVisitDailyStoreDataTable $dataTable, $date, $user){
+        $headerVisit = HeaderVisit::selectRaw(
+            'header_visits.date as date,
+            header_visits.user_id as user_id, 
+            users.name as user_name,
+            min(header_visits.time_in) as min_time_in,
+            max(header_visits.time_out) as max_time_out,
+            count(distinct header_visits.customer_id) as total_visit,
+            count(case customers.type when "S" then 1 else NULL end) as store_visit,
+            count(case customers.type when "O" then 1 else NULL end) as outlet_visit'
+            // count(case fotos.type when "V" then 1 else NULL end) as visit_foto'
+        )
+        ->groupBy('header_visits.date', 'header_visits.user_id', 'users.name')
+        ->join('users', 'header_visits.user_id', '=', 'users.id')
+        ->join('customers', 'header_visits.customer_id', '=', 'customers.id')
+        // ->leftjoin('fotos', 'header_visits.id', 'fotos.header_visit_id')
+        ->where('date', $date)
+        ->where('header_visits.user_id', $user)->first();
+        // dd($headerVisit);
+        return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.store-daily', compact('headerVisit'));
+    }
+
+    public function DailyVisitOutlet(BreakdownVisitDailyOutletDataTable $dataTable, $date, $user){
+        $headerVisit = HeaderVisit::selectRaw(
+            'header_visits.date as date,
+            header_visits.user_id as user_id, 
+            users.name as user_name,
+            min(header_visits.time_in) as min_time_in,
+            max(header_visits.time_out) as max_time_out,
+            count(distinct header_visits.customer_id) as total_visit,
+            count(case customers.type when "S" then 1 else NULL end) as store_visit,
+            count(case customers.type when "O" then 1 else NULL end) as outlet_visit'
+            // count(case fotos.type when "V" then 1 else NULL end) as visit_foto'
+        )
+        ->groupBy('header_visits.date', 'header_visits.user_id', 'users.name')
+        ->join('users', 'header_visits.user_id', '=', 'users.id')
+        ->join('customers', 'header_visits.customer_id', '=', 'customers.id')
+        // ->leftjoin('fotos', 'header_visits.id', 'fotos.header_visit_id')
+        ->where('date', $date)
+        ->where('header_visits.user_id', $user)->first();
+        // dd($headerVisit);
+        return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.outlet-daily', compact('headerVisit'));
     }
 }
