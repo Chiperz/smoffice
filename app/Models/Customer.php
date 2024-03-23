@@ -52,4 +52,8 @@ class Customer extends Model
     public function updated_actor(){
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
+
+    public function store_buy(){
+        return $this->hasMany(DetailOutletVisit::class, 'customer_id', 'id');
+    }
 }

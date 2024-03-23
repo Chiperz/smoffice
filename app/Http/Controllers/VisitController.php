@@ -11,6 +11,10 @@ use App\Datatables\BreakdownVisitDailyDatatable;
 use App\Datatables\BreakdownVisitDailyStoreDataTable;
 use App\Datatables\BreakdownVisitDailyOutletDataTable;
 
+// Export
+use App\Exports\ReportVisitStore;
+use App\Exports\ReportVisitOutlet;
+
 // Master
 use App\Models\Customer;
 use App\Models\BrandProduct;
@@ -33,6 +37,7 @@ use App\Models\OutletVisitUnproductiveReason;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
+use Maatwebsite\Excel\Facades\Excel;
 use File;
 
 class VisitController extends Controller
@@ -341,5 +346,13 @@ class VisitController extends Controller
         ->where('header_visits.user_id', $user)->first();
         // dd($headerVisit);
         return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.outlet-daily', compact('headerVisit'));
+    }
+    
+    public function StoreExport(){
+        return Excel::download(new ReportVisitStore, 'Report Visit_Toko_'.date('d-M-Y H-i-s').'.xlsx');
+    }
+
+    public function OutletExport(){
+        return Excel::download(new ReportVisitOutlet, 'Report Visit_Gerai_'.date('d-M-Y H-i-s').'.xlsx');
     }
 }

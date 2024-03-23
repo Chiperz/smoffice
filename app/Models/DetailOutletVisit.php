@@ -13,7 +13,8 @@ class DetailOutletVisit extends Model
         return $this->belongsTo(HeaderVisit::class, 'header_visit_id', 'id');
     }
 
-    public function store(){
+    public function customer(){
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        // return $this->hasOneThrough(Customer::class, HeaderVisit::class);
     }
 }

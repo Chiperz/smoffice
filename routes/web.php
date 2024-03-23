@@ -127,6 +127,8 @@ Route::middleware('auth')->group(function () {
     Route::get('visit/{date}/detail/{user}/daily', [VisitController::class, 'DailyVisit'])->name('visit.detail-daily');
     Route::get('visit/{date}/detail/{user}/store', [VisitController::class, 'DailyVisitStore'])->name('visit.detail-store-daily');
     Route::get('visit/{date}/detail/{user}/outlet', [VisitController::class, 'DailyVisitOutlet'])->name('visit.detail-outlet-daily');
+    Route::get('visit/store/export', [VisitController::class, 'StoreExport'])->name('visit.store-export');
+    Route::get('visit/outlet/export', [VisitController::class, 'OutletExport'])->name('visit.outlet-export');
 });
 
 require __DIR__.'/auth.php';
