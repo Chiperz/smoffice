@@ -56,7 +56,7 @@ class ReportVisitOutlet implements FromCollection ,WithMapping, WithHeadings
                 implode(",", collect($headervisit->detail_outlet)
                     ->reduce(function($acc, $i) {$acc[] = 
                         // $i->{'Nama Kolom'};
-                        $i->customer_id;
+                        empty($i->customer->code) ? '' : $i->customer->code.' - '.$i->customer->name;
                         return array_unique($acc);
                     }, 
                 [])),

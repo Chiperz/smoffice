@@ -14,7 +14,7 @@ class DetailOutletVisit extends Model
     }
 
     public function customer(){
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(Customer::class);
         // return $this->hasOneThrough(Customer::class, HeaderVisit::class);
     }
 }
