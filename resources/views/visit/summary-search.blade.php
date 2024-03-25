@@ -20,7 +20,7 @@
                                 <div class="accordion-body">
                                     <input type="date" name="from" class="form-control col-md-6" aria-label="Tanggal Mulai" value="{{ date('Y-m-01') }}">
                                     <input type="date" name="to" class="form-control col-md-6" aria-label="Tanggal Selesai" value="{{ date('Y-m-t') }}">
-                                    <input type="submit" class="btn btn-primary mt-2">
+                                    <input type="submit" class="btn btn-primary mt-2">&nbsp;
                                     <a class="btn btn-secondary mt-2" href="{{ route('visit.summary') }}">Reset Filter</a>
                                 </div>
                             </form>

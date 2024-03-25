@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::get('visit/{id}/create', [VisitController::class, 'create'])->name('visit.create');
     Route::post('visit/{id}/store', [VisitController::class, 'store'])->name('visit.store');
     Route::get('visit', [VisitController::class, 'SummaryVisit'])->name('visit.summary');
+    Route::get('visit/search', [VisitController::class, 'SummaryVisitSearch'])->name('visit.summary-search');
     Route::get('visit/{date}/detail/{user}/daily', [VisitController::class, 'DailyVisit'])->name('visit.detail-daily');
     Route::get('visit/{date}/detail/{user}/store', [VisitController::class, 'DailyVisitStore'])->name('visit.detail-store-daily');
     Route::get('visit/{date}/detail/{user}/outlet', [VisitController::class, 'DailyVisitOutlet'])->name('visit.detail-outlet-daily');

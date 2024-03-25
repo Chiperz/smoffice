@@ -12,11 +12,20 @@ class ReportVisitStore implements FromCollection ,WithMapping, WithHeadings
     /**
     * @return \Illuminate\Support\Collection
     */
+    protected $from, $to;
+
+    function __construct($from, $to){
+        $this->from = $from;
+        $this->to = $to;
+    }
+
     public function collection()
     {
         return HeaderVisit::whereHas('customer', function($query){
             $query->where('type', 'S');
-        })->get();
+        })
+        ->whereBetween('date', [$this->from, $this->to])
+        ->get();
     }
 
     public function map($headervisit): array
@@ -24,7 +33,7 @@ class ReportVisitStore implements FromCollection ,WithMapping, WithHeadings
         $headervisit->banner == 1 ? $banner = 'Sudah Pasang' : $banner = 'Belum Pasang';
         return [
             [
-                $headervisit->date,
+                date('d/m/Y', strtotime($headervisit->date)),
                 $headervisit->user->name,
                 $headervisit->customer->code,
                 $headervisit->customer->name,

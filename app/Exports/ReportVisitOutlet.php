@@ -33,7 +33,7 @@ class ReportVisitOutlet implements FromCollection ,WithMapping, WithHeadings
         $headervisit->banner == 1 ? $banner = 'Sudah Pasang' : $banner = 'Belum Pasang';
         return [
             [
-                $headervisit->date,
+                date('d/m/Y', strtotime($headervisit->date)),
                 $headervisit->user->name,
                 $headervisit->customer->code,
                 $headervisit->customer->name,

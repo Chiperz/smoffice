@@ -14,7 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use Illuminate\Support\Facades\DB;
 
-class SummaryVisitDataTable extends DataTable
+class SummaryVisitSearchDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -61,12 +61,6 @@ class SummaryVisitDataTable extends DataTable
      */
     public function query(HeaderVisit $model): QueryBuilder
     {
-        // return $model->select('date',
-        //             'user_id',
-        //             DB::raw('COUNT(serial) as total_visit',
-        //             DB::raw('COUNT(CASE WHEN customers.type = "S" THEN 1 ELSE 0 END) as store_visit')
-        //         ))
-        //     ->groupBy('date','user_id');
         $from = $this->from;
         $to = $this->to;
         return $model->selectRaw(
@@ -90,7 +84,7 @@ class SummaryVisitDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('summaryvisit-table')
+                    ->setTableId('summaryvisitsearch-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -128,6 +122,6 @@ class SummaryVisitDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'SummaryVisit_' . date('YmdHis');
+        return 'SummaryVisitSearch_' . date('YmdHis');
     }
 }

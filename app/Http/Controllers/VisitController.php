@@ -7,6 +7,7 @@ use App\Traits\ImageUploadTraits;
 
 // Datatable
 use App\Datatables\SummaryVisitDatatable;
+use App\Datatables\SummaryVisitSearchDatatable;
 use App\Datatables\BreakdownVisitDailyDatatable;
 use App\Datatables\BreakdownVisitDailyStoreDataTable;
 use App\Datatables\BreakdownVisitDailyOutletDataTable;
@@ -279,7 +280,14 @@ class VisitController extends Controller
     }
 
     public function SummaryVisit(SummaryVisitDatatable $dataTable){
-        return $dataTable->render('visit.summary');
+        return $dataTable->with(['from' => date('Y-m-01'), 'to' => date('Y-m-t')])->render('visit.summary');
+    }
+
+    public function SummaryVisitSearch(SummaryVisitSearchDatatable $dataTable, Request $request){
+        // dd($request->all());
+        $from = $request->from;
+        $to = $request->to;
+        return $dataTable->with(['from' => $from, 'to' => $to])->render('visit.summary-search');
     }
 
     public function DailyVisit(BreakdownVisitDailyDatatable $dataTable, $date, $user){
@@ -348,8 +356,10 @@ class VisitController extends Controller
         return $dataTable->with(['date' => $date, 'user' => $user])->render('visit.outlet-daily', compact('headerVisit'));
     }
     
-    public function StoreExport(){
-        return Excel::download(new ReportVisitStore, 'Report Visit_Toko_'.date('d-M-Y H-i-s').'.xlsx');
+    public function StoreExport(Request $request){
+        empty($request->from) ? $request->from = date('Y-m-01') : $request->from;
+        empty($request->to) ? $request->to = date('Y-m-t') : $request->to;
+        return Excel::download(new ReportVisitStore($request->from, $request->to), 'Report Visit_Toko_'.date('d-M-Y H-i-s').'.xlsx');
     }
 
     public function OutletExport(){

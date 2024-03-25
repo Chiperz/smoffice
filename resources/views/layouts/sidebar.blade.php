@@ -229,7 +229,7 @@
               </li>
             @endcan
 
-            <li class="menu-item">
+            {{-- <li class="menu-item">
               <a href="" class="menu-link">
                 <div data-i18n="Account">Main Menu</div>
               </a>
@@ -245,7 +245,7 @@
               <a href="" class="menu-link">
                 <div data-i18n="Account">Sub Menu</div>
               </a>
-            </li>
+            </li> --}}
 
           </ul>
         </li>
