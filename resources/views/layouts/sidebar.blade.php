@@ -76,77 +76,101 @@
         </a>
       </li>
 
-      <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Data</span>
-      </li>
-      <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-dock-top"></i>
-          <div data-i18n="">Master Data</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="{{ route('branch.index') }}" class="menu-link">
-              <div data-i18n="Account">Cabang</div>
-            </a>
-          </li>
+      @canany(['branch view', 'position view', 'display view', 'category_product view', 
+      'brand_product view', 'sub_brand_product view', 'product.index', 'store view',
+      'outlet view', 'unproductive_reason view'])
+        <li class="menu-header small text-uppercase">
+          <span class="menu-header-text">Data</span>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+            <div data-i18n="">Master Data</div>
+          </a>
+          <ul class="menu-sub">
+            @can('branch view')
+              <li class="menu-item">
+                <a href="{{ route('branch.index') }}" class="menu-link">
+                  <div data-i18n="Account">Cabang</div>
+                </a>
+              </li>
+            @endcan
+            
+            @can('position view')
+              <li class="menu-item">
+                <a href="{{ route('position.index') }}" class="menu-link">
+                  <div data-i18n="Account">Jabatan</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('position.index') }}" class="menu-link">
-              <div data-i18n="Account">Jabatan</div>
-            </a>
-          </li>
+            @can('display view')
+              <li class="menu-item">
+                <a href="{{ route('display.index') }}" class="menu-link">
+                  <div data-i18n="Account">Display Produk</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('display.index') }}" class="menu-link">
-              <div data-i18n="Account">Display Produk</div>
-            </a>
-          </li>
+            @can('category_product view')
+              <li class="menu-item">
+                <a href="{{ route('category.index') }}" class="menu-link">
+                  <div data-i18n="Account">Kategori Produk</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('category.index') }}" class="menu-link">
-              <div data-i18n="Account">Kategori Produk</div>
-            </a>
-          </li>
+            @can('brand_product view')
+              <li class="menu-item">
+                <a href="{{ route('brand.index') }}" class="menu-link">
+                  <div data-i18n="Account">Brand Produk</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('brand.index') }}" class="menu-link">
-              <div data-i18n="Account">Brand Produk</div>
-            </a>
-          </li>
+            @can('sub_brand_product view')
+              <li class="menu-item">
+                <a href="{{ route('sub-brand.index') }}" class="menu-link">
+                  <div data-i18n="Account">Sub Brand Produk</div>
+                </a>
+              </li>
+            @endcan
+            
+            @can('product view')
+              <li class="menu-item">
+                <a href="{{ route('product.index') }}" class="menu-link">
+                  <div data-i18n="Account">Produk</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('sub-brand.index') }}" class="menu-link">
-              <div data-i18n="Account">Sub Brand Produk</div>
-            </a>
-          </li>
+            @can('store view')
+              <li class="menu-item">
+                <a href="{{ route('store.index') }}" class="menu-link">
+                  <div data-i18n="Account">Toko</div>
+                </a>
+              </li>
+            @endcan
+            
+            @can('outlet view')
+              <li class="menu-item">
+                <a href="{{ route('outlet.index') }}" class="menu-link">
+                  <div data-i18n="Account">Gerai</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('product.index') }}" class="menu-link">
-              <div data-i18n="Account">Produk</div>
-            </a>
-          </li>
+            @can('unproductive_reason view')
+              <li class="menu-item">
+                <a href="{{ route('unproductive-reason.index') }}" class="menu-link">
+                  <div data-i18n="Account">Alasan Tidak Produktif</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('store.index') }}" class="menu-link">
-              <div data-i18n="Account">Toko</div>
-            </a>
-          </li>
-
-          <li class="menu-item">
-            <a href="{{ route('outlet.index') }}" class="menu-link">
-              <div data-i18n="Account">Gerai</div>
-            </a>
-          </li>
-
-          <li class="menu-item">
-            <a href="{{ route('unproductive-reason.index') }}" class="menu-link">
-              <div data-i18n="Account">Alasan Tidak Produktif</div>
-            </a>
-          </li>
-
-        </ul>
-      </li>
+          </ul>
+        </li>
+      @endcanany
 
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Laporan</span>
@@ -171,54 +195,61 @@
         </ul>
       </li>
 
-      <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Pengaturan</span>
-      </li>
-      <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class="menu-icon tf-icons bx bx-dock-top"></i>
-          <div data-i18n="Account Settings">Website</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item">
-            <a href="{{ route('user.index') }}" class="menu-link">
-              <div data-i18n="Account">Pengguna</div>
-            </a>
-          </li>
+      @canany(['user_account view', 'group_access view', 'modul view'])
+        <li class="menu-header small text-uppercase">
+          <span class="menu-header-text">Pengaturan</span>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+            <div data-i18n="Account Settings">Website</div>
+          </a>
+          <ul class="menu-sub">
+            {{-- @can('user_account view') --}}
+              <li class="menu-item">
+                <a href="{{ route('user.index') }}" class="menu-link">
+                  <div data-i18n="Account">Pengguna</div>
+                </a>
+              </li>
+            {{-- @endcan --}}
 
-          <li class="menu-item">
-            <a href="{{ route('role.index') }}" class="menu-link">
-              <div data-i18n="Account">Grup Akses</div>
-            </a>
-          </li>
+            @can('group_access view')
+              <li class="menu-item">
+                <a href="{{ route('role.index') }}" class="menu-link">
+                  <div data-i18n="Account">Grup Akses</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="{{ route('modul.index') }}" class="menu-link">
-              <div data-i18n="Account">Modul</div>
-            </a>
-          </li>
+            @can('modul view')
+              <li class="menu-item">
+                <a href="{{ route('modul.index') }}" class="menu-link">
+                  <div data-i18n="Account">Modul</div>
+                </a>
+              </li>
+            @endcan
 
-          <li class="menu-item">
-            <a href="" class="menu-link">
-              <div data-i18n="Account">Main Menu</div>
-            </a>
-          </li>
+            <li class="menu-item">
+              <a href="" class="menu-link">
+                <div data-i18n="Account">Main Menu</div>
+              </a>
+            </li>
 
-          <li class="menu-item">
-            <a href="" class="menu-link">
-              <div data-i18n="Account">Menu</div>
-            </a>
-          </li>
+            <li class="menu-item">
+              <a href="" class="menu-link">
+                <div data-i18n="Account">Menu</div>
+              </a>
+            </li>
 
-          <li class="menu-item">
-            <a href="" class="menu-link">
-              <div data-i18n="Account">Sub Menu</div>
-            </a>
-          </li>
+            <li class="menu-item">
+              <a href="" class="menu-link">
+                <div data-i18n="Account">Sub Menu</div>
+              </a>
+            </li>
 
-        </ul>
-      </li>
-
+          </ul>
+        </li>
+      @endcanany
       
     </ul>
 

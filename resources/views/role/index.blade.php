@@ -8,7 +8,9 @@
             <div class="row">
                 <h5>Tabel Grup Akses</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('role.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @can('group_access create')
+                        <a href="{{ route('role.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @endcan
                     {{-- <a href="{{ route('role.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a> --}}
                 </div>
             </div>

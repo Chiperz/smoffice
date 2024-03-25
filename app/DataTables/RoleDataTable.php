@@ -13,6 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class RoleDataTable extends DataTable
 {
     /**
@@ -30,8 +32,15 @@ class RoleDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('role.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
-                // return $btnDelete;
+                if(Auth::user()->hasPermissionTo('group_access edit') && Auth::user()->hasPermissionTo('group_access delete')){
+                    return $btnEdit.'&nbsp'.$btnDelete;
+                }elseif(Auth::user()->hasPermissionTo('group_access edit')){
+                    return $btnEdit;
+                }elseif(Auth::user()->hasPermissionTo('group_access delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+                }
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');

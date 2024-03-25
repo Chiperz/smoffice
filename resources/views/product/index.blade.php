@@ -8,14 +8,21 @@
             <div class="row">
                 <h5>Tabel Produk</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('product.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    <a href="{{ route('product.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
-                    <a href="{{ route('product.export') }}" class="btn btn-success">Export ke excel</a>
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-                        Import dari Excel
-                    </button>
+                    @can('product create')
+                        <a href="{{ route('product.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @endcan
+                    @hasrole('developer')
+                        <a href="{{ route('product.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    @endhasrole
+                    @can('product export')
+                        <a href="{{ route('product.export') }}" class="btn btn-success">Export ke excel</a>
+                    @endcan
+                    @can('product import')
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                            Import dari Excel
+                        </button>
 
-                    <!-- Modal Import -->
+                        <!-- Modal Import -->
                         <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <form action="{{ route('product.import') }}" enctype="multipart/form-data" method="POST">
                             <div class="modal-dialog">
@@ -38,6 +45,8 @@
                             </div>
                             </form>
                         </div>
+                    @endcan
+                    
                 </div>
             </div>
         </div>

@@ -106,6 +106,8 @@ class UserController extends Controller
         $user->updated_at = date('Y-m-d H:i:s');
         $user->save();
 
+        $user->assignRole($request->access);
+
         toastr()->success('Pengguna berhasil diubah');
 
         return redirect()->route('user.index');

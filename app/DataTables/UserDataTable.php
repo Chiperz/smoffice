@@ -26,15 +26,24 @@ class UserDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function($query){
-                if($query->id == Auth::user()->id){
+                if($query->id == Auth::user()->id || $query->username == 'developer'){
                     return '';
                 }
+
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('user.edit', $query->id)."'>Ubah </a>";
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('user.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
+                if(Auth::user()->hasPermissionTo('user_account edit') && Auth::user()->hasPermissionTo('user_account delete')){
+                    return $btnEdit.'&nbsp'.$btnDelete;
+                }elseif(Auth::user()->hasPermissionTo('user_account edit')){
+                    return $btnEdit;
+                }elseif(Auth::user()->hasPermissionTo('user_account delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+                }
             })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';

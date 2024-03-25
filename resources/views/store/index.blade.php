@@ -8,14 +8,21 @@
             <div class="row">
                 <h5>Tabel Toko</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('store.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    <a href="{{ route('store.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
-                    <a href="{{ route('store.export') }}" class="btn btn-success">Export ke excel</a>
-                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Import dari Excel
-                    </button>
+                    @can('store create')
+                        <a href="{{ route('store.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @endcan
+                    @hasrole('developer')
+                        <a href="{{ route('store.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    @endhasrole
+                    @can('store export')
+                        <a href="{{ route('store.export') }}" class="btn btn-success">Export ke excel</a>
+                    @endcan
+                    @can('store import')
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Import dari Excel
+                        </button>
 
-                    <!-- Modal Import -->
+                        <!-- Modal Import -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <form action="{{ route('store.import') }}" enctype="multipart/form-data" method="POST">
                             <div class="modal-dialog">
@@ -38,6 +45,8 @@
                             </div>
                             </form>
                         </div>
+                    @endcan
+                    
                 </div>
             </div>
         </div>

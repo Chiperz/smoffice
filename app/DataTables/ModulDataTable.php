@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class ModulDataTable extends DataTable
 {
     /**
@@ -28,7 +30,11 @@ class ModulDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('modul.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnDelete;
+                if(Auth::user()->hasPermissionTo('modul delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+            }
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');

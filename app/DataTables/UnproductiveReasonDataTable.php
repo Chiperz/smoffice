@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class UnproductiveReasonDataTable extends DataTable
 {
     /**
@@ -29,7 +31,15 @@ class UnproductiveReasonDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('unproductive-reason.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
+                if(Auth::user()->hasPermissionTo('unproductive_reason edit') && Auth::user()->hasPermissionTo('unproductive_reason delete')){
+                    return $btnEdit.'&nbsp'.$btnDelete;
+                }elseif(Auth::user()->hasPermissionTo('unproductive_reason edit')){
+                    return $btnEdit;
+                }elseif(Auth::user()->hasPermissionTo('unproductive_reason delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+                }
             })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';

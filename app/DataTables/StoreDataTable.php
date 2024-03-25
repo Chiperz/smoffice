@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class StoreDataTable extends DataTable
 {
     /**
@@ -29,7 +31,15 @@ class StoreDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('store.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
+                if(Auth::user()->hasPermissionTo('store edit') && Auth::user()->hasPermissionTo('store delete')){
+                    return $btnEdit.'&nbsp'.$btnDelete;
+                }elseif(Auth::user()->hasPermissionTo('store edit')){
+                    return $btnEdit;
+                }elseif(Auth::user()->hasPermissionTo('store delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+                }
             })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';
@@ -90,22 +100,12 @@ class StoreDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            // Column::computed('action')
-            //       ->exportable(false)
-            //       ->printable(false)
-            //       ->width(60)
-            //       ->addClass('text-center'),
-            // Column::make('id'),
-            // Column::make('name'),
-            // Column::make('created_at'),
-            // Column::make('updated_at'),
-
             ['data' => 'DT_RowIndex', 'title' => '#'],
             ['data' => 'code', 'title' => 'kode'],
             ['data' => 'name', 'title' => 'nama'],
             ['data' => 'area', 'title' => 'area'],
             ['data' => 'subarea', 'title' => 'sub area'],
-            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
+            ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false]
         ];
     }

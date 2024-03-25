@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class SubBrandProductDataTable extends DataTable
 {
     /**
@@ -29,7 +31,15 @@ class SubBrandProductDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('sub-brand.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
+                if(Auth::user()->hasPermissionTo('sub_brand_product edit') && Auth::user()->hasPermissionTo('sub_brand_product delete')){
+                    return $btnEdit.'&nbsp'.$btnDelete;
+                }elseif(Auth::user()->hasPermissionTo('sub_brand_product edit')){
+                    return $btnEdit;
+                }elseif(Auth::user()->hasPermissionTo('sub_brand_product delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+                }
             })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';
@@ -82,10 +92,10 @@ class SubBrandProductDataTable extends DataTable
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
+                        // Button::make('excel'),
+                        // Button::make('csv'),
+                        // Button::make('pdf'),
+                        // Button::make('print'),
                         // Button::make('reset'),
                         // Button::make('reload')
                     ]);
@@ -97,19 +107,13 @@ class SubBrandProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            'DT_RowIndex',
-            // Column::make('id'),
-            Column::make('name'),
-            Column::make('category'),
-            Column::make('brand'),
-            // Column::make('created_at'),
-            // Column::make('updated_at'),
-            Column::make('status'),
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(300)
-                  ->addClass('text-center'),
+            ['data' => 'DT_RowIndex', 'title' => '#'],
+            ['data' => 'name', 'title' => 'nama'],
+            ['data' => 'category', 'title' => 'kategori'],
+            ['data' => 'brand', 'title' => 'brand'],
+            ['data' => 'status', 'title' => 'status'],
+            ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false]
         ];
     }
 

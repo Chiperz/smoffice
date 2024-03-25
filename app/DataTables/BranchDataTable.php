@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class BranchDataTable extends DataTable
 {
     /**
@@ -29,7 +31,15 @@ class BranchDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('branch.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                return $btnEdit.$btnDelete;
+                if(Auth::user()->hasPermissionTo('branch edit') && Auth::user()->hasPermissionTo('branch delete')){
+                    return $btnEdit.'&nbsp'.$btnDelete;
+                }elseif(Auth::user()->hasPermissionTo('branch edit')){
+                    return $btnEdit;
+                }elseif(Auth::user()->hasPermissionTo('branch delete')){
+                    return $btnDelete;
+                }else{
+                    return '';
+                }
             })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';
@@ -69,10 +79,10 @@ class BranchDataTable extends DataTable
                     // ->addIndex()
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
+                        // Button::make('excel'),
+                        // Button::make('csv'),
+                        // Button::make('pdf'),
+                        // Button::make('print'),
                         // Button::make('reset'),
                         // Button::make('reload')
                     ]);
@@ -84,19 +94,13 @@ class BranchDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            'DT_RowIndex',
-            // Column::make('id'),
-            Column::make('code'),
-            Column::make('name'),
-            Column::make('notes'),
-            // Column::make('created_at'),
-            // Column::make('updated_at'),
-            Column::make('status'),
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(300)
-                  ->addClass('text-center'),
+            ['data' => 'DT_RowIndex', 'title' => '#'],
+            ['data' => 'code', 'title' => 'kode'],
+            ['data' => 'name', 'title' => 'nama'],
+            ['data' => 'notes', 'title' => 'catatan'],
+            ['data' => 'status', 'title' => 'status'],
+            ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false]
         ];
     }
 

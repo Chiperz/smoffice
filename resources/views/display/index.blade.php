@@ -8,8 +8,12 @@
             <div class="row">
                 <h5>Tabel Display Produk</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('display.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    <a href="{{ route('display.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    @can('display create')
+                        <a href="{{ route('display.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @endcan
+                    @hasrole('developer')
+                        <a href="{{ route('display.trashed') }}" class="btn btn-secondary"><box-icon name='plus' ></box-icon> Data Terhapus</a>
+                    @endhasrole
                 </div>
             </div>
         </div>

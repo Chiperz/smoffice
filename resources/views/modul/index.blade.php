@@ -8,7 +8,9 @@
             <div class="row">
                 <h5>Tabel Modul</h5>
                 <div class="card-header-action">
-                    <a href="{{ route('modul.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @can('modul create')
+                        <a href="{{ route('modul.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
+                    @endcan
                 </div>
             </div>
         </div>

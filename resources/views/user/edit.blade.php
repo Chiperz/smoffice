@@ -52,7 +52,7 @@
 
                 <div class="mb-3 col-md-12">
                   <label class="form-label" for="sub-brand">Grup Akses</label>
-                  <select id="position" class="select2 form-select" name="position">
+                  <select id="position" class="select2 form-select" name="access">
                     <option value="0">Pilih Grup Akses</option>
                     @foreach ($roles as $role)
                       <option value="{{ $role }}" {{ $role == $user->getRoleNames() ? 'selected' : '' }}>{{ $role }}</option>
