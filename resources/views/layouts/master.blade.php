@@ -324,6 +324,8 @@
     @stack('scripts')
 
     @stack('select2')
+
+    @stack('chart')
   </body>
 </html>
 

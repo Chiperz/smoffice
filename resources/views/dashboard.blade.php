@@ -96,13 +96,44 @@
               </div>
             </div>
 
+            <div class="col-lg-6 col-md-12 col-12 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Grafik Kunjungan</h5>
+
+                  {!! $chartvisit->container() !!}
+                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
+                  
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 col-12 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Market Share</h5>
+
+                  {!! $chartmarketshare->container() !!}
+                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
+                  
+                </div>
+              </div>
+            </div>
+            
+
           </div>
 
     </div>
     <!-- / Content -->
 
-    
-
     <div class="content-backdrop fade"></div>
 </div>
 @endsection
+
+@push('chart')
+  <script src="{{ $chartvisit->cdn() }}"></script>
+  <script src="{{ $chartmarketshare->cdn() }}"></script>
+
+  {{ $chartvisit->script() }}
+  {{ $chartmarketshare->script() }}
+@endpush
