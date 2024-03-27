@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ class BrandProductDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query, Request $request): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
@@ -61,6 +62,22 @@ class BrandProductDataTable extends DataTable
                 return $query->category->name;
             })
             ->rawColumns(['action', 'status'])
+            // ->filter(function ($instance) use ($request) {
+            //     if ($request->get('status') == '0' || $request->get('status') == '1') {
+            //         $instance->where('status', $request->get('status'));
+            //     }
+            //     if (!empty($request->get('search'))) {
+            //          $instance->where(function($w) use($request){
+            //             $search = $request->get('search');
+            //             $w->orWhere('name', 'LIKE', "%$search%");
+            //             // ->orWhere('email', 'LIKE', "%$search%");
+            //         });
+            //     }
+            // })
+            ->filterColumn('status', function($query, $request) {
+                $sql = "status = ?";
+                $query->whereRaw($sql, ["%{$request->status}%"]);
+            })
             ->setRowId('id');
     }
 

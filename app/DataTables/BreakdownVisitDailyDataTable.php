@@ -74,8 +74,12 @@ class BreakdownVisitDailyDataTable extends DataTable
                 }
             })
             ->addColumn('visit_foto', function($query){
-                return "<img src='".asset($query->foto->where('type', 'V')->first()->file_name)."' 
-                width='50' id='myImg' class='myImg' alt='".$query->customer->code." - ".$query->customer->name."'>";
+                if(!$query->foto->where('type', 'V')->isEmpty()){
+                    return "<img src='".asset($query->foto->where('type', 'V')->first()->file_name)."' 
+                    width='50' id='myImg' class='myImg' alt='".$query->customer->code." - ".$query->customer->name."'>";
+                }else{
+                    return '';
+                }
             })
             ->rawColumns(['action', 'status', 'visit_foto', 'display_foto']);
             // ->setRowId('id');
