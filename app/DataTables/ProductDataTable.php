@@ -114,14 +114,16 @@ class ProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            ['data' => 'DT_RowIndex', 'title' => '#'],
+            ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false],
             ['data' => 'code', 'title' => 'Kode'],
             ['data' => 'name', 'title' => 'Nama'],
             ['data' => 'category', 'title' => 'Kategori'],
             ['data' => 'brand', 'title' => 'Brand'],
             ['data' => 'subBrand', 'title' => 'Sub Brand'],
             ['data' => 'status', 'title' => 'Status'],
-            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center'],
+            ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false]
         ];
     }
 

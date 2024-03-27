@@ -107,13 +107,14 @@ class SubBrandProductDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            ['data' => 'DT_RowIndex', 'title' => '#'],
+            ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false],
             ['data' => 'name', 'title' => 'nama'],
             ['data' => 'category', 'title' => 'kategori'],
             ['data' => 'brand', 'title' => 'brand'],
             ['data' => 'status', 'title' => 'status'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false]
+            'exportable' => false, 'printable' => false, 'searchable' => false]
         ];
     }
 

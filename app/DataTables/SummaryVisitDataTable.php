@@ -112,14 +112,15 @@ class SummaryVisitDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            ['data' => 'DT_RowIndex', 'title' => '#'],
+            ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false],
             ['data' => 'date', 'title' => 'tanggal'],
             ['data' => 'user', 'title' => 'nama staff'],
             ['data' => 'store_visit', 'title' => 'toko'],
             ['data' => 'outlet_visit', 'title' => 'gerai'],
             ['data' => 'total_visit', 'title' => 'total kunjungan'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false]
+            'exportable' => false, 'printable' => false, 'searchable' => false]
         ];
     }
 

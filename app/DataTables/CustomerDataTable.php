@@ -100,15 +100,16 @@ class CustomerDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            ['data' => 'DT_RowIndex', 'title' => '#'],
+            ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false],
             ['data' => 'code', 'title' => 'kode'],
             ['data' => 'name', 'title' => 'nama'],
             ['data' => 'regist', 'title' => 'registrasi'],
             ['data' => 'tipe', 'title' => 'tipe'],
             ['data' => 'area', 'title' => 'area'],
             ['data' => 'subarea', 'title' => 'sub area'],
-            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false]
+            ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false]
         ];
     }
 
