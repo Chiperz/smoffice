@@ -48,7 +48,19 @@ class VisitController extends Controller
     public function list(String $type){
         $customers = Customer::where('type', $type)->orderBy('code', 'ASC')->paginate(10);
         
-        return view('visit.list', compact('customers'));
+        return view('visit.list', compact('customers', 'type'));
+    }
+
+    public function searchList(String $type, Request $request){
+        // dd($request->all());
+        $customers = Customer::where('type', $type)
+            ->where('code', 'LIKE', '%'.$request->search.'%')
+            ->where('name', 'LIKE', '%'.$request->search.'%')
+            // ->orderBy('code', 'ASC')
+            ->paginate(10);
+        // dd($customers);
+        
+        return view('visit.search-list', compact('customers', 'type'));
     }
 
     public function create(Request $request, $id){

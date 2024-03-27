@@ -121,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('role', RoleController::class);
 
     Route::get('visit/{type}/list', [VisitController::class, 'list'])->name('visit.list');
+    Route::get('visit/{type}/list/search', [VisitController::class, 'searchList'])->name('visit.search-list');
     Route::get('visit/{id}/create', [VisitController::class, 'create'])->name('visit.create');
     Route::post('visit/{id}/store', [VisitController::class, 'store'])->name('visit.store');
     Route::get('visit', [VisitController::class, 'SummaryVisit'])->name('visit.summary');

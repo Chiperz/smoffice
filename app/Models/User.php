@@ -9,10 +9,21 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, LogsActivity;
+
+    protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions{
+        return LogOptions::defaults()
+            ->logOnly(['name', 'username', 'email'])
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} data")
+            ->useLogName('user');
+    }
 
     /**
      * The attributes that are mass assignable.

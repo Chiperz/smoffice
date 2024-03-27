@@ -4,10 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class HeaderVisit extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions{
+        return LogOptions::defaults()
+            ->logOnly(['date', 'serial', 'time_in', 'time_out', 'LA', 'LO', 'banner', 'status_registrasion', 'activity', 'note', 'customer_id', 'user_id'])
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} data")
+            ->useLogName('header_visit');
+    }
 
     public function customer(){
         return $this->belongsTo(Customer::class, 'customer_id', 'id');

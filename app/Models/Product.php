@@ -5,10 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions{
+        return LogOptions::defaults()
+            ->logOnly(['code', 'name', 'description', 'image', 
+            'competitor', 'competitor_name', 'category_product_id', 'brand_product_id',
+            'sub_brand_product_id', 'status', 'created_by', 'updated_by', 'deleted_by'])
+            ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} data")
+            ->useLogName('product');
+    }
 
     protected $fillable = [
         'code',
