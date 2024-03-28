@@ -49,7 +49,7 @@ class VisitController extends Controller
     use ImageUploadTraits;
 
     public function list(String $type){
-        $customers = Customer::where('type', $type)->orderBy('code', 'ASC')->paginate(10);
+        $customers = Customer::where('type', $type)->orderBy('code', 'ASC')->paginate(12);
         
         return view('visit.list', compact('customers', 'type'));
     }
@@ -63,7 +63,7 @@ class VisitController extends Controller
                     ->orWhere('area', 'LIKE', '%'.$request->search.'%')
                     ->orWhere('subarea', 'LIKE', '%'.$request->search.'%');
             })
-            ->paginate(10);
+            ->paginate(12);
         // dd($customers);
         
         return view('visit.search-list', compact('customers', 'type'));
@@ -289,6 +289,19 @@ class VisitController extends Controller
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                 }
+            }
+
+            if(!empty($request->photo_sample)){
+                $imagePathDisplay = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->name, 'photo_sample', 'uploads/sample/');
+
+                $fotoDisplay = Foto::insert([
+                    'header_visit_id' => $id,
+                    'file_name' => $imagePathDisplay,
+                    'file_size' => '',
+                    'type' => 'S',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
             }
 
             toastr()->success('Data kunjungan gerai berhasil disimpan');

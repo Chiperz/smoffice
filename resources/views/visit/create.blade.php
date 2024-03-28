@@ -29,7 +29,7 @@
 
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Foto Kunjungan</label>
-                  <input class="form-control" type="file" id="photo_visit" name="photo_visit" aaccept="image/*" capture="camera"/>
+                  <input class="form-control" type="file" id="photo_visit" name="photo_visit" aaccept="image/*" capture="camera"/ required>
                 </div>
 
                 <div class="col-md-12 mb-2">
@@ -39,33 +39,15 @@
                     <label class="form-check-label" for="inlineRadio1">Terpasang</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="banner" value="0" name="banner">
+                    <input class="form-check-input" type="radio" id="banner" value="0" name="banner" required>
                     <label class="form-check-label" for="inlineRadio2">Tidak ada</label>
                   </div>
                 </div>
 
-                {{-- @if ($customer->type == 'O')
-                  <div class="col-md-12 mb-2">
-                    <label class="text-light fw-semibold d-block">Sudah Pakai Produk Hnasel?</label>
-                    <div class="form-check form-check-inline mt-3">
-                      <input class="form-check-input" type="radio" id="status" value="Y" name="status">
-                      <label class="form-check-label" for="inlineRadio1">Sudah</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="status" value="M" name="status">
-                      <label class="form-check-label" for="inlineRadio2">Sudah, Tetapi Pakai Produk Lain Juga</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="status" value="N" name="status">
-                      <label class="form-check-label" for="inlineRadio2">Belum Sama Sekali</label>
-                    </div>
-                  </div>
-                @endif --}}
-
                 <div class="col-md-12 mb-2">
                   <label class="text-light fw-semibold d-block">Aktifitas</label>
                   <div class="form-check form-check-inline mt-3">
-                    <input class="form-check-input" type="radio" id="activity" value="Visit" name="activity">
+                    <input class="form-check-input" type="radio" id="activity" value="Visit" name="activity" required>
                     <label class="form-check-label" for="inlineRadio1">Kunjungan</label>
                   </div>
                   <div class="form-check form-check-inline">
@@ -166,7 +148,7 @@
                       <label class="form-check-label" for="inlineRadio2">Sudah, Tetapi Pakai Produk Lain Juga</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="status" value="N" name="status">
+                      <input class="form-check-input" type="radio" id="status" value="N" name="status" required>
                       <label class="form-check-label" for="inlineRadio2">Belum Sama Sekali</label>
                     </div>
                   </div>
@@ -235,23 +217,25 @@
 
                   <div class="mb-3 col-md-12">
                     <label for="sales_amount" class="form-label">Qty Penjualan Perhari</label>
-                    <input class="form-control" type="number" id="sales_amount" name="sales_amount" value="{{ old('sales_amount') }}" multiple/>
+                    <input class="form-control" type="number" id="sales_amount" name="sales_amount" value="{{ old('sales_amount') }}" multiple required/>
                   </div>
 
                   <label for="" class="form-label">Sampel Produk yang Diberikan ke Gerai</label>
-                  <div id="TextBoxesGroup">
-                    <div id="TextBoxDiv1">
                       <div class="mb-3 col-md-12">
                         <label for="usedProduct" class="form-label">Nama/Kode Produk</label>
-                        <select class="form-control" name="sample[]" id="sample" multiple></select>
+                        <select class="form-control" name="sample[]" id="sample" multiple required></select>
                       </div>
     
                       <div class="mb-3 col-md-12">
                         <label for="purchaseAmount" class="form-label">Jumlah Produk</label>
                         <input type="text" class="form-control" name="qty_sample" id="qty_sample">
                       </div>
-                    </div><br>
-                  </div>
+
+                      <div class="mb-3 col-md-12">
+                        <label for="name" class="form-label">Foto Penyerahan Sampel</label>
+                        <input class="form-control" type="file" id="photo_sample" name="photo_sample" aaccept="image/*" capture="camera"/ required>
+                      </div>
+                    <br>
                   
                 </div>
                 <div class="mt-2">

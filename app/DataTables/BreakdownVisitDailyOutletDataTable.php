@@ -158,7 +158,13 @@ class BreakdownVisitDailyOutletDataTable extends DataTable
                 }
                 return $data;
             })
-            ->rawColumns(['action', 'status']);
+            ->addColumn('sample_foto', function($query){
+                if(!empty($query->foto->where('type', 'S')->first()->file_name)){
+                    return "<img src='".asset($query->foto->where('type', 'S')->first()->file_name)."' 
+                    width='50' id='myImg' class='myImg' alt='".$query->customer->code." - ".$query->customer->name."'>";
+                }
+            })
+            ->rawColumns(['action', 'status', 'sample_foto']);
             // ->setRowId('id');
     }
 
@@ -223,6 +229,7 @@ class BreakdownVisitDailyOutletDataTable extends DataTable
             ['data' => 'unproductive_reason', 'title' => 'alasan belum pakai'],
             ['data' => 'sample', 'title' => 'sampel'],
             ['data' => 'qty_sample', 'title' => 'qty sampel'],
+            ['data' => 'sample_foto', 'title' => 'penyerahan sampel'],
         ];
     }
 
