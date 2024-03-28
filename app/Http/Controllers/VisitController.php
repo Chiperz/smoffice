@@ -142,7 +142,7 @@ class VisitController extends Controller
             $fotoVisit = Foto::insert([
                 'header_visit_id' => $id,
                 'file_name' => $imagePathVisit,
-                'file_size' => '',
+                'file_size' => Image::make($request->photo_visit)->filesize(),
                 'type' => 'V',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
@@ -230,7 +230,7 @@ class VisitController extends Controller
                 $fotoDisplay = Foto::insert([
                     'header_visit_id' => $id,
                     'file_name' => $imagePathDisplay,
-                    'file_size' => '',
+                    'file_size' => Image::make($request->photo_display)->filesize(),
                     'type' => 'D',
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')
@@ -297,7 +297,7 @@ class VisitController extends Controller
                 $fotoDisplay = Foto::insert([
                     'header_visit_id' => $id,
                     'file_name' => $imagePathDisplay,
-                    'file_size' => '',
+                    'file_size' => Image::make($request->photo_sample)->filesize(),
                     'type' => 'S',
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')

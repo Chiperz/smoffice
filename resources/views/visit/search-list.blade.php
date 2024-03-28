@@ -10,6 +10,11 @@
         <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
         <input type="text" class="form-control" placeholder="Cari..." aria-label="Cari..." aria-describedby="basic-addon-search31" name="search">
       </form>
+      @if ($type == 'S')
+        <a href="{{ route('visit.list', 'O') }}" class="btn btn-primary mt-2 col-md-12">Campaign Gerai</a>
+      @else
+        <a href="{{ route('visit.list', 'S') }}" class="btn btn-secondary mt-2 col-md-12">Kunjungan Toko</a>
+      @endif
           <div class="row">
             @if($customers->isEmpty())
               <a href="{{ route('dashboard') }}"><img class="responsive" src="{{ asset('custom-icons/Chef-page-not-found.png') }}" alt="" height="1000px"></a>
