@@ -188,8 +188,8 @@
           </li>
 
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
-              <div data-i18n="Account">Summary Alasan Toko</div>
+            <a href="{{ route('galery.index') }}" class="menu-link">
+              <div data-i18n="Account">Summary Galery Foto</div>
             </a>
           </li>
         </ul>

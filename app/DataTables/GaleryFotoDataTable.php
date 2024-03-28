@@ -2,7 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\DisplayProduct;
+use App\Models\Foto;
+use App\Models\HeaderVisit;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,9 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-use Illuminate\Support\Facades\Auth;
-
-class DisplayProductDataTable extends DataTable
+class GaleryFotoDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -27,40 +26,46 @@ class DisplayProductDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
-                $btnEdit = "<a class='btn btn-warning' href='".route('display.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('display.destroy', $query->id)."'>Hapus </a>";
+                // $btnEdit = "<a class='btn btn-warning' href='".route('display.edit', $query->id)."'>Ubah </a>";
+                // $btnDelete = "<a class='btn btn-danger delete-item' href='".route('display.destroy', $query->id)."'>Hapus </a>";
 
-                // return $btnShow.$btnEdit.$btnDelete;
-                if(Auth::user()->hasPermissionTo('display edit') && Auth::user()->hasPermissionTo('display delete')){
-                    return $btnEdit.'&nbsp'.$btnDelete;
-                }elseif(Auth::user()->hasPermissionTo('display edit')){
-                    return $btnEdit;
-                }elseif(Auth::user()->hasPermissionTo('display delete')){
-                    return $btnDelete;
-                }else{
-                    return '';
-                }
+                // // return $btnShow.$btnEdit.$btnDelete;
+                // if(Auth::user()->hasPermissionTo('display edit') && Auth::user()->hasPermissionTo('display delete')){
+                //     return $btnEdit.'&nbsp'.$btnDelete;
+                // }elseif(Auth::user()->hasPermissionTo('display edit')){
+                //     return $btnEdit;
+                // }elseif(Auth::user()->hasPermissionTo('display delete')){
+                //     return $btnDelete;
+                // }else{
+                //     return '';
+                // }
             })
             ->addColumn('status', function($query){
-                $active = '<i class="badge badge-success">Active</i>';
-                $inactive = '<i class="badge badge-danger">Inactive</i>';
+                // $active = '<i class="badge badge-success">Active</i>';
+                // $inactive = '<i class="badge badge-danger">Inactive</i>';
 
-                if($query->status == 1){
-                    // return $active;
-                    return 'Active';
-                }else{
-                    // return $inactive;
-                    return 'Inactive';
-                }
+                // if($query->status == 1){
+                //     // return $active;
+                //     return 'Active';
+                // }else{
+                //     // return $inactive;
+                //     return 'Inactive';
+                // }
             })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('foto', function($query){
+                // if(!empty($query->foto->where('type', 'D')->first()->file_name)){
+                    return "<img src='".asset($query->file_name)."' 
+                    width='50' id='myImg' class='myImg' alt='".$query->file_name."'>";
+                // }
+            })
+            ->rawColumns(['action', 'status', 'foto'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(DisplayProduct $model): QueryBuilder
+    public function query(Foto $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -71,7 +76,7 @@ class DisplayProductDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('displayproduct-table')
+                    ->setTableId('galeryfoto-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -95,9 +100,8 @@ class DisplayProductDataTable extends DataTable
         return [
             ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false],
-            ['data' => 'name', 'title' => 'nama'],
-            ['data' => 'durability', 'title' => 'ketahanan(hari)'],
-            ['data' => 'status', 'title' => 'status'],
+            ['data' => 'file_name', 'title' => 'nama file'],
+            ['data' => 'foto', 'title' => 'foto'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false]
         ];
@@ -108,6 +112,6 @@ class DisplayProductDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'DisplayProduct_' . date('YmdHis');
+        return 'GaleryFoto_' . date('YmdHis');
     }
 }
