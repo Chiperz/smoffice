@@ -24,7 +24,8 @@
                     <div class="card-body">
                       <h5 class="card-title">{{ $customer->code." - ".$customer->name }}</h5>
                       <p class="card-text">
-                        {!! empty($customer->address) ? '<span class="badge bg-label-danger">Alamat Belum Diketahui</span>' : Str::words($customer->address, 10, '. . . ')!!}
+                        {!! empty($customer->address) ? '<span class="badge bg-label-danger">Alamat Belum Diketahui</span>' : Str::words($customer->address, 10, '. . . ')!!}<br>
+                        {{ $customer->area.' - '.$customer->subarea }}
                       </p>
                       @if (!empty($customer->LA) && !empty($customer->LA))
                         <a href="https://maps.google.com/?q={{ $customer->LA.','.$customer->LO }}" class="btn btn-secondary mt-2" target="_blank">Menuju Lokasi</a>

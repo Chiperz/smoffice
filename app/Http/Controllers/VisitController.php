@@ -57,9 +57,12 @@ class VisitController extends Controller
     public function searchList(String $type, Request $request){
         // dd($request->all());
         $customers = Customer::where('type', $type)
-            ->where('code', 'LIKE', '%'.$request->search.'%')
-            ->where('name', 'LIKE', '%'.$request->search.'%')
-            // ->orderBy('code', 'ASC')
+            ->where(function($query) use ($request){
+                $query->where('code', 'LIKE', '%'.$request->search.'%')
+                    ->orWhere('name', 'LIKE', '%'.$request->search.'%')
+                    ->orWhere('area', 'LIKE', '%'.$request->search.'%')
+                    ->orWhere('subarea', 'LIKE', '%'.$request->search.'%');
+            })
             ->paginate(10);
         // dd($customers);
         
