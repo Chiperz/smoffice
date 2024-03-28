@@ -95,8 +95,8 @@ class OutletController extends Controller
 
         $customer = new Customer();
         $imagePath = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->customer_name, 'photo', 'uploads/customer/');
-        $customer->code = $request->code;
-        $customer->name = $request->customer_name;
+        $customer->code = str_replace('/',' - ',$request->code);
+        $customer->name = str_replace('/',' - ',$request->customer_name);
         $customer->phone = $request->customer_phone;
         $customer->photo = $imagePath;
         $customer->address = $request->customer_address;
@@ -167,7 +167,7 @@ class OutletController extends Controller
 
         $customer = Customer::findOrFail($id);
         $imagePath = $this->updateImage($request, date('d-M-Y His'), $request->code, $request->customer_name, 'photo', 'uploads/customer/');
-        $customer->name = $request->customer_name;
+        $customer->name = str_replace('/',' - ',$request->customer_name);
         $customer->phone = $request->customer_phone;
         $customer->photo = empty(!$imagePath) ? $imagePath : $customer->photo;
         $customer->address = $request->customer_address;

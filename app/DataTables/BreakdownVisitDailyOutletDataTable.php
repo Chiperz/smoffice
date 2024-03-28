@@ -189,8 +189,11 @@ class BreakdownVisitDailyOutletDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
+                    // ->dom("Bfrtlip")
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->responsive()
+                    ->parameters(["scrollX" => true])
                     ->buttons([
                         // Button::make('excel'),
                         // Button::make('csv'),

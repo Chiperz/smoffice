@@ -53,8 +53,8 @@ class OutletImport implements ToCollection, WithHeadingRow
                 }
 
                 Customer::create([
-                    'code' => $row['Kode Toko'],
-                    'name' => $row['Nama Toko'],
+                    'code' => str_replace('/',' - ',$row['Kode Toko']),
+                    'name' => str_replace('/',' - ',$row['Nama Toko']),
                     'phone' => $row['No Telepon Toko'],
                     'address' => $row['Alamat Toko'],
                     'LA' => $row['Latitude'],
@@ -77,7 +77,7 @@ class OutletImport implements ToCollection, WithHeadingRow
 
                 if($customer){
                     $customer->update([
-                        'name' => $row['Nama Toko'],
+                        'name' => str_replace('/',' - ',$row['Nama Toko']),
                         'phone' => $row['No Telepon Toko'],
                         'address' => $row['Alamat Toko'],
                         'LA' => $row['Latitude'],
@@ -95,8 +95,8 @@ class OutletImport implements ToCollection, WithHeadingRow
                     ]);
                 }else{
                     Customer::create([
-                        'code' => $row['Kode Toko'],
-                        'name' => $row['Nama Toko'],
+                        'code' => str_replace('/',' - ',$row['Kode Toko']),
+                        'name' => str_replace('/',' - ',$row['Nama Toko']),
                         'phone' => $row['No Telepon Toko'],
                         'address' => $row['Alamat Toko'],
                         'LA' => $row['Latitude'],

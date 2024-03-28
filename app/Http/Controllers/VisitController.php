@@ -12,6 +12,9 @@ use App\Datatables\BreakdownVisitDailyDatatable;
 use App\Datatables\BreakdownVisitDailyStoreDataTable;
 use App\Datatables\BreakdownVisitDailyOutletDataTable;
 
+// Scope
+// use App\DataTables\Scopes\DateRangeVisit;
+
 // Export
 use App\Exports\ReportVisitStore;
 use App\Exports\ReportVisitOutlet;
@@ -293,6 +296,7 @@ class VisitController extends Controller
 
     public function SummaryVisit(SummaryVisitDatatable $dataTable){
         return $dataTable->with(['from' => date('Y-m-01'), 'to' => date('Y-m-t')])->render('visit.summary');
+        // return $dataTable->addScope(new DateRangeVisit($request))->render('visit.summary');
     }
 
     public function SummaryVisitSearch(SummaryVisitSearchDatatable $dataTable, Request $request){

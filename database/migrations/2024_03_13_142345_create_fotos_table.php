@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('header_visit_id')->nullable();
             $table->string('file_name')->nullable();
             $table->string('file_size')->nullable();
-            $table->enum('type' ,['V', 'B', 'D'])->nullable();
+            $table->enum('type' ,['V', 'B', 'D', 'S'])->nullable();
             $table->timestamps();
         });
     }
