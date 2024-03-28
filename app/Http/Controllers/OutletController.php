@@ -212,12 +212,13 @@ class OutletController extends Controller
         $owner = Owner::where('customer_id', $id)->first();
         // $this->deleteImage($product->image);
         $customer->deleted_by = Auth::user()->id;
-        $owner->deleted_by = Auth::user()->id;
+        if(!empty($owner)){
+            $owner->deleted_by = Auth::user()->id;
+            $owner->save();
+            $owner->delete();
+        }
         $customer->save();
-        $owner->save();
-
         $customer->delete();
-        $owner->delete();
 
         return response(['status' => 'success', 'message' => 'Gerai berhasil dihapus']);
     }
@@ -247,7 +248,7 @@ class OutletController extends Controller
         $customer = Customer::onlyTrashed()->findOrFail($id);
         $owner = Owner::onlyTrashed()->where('customer_id', $id)->first();
         !empty($customer->photo) ? $this->deleteImage($customer->photo) : '';
-        $owner->forceDelete();
+        !empty($owner) ? $owner->forceDelete() : '';
         $customer->forceDelete();
 
         return response(['status' => 'success', 'message' => 'Gerai berhasil dihapus permanen']);
