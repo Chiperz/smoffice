@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnproductiveReasonController;
+use App\Http\Controllers\LogActivityController;
 
 use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
@@ -131,6 +132,8 @@ Route::middleware('auth')->group(function () {
     Route::get('visit/{date}/detail/{user}/outlet', [VisitController::class, 'DailyVisitOutlet'])->name('visit.detail-outlet-daily');
     Route::get('visit/store/export', [VisitController::class, 'StoreExport'])->name('visit.store-export');
     Route::get('visit/outlet/export', [VisitController::class, 'OutletExport'])->name('visit.outlet-export');
+
+    Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
 });
 
 require __DIR__.'/auth.php';

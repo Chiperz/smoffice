@@ -229,6 +229,14 @@
               </li>
             @endcan
 
+            @can('log_activity view')
+              <li class="menu-item">
+                <a href="{{ route('log-activity.index') }}" class="menu-link">
+                  <div data-i18n="Account">Log Aktivitas</div>
+                </a>
+              </li>
+            @endcan
+
             {{-- <li class="menu-item">
               <a href="" class="menu-link">
                 <div data-i18n="Account">Main Menu</div>
