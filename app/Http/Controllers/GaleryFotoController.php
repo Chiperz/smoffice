@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Foto;
 
+use App\DataTables\Scopes\TypeFotoScope;
 use App\Datatables\GaleryFotoDataTable;
 
 use Illuminate\Http\Request;
@@ -13,9 +14,10 @@ class GaleryFotoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(GaleryFotoDataTable $dataTable)
+    public function index(GaleryFotoDataTable $dataTable, Request $request)
     {
-        return $dataTable->render('display.index');
+        // return $dataTable->addScope(new TypeFotoScope($request))->render('galery.index');
+        return $dataTable->render('galery.index');
     }
 
     /**

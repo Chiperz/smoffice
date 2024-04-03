@@ -14,7 +14,7 @@ trait ImageUploadTraits{
             $imageName = $codeItem.'-'.$namaItem.'-'.$date.'.'.$ext;
 
             $img = Image::make($image);
-            $img->rotate(-90);
+            // $img->rotate(-90);
             $img->save(public_path($path).$imageName, 40);
 
             return $path.'/'.$imageName;
@@ -32,7 +32,7 @@ trait ImageUploadTraits{
             $imageName = $codeItem.'-'.$namaItem.'-'.$date.'.'.$ext;
             
             $img = Image::make($image);
-            $img->rotate(-90);
+            // $img->rotate(-90);
             $img->save(public_path($path).$imageName, 40);
 
             return $path.'/'.$imageName;

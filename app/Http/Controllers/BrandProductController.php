@@ -18,7 +18,8 @@ class BrandProductController extends Controller
      */
     public function index(BrandProductDataTable $dataTable)
     {
-        return $dataTable->render('brand.index');
+        $categories = CategoryProduct::all();
+        return $dataTable->render('brand.index', compact('categories'));
     }
 
     /**

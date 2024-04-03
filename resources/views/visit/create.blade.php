@@ -159,7 +159,7 @@
                     <div id="TextBoxDiv1">
                       <div class="mb-3 col-md-12">
                         <label for="usedProduct" class="form-label">Nama/Kode Produk</label>
-                        <select class="form-control" name="usedProduct[]" id="product1" multiple></select>
+                        <select class="form-control" name="usedProduct[]" id="product1" multiple required></select>
                       </div>
     
                       <div class="mb-3 col-md-12">

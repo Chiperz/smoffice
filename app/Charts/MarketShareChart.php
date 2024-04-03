@@ -21,13 +21,14 @@ class MarketShareChart
             ->join('products', 'products.id', 'outlet_visit_products.product_id')
             // ->whereMonth('outlet_visit_products.created_at', date('M'))
             ->groupBy('outlet_visit_products.product_id', 'products.name')
-            ->orderBy('outlet_visit_products.product_id', 'ASC')
+            // ->orderBy('outlet_visit_products.product_id', 'ASC')
+            ->orderBy('product_count', 'DESC')
             ->limit(5)
             ->get();
         return $this->chart->pieChart()
             ->setTitle('Top 5 Market Share Produk')
             ->setSubtitle('Berdasarkan Kunjungan Karyawan')
-            ->addData($top5Item->pluck('product_count')->toArray())
+            ->addData(array_map('intval',$top5Item->pluck('product_count')->toArray()))
             ->setLabels($top5Item->pluck('name')->toArray());
     }
 }

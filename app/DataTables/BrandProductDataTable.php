@@ -26,6 +26,17 @@ class BrandProductDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('category'))) {
+                    $instance->where('category_product_id', $request->get('category'));
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                       $search = $request->get('search');
+                       $w->orWhere('name', 'LIKE', "%$search%");
+                   });
+               }
+            })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('brand.edit', $query->id)."'>Ubah </a>";
@@ -62,22 +73,6 @@ class BrandProductDataTable extends DataTable
                 return $query->category->name;
             })
             ->rawColumns(['action', 'status'])
-            // ->filter(function ($instance) use ($request) {
-            //     if ($request->get('status') == '0' || $request->get('status') == '1') {
-            //         $instance->where('status', $request->get('status'));
-            //     }
-            //     if (!empty($request->get('search'))) {
-            //          $instance->where(function($w) use($request){
-            //             $search = $request->get('search');
-            //             $w->orWhere('name', 'LIKE', "%$search%");
-            //             // ->orWhere('email', 'LIKE', "%$search%");
-            //         });
-            //     }
-            // })
-            ->filterColumn('status', function($query, $request) {
-                $sql = "status = ?";
-                $query->whereRaw($sql, ["%{$request->status}%"]);
-            })
             ->setRowId('id');
     }
 
@@ -97,10 +92,19 @@ class BrandProductDataTable extends DataTable
         return $this->builder()
                     ->setTableId('brandproduct-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    // ->minifiedAjax()
+                    ->ajax([
+                        'url'  => route('brand.index'),
+                        'type' => 'GET',
+                        'data' => "function(data){
+                            data.category = $('select[name=category]').val(),
+                            data.search = $('input[type=search]').val();
+                        }"
+                    ])
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->responsive()
                     ->buttons([
                         // Button::make('excel'),
                         // Button::make('csv'),

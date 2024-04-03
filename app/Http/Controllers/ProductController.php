@@ -29,7 +29,11 @@ class ProductController extends Controller
      */
     public function index(ProductDataTable $dataTable)
     {
-        return $dataTable->render('product.index');
+        $categories = CategoryProduct::all();
+        $brands = BrandProduct::all();
+        $subBrands = SubBrandProduct::all();
+
+        return $dataTable->render('product.index', compact('categories', 'brands', 'subBrands'));
     }
 
     /**

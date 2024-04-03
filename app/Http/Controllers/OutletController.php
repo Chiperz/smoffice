@@ -28,7 +28,9 @@ class OutletController extends Controller
      */
     public function index(OutletDataTable $dataTable)
     {
-        return $dataTable->render('outlet.index');
+        $branches = Branch::all();
+
+        return $dataTable->render('outlet.index', compact('branches'));
     }
 
     /**

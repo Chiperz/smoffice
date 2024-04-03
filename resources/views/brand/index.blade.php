@@ -8,21 +8,20 @@
             <div class="card accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                   <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
-                    Filter Status
+                    Filter
                   </button>
                 </h2>
 
                 <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
-                    <form action="{{ route('visit.summary-search') }}" method="GET">
-                        <div class="accordion-body">
-                            <select name="status" id="status" class="form-control">
-                                <option value="0">Non-active</option>
-                                <option value="1">Active</option>
-                            </select>
-                            <input type="submit" class="btn btn-primary mt-2">
-                            <a class="btn btn-secondary mt-2" href="{{ route('visit.summary') }}">Reset Filter</a>
-                        </div>
-                    </form>
+                    <div class="accordion-body">
+                        <select name="category" id="category" class="form-control">
+                            <option value="">--Pilih Kategori Produk--</option>
+                                @foreach ($categories as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                            <option value="NULL">Tidak Diketahui</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -47,4 +46,10 @@
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+    <script>
+        $('#category').change(function(){
+            $('.table').DataTable().draw();
+        });
+    </script>
 @endpush

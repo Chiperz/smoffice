@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
+
 
 class GaleryFotoDataTable extends DataTable
 {
@@ -20,10 +22,22 @@ class GaleryFotoDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query, Request $request): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->filter(function ($instance) use ($request) {
+                if ($request->get('type') == 'D' || $request->get('type') == 'V' || $request->get('type') == 'S') {
+                    $instance->where('type', $request->get('type'));
+                }
+                // if (!empty($request->get('search'))) {
+                //      $instance->where(function($w) use($request){
+                //         $search = $request->get('type');
+                //         $w->orWhere('name', 'LIKE', "%$search%")
+                //         ->orWhere('email', 'LIKE', "%$search%");
+                //     });
+                // }
+            })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
                 // $btnEdit = "<a class='btn btn-warning' href='".route('display.edit', $query->id)."'>Ubah </a>";
@@ -67,7 +81,7 @@ class GaleryFotoDataTable extends DataTable
      */
     public function query(Foto $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('created_at', 'DESC');
     }
 
     /**
@@ -78,10 +92,18 @@ class GaleryFotoDataTable extends DataTable
         return $this->builder()
                     ->setTableId('galeryfoto-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    // ->minifiedAjax()
+                    ->ajax([
+                        'url'  => route('galery.index'),
+                        'type' => 'GET',
+                        'data' => "function(data){
+                            data.type = $('select[name=type]').val();
+                        }"
+                    ])
+                    // ->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->responsive()
                     ->buttons([
                         // Button::make('excel'),
                         // Button::make('csv'),
@@ -101,6 +123,7 @@ class GaleryFotoDataTable extends DataTable
             ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false],
             ['data' => 'file_name', 'title' => 'nama file'],
+            ['data' => 'type', 'title' => 'tipe'],
             ['data' => 'foto', 'title' => 'foto'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false]

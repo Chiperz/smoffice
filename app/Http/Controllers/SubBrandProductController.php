@@ -19,7 +19,10 @@ class SubBrandProductController extends Controller
      */
     public function index(SubBrandProductDataTable $dataTable)
     {
-        return $dataTable->render('sub-brand.index');
+        $categories = CategoryProduct::all();
+        $brands = BrandProduct::all();
+
+        return $dataTable->render('sub-brand.index', compact('categories', 'brands'));
     }
 
     /**

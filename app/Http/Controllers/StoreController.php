@@ -28,7 +28,9 @@ class StoreController extends Controller
      */
     public function index(StoreDataTable $dataTable)
     {
-        return $dataTable->render('store.index');
+        $branches = Branch::all();
+
+        return $dataTable->render('store.index', compact('branches'));
     }
 
     /**

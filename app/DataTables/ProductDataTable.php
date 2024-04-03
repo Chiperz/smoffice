@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -21,10 +22,28 @@ class ProductDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query, Request $request): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('category'))) {
+                    $instance->where('category_product_id', $request->get('category'));
+                }
+                if (!empty($request->get('brand'))) {
+                    $instance->where('brand_product_id', $request->get('brand'));
+                }
+                if (!empty($request->get('subbrand'))) {
+                    $instance->where('sub_brand_product_id', $request->get('subbrand'));
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                       $search = $request->get('search');
+                       $w->orWhere('code', 'LIKE', "%$search%")
+                       ->orWhere('name', 'LIKE', "%$search%");
+                   });
+               }
+            })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('product.edit', $query->id)."'>Ubah </a>";
@@ -94,10 +113,21 @@ class ProductDataTable extends DataTable
         return $this->builder()
                     ->setTableId('product-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    // ->minifiedAjax()
+                    ->ajax([
+                        'url'  => route('product.index'),
+                        'type' => 'GET',
+                        'data' => "function(data){
+                            data.category = $('select[name=category]').val(),
+                            data.brand = $('select[name=brand]').val(),
+                            data.subbrand = $('select[name=subbrand]').val(),
+                            data.search = $('input[type=search]').val();
+                        }"
+                    ])
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->responsive()
                     ->buttons([
                         // Button::make('excel'),
                         // Button::make('csv'),
