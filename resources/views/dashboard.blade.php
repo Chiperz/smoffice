@@ -119,6 +119,18 @@
                 </div>
               </div>
             </div>
+
+            <div class="col-lg-6 col-md-12 col-12 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Increment Display</h5>
+
+                  {!! $chartincrement->container() !!}
+                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
+                  
+                </div>
+              </div>
+            </div>
             
 
           </div>
@@ -133,7 +145,9 @@
 @push('chart')
   <script src="{{ $chartvisit->cdn() }}"></script>
   <script src="{{ $chartmarketshare->cdn() }}"></script>
+  <script src="{{ $chartincrement->cdn() }}"></script>
 
   {{ $chartvisit->script() }}
   {{ $chartmarketshare->script() }}
+  {{ $chartincrement->script() }}
 @endpush

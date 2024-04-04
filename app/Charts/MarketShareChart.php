@@ -27,7 +27,7 @@ class MarketShareChart
             ->get();
         return $this->chart->pieChart()
             ->setTitle('Top 5 Market Share Produk')
-            ->setSubtitle('Berdasarkan Kunjungan Karyawan')
+            // ->setSubtitle('Berdasarkan Kunjungan Karyawan')
             ->addData(array_map('intval',$top5Item->pluck('product_count')->toArray()))
             ->setLabels($top5Item->pluck('name')->toArray());
     }
