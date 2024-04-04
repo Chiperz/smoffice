@@ -11,20 +11,42 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
 class SummaryVisitDataTable extends DataTable
 {
+    // protected $exportColumns = [
+    //     ['data' => 'date', 'title' => 'tanggal'],
+    //     ['data' => 'user', 'title' => 'nama staff'],
+    // ];
     /**
      * Build the DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query, Request $request): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('start_date'))) {
+                    $instance->whereBetween('date', [$request->get('start_date'),$request->get('end_date') ]);
+                }
+                if (!empty($request->get('end_date'))) {
+                    $instance->whereBetween('date', [$request->get('start_date'),$request->get('end_date') ]);
+                }
+                if (!empty($request->get('staff'))) {
+                    $instance->where('header_visits.user_id', $request->get('staff'));
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                       $search = $request->get('search');
+                       $w->orWhere('username', 'LIKE', "%$search%");
+                   });
+               }
+            })
             ->addColumn('action', function($query){
                 $btnShow = "<a class='btn btn-info' href='".route('visit.detail-daily', ['date' => $query->date, 'user' => $query->user_id])."'>Detail </a>";
                 // $btnEdit = "<a class='btn btn-warning' href='".route('unproductive-reason.edit', $query->date)."'>Ubah </a>";
@@ -80,7 +102,7 @@ class SummaryVisitDataTable extends DataTable
         ->groupBy('header_visits.date', 'header_visits.user_id', 'users.name')
         ->join('users', 'header_visits.user_id', '=', 'users.id')
         ->join('customers', 'header_visits.customer_id', '=', 'customers.id')
-        ->whereBetween('date', [$from, $to])
+        // ->whereBetween('date', [$from, $to])
         ->orderBy('header_visits.date', 'DESC');
     }
 
@@ -92,11 +114,24 @@ class SummaryVisitDataTable extends DataTable
         return $this->builder()
                     ->setTableId('summaryvisit-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    // ->minifiedAjax()
+                    ->ajax([
+                        'url'  => route('visit.summary'),
+                        'type' => 'GET',
+                        'data' => "function(data){
+                            data.start_date = $('input[name=start_date]').val(),
+                            data.end_date = $('input[name=end_date]').val(),
+                            data.staff = $('select[name=staff]').val(),
+                            data.search = $('input[type=search]').val();
+                        }"
+                    ])
+                    // ->dom('Bfrtip')
+                    ->dom('lBrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->responsive()
                     ->buttons([
+                        // [ 'extend'=> 'excel', 'exportOptions'=> [ 'modifier'=> [ 'page'=> 'all', 'search'=> 'none' ] ] ],
                         // Button::make('excel'),
                         // Button::make('csv'),
                         // Button::make('pdf'),
@@ -113,7 +148,13 @@ class SummaryVisitDataTable extends DataTable
     {
         return [
             ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false, 'searchable' => false],
+            'exportable' => false, 'printable' => false, 'searchable' => false, 'visible' => false],
+            // Column::make('DT_RowIndex')
+            //     ->title('#')
+            //     ->searchable('false')
+            //     ->footer('#')
+            //     ->exportable('true')
+            //     ->printable('false'),
             ['data' => 'date', 'title' => 'tanggal'],
             ['data' => 'user', 'title' => 'nama staff'],
             ['data' => 'store_visit', 'title' => 'toko'],
@@ -131,4 +172,6 @@ class SummaryVisitDataTable extends DataTable
     {
         return 'SummaryVisit_' . date('YmdHis');
     }
+    
+    
 }

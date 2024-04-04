@@ -32,6 +32,7 @@
                   <input class="form-control" type="file" id="photo_visit" name="photo_visit" aaccept="image/*" capture="camera"/ required>
                 </div>
 
+                @if ($customer->type == 'S')
                 <div class="col-md-12 mb-2">
                   <label class="text-light fw-semibold d-block">Spanduk</label>
                   <div class="form-check form-check-inline mt-3">
@@ -43,7 +44,7 @@
                     <label class="form-check-label" for="inlineRadio2">Tidak ada</label>
                   </div>
                 </div>
-
+                
                 <div class="col-md-12 mb-2">
                   <label class="text-light fw-semibold d-block">Aktifitas</label>
                   <div class="form-check form-check-inline mt-3">
@@ -55,6 +56,10 @@
                     <label class="form-check-label" for="inlineRadio2">Maintenance Display</label>
                   </div>
                 </div>
+                @else
+                  <input type="hidden" value="0" name="banner">
+                  <input type="hidden" value="Visit" name="activity">
+                @endif
 
                 <div class="mb-3 col-md-12">
                   <label for="note" class="form-label">Catatan Kunjungan</label>
@@ -233,7 +238,7 @@
 
                       <div class="mb-3 col-md-12">
                         <label for="name" class="form-label">Foto Penyerahan Sampel</label>
-                        <input class="form-control" type="file" id="photo_sample" name="photo_sample" aaccept="image/*" capture="camera"/ required>
+                        <input class="form-control" type="file" id="photo_sample" name="photo_sample" accept="image/*" capture="camera"/ required>
                       </div>
                     <br>
                   
@@ -295,7 +300,7 @@
     });
 
     $('#category').select2({
-        placeholder: 'Pilih kategori produk',
+        placeholder: '--Pilih kategori produk--',
         ajax: {
           url: categoryPath,
           dataType: 'json',
@@ -315,7 +320,7 @@
     });
 
     $('#brand').select2({
-        placeholder: 'Pilih brand produk yang tersedia di toko',
+        placeholder: '--Pilih brand produk yang tersedia di toko--',
         ajax: {
           url: brandPath,
           dataType: 'json',
@@ -335,7 +340,7 @@
     });
 
     $('#store').select2({
-        placeholder: 'Pilih toko yang sudah register',
+        placeholder: '--Pilih toko yang sudah register--',
         theme: 'form-control',
         ajax: {
           url: storePath,
@@ -356,7 +361,7 @@
     });
 
     $('#product1').select2({
-        placeholder: 'Pilih produk',
+        placeholder: '--Pilih produk--',
         ajax: {
         url: productPath,
         dataType: 'json',
@@ -365,7 +370,7 @@
           return {
             results:  $.map(data, function (item) {
               return {
-                text: item.code+' - '+item.name,
+                text: item.name,
                 id: item.id
               }
             })
@@ -376,7 +381,7 @@
     });
 
     $('#sample').select2({
-        placeholder: 'Pilih produk',
+        placeholder: '--Pilih produk--',
         ajax: {
         url: productPath,
         dataType: 'json',

@@ -11,20 +11,23 @@
                     <div class="card accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                           <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
-                            Filter Tanggal
+                            Filter
                           </button>
                         </h2>
   
                         <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
-                            <form action="{{ route('visit.summary-search') }}" method="GET">
-                                <div class="accordion-body">
-                                    <input type="date" name="from" class="form-control col-md-6" aria-label="Tanggal Mulai" value="{{ date('Y-m-01') }}">
-                                    <input type="date" name="to" class="form-control col-md-6" aria-label="Tanggal Selesai" value="{{ date('Y-m-t') }}">
-                                    <input type="submit" class="btn btn-primary mt-2">
-                                    <button class="btn btn-success" type="submit" id="search-filter">Filter</button>
-                                    <a class="btn btn-secondary mt-2" href="{{ route('visit.summary') }}">Reset Filter</a>
-                                </div>
-                            </form>
+                            <div class="accordion-body">
+                                <label for="" class="form-label mt-2">Tanggal Mulai</label>
+                                <input type="date" name="start_date" id="start_date" class="form-control" aria-label="Tanggal Mulai" value="{{ date('Y-m-01') }}">
+                                <label for="" class="form-label mt-2">Tanggal Selesai</label>
+                                <input type="date" name="end_date" id="end_date" class="form-control" aria-label="Tanggal Selesai" value="{{ date('Y-m-t') }}">
+                                <select name="staff" id="staff" class="form-control">
+                                    <option value="">--Pilih Nama Staff--</option>
+                                    @foreach ($users as $row)
+                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <a href="{{ route('visit.store-export') }}" class="btn btn-success mt-3">Export Kunjungan Toko ke Excel</a>
@@ -45,4 +48,18 @@
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+    <script>
+        $('#start_date').change(function(){
+            $('.table').DataTable().draw();
+        });
+        
+        $('#end_date').change(function(){
+            $('.table').DataTable().draw();
+        });
+
+        $('#staff').change(function(){
+            $('.table').DataTable().draw();
+        });
+    </script>
 @endpush

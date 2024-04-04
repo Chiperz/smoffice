@@ -26,6 +26,7 @@ use App\Models\CategoryProduct;
 use App\Models\DisplayProduct;
 use App\Models\Product;
 use App\Models\UnproductiveReason;
+use App\Models\User;
 
 // Transaction
 use App\Models\HeaderVisit;
@@ -311,8 +312,9 @@ class VisitController extends Controller
     }
 
     public function SummaryVisit(SummaryVisitDatatable $dataTable){
-        return $dataTable->with(['from' => date('Y-m-01'), 'to' => date('Y-m-t')])->render('visit.summary');
-        // return $dataTable->addScope(new DateRangeVisit($request))->render('visit.summary');
+        $users = User::all();
+        // return $dataTable->with(['from' => date('Y-m-01'), 'to' => date('Y-m-t')])->render('visit.summary', compact('users'));
+        return $dataTable->render('visit.summary', compact('users'));
     }
 
     public function SummaryVisitSearch(SummaryVisitSearchDatatable $dataTable, Request $request){
@@ -389,9 +391,10 @@ class VisitController extends Controller
     }
     
     public function StoreExport(Request $request){
-        empty($request->from) ? $request->from = date('Y-m-01') : $request->from;
-        empty($request->to) ? $request->to = date('Y-m-t') : $request->to;
-        return Excel::download(new ReportVisitStore($request->from, $request->to), 'Report Visit_Toko_'.date('d-M-Y H-i-s').'.xlsx');
+        // empty($request->start_date) ? $request->start_date = date('Y-m-01') : $request->start_date;
+        // empty($request->end_date) ? $request->end_date = date('Y-m-t') : $request->end_date;
+        // return Excel::download(new ReportVisitStore($request->start_date, $request->end_date), 'Report Visit_Toko_'.date('d-M-Y H-i-s').'.xlsx');
+        return Excel::download(new ReportVisitStore, 'Report Visit_Toko_'.date('d-M-Y H-i-s').'.xlsx');
     }
 
     public function OutletExport(){

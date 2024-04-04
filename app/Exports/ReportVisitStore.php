@@ -12,19 +12,19 @@ class ReportVisitStore implements FromCollection ,WithMapping, WithHeadings
     /**
     * @return \Illuminate\Support\Collection
     */
-    protected $from, $to;
+    // protected $from, $to;
 
-    function __construct($from, $to){
-        $this->from = $from;
-        $this->to = $to;
-    }
+    // function __construct($from, $to){
+    //     $this->from = $from;
+    //     $this->to = $to;
+    // }
 
     public function collection()
     {
         return HeaderVisit::whereHas('customer', function($query){
             $query->where('type', 'S');
         })
-        ->whereBetween('date', [$this->from, $this->to])
+        // ->whereBetween('date', [$this->from, $this->to])
         ->get();
     }
 
