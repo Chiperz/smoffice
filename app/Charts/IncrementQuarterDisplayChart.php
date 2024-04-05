@@ -17,19 +17,20 @@ class IncrementQuarterDisplayChart
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
+        // COUNT(detail_store_visits.display_product_id) as count_display,
+        //             detail_store_visits.display_product_id as display_id,
+        //             display_products.name as display_name, 
         $display = DetailStoreVisit::selectRaw('
-                COUNT(detail_store_visits.display_product_id) as count_display,
-                detail_store_visits.display_product_id as display_id,
-                display_products.name as display_name, 
-                MONTHNAME(detail_store_visits.created_at) as month
-            ')
-            ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
-            ->whereBetween('detail_store_visits.created_at', [
-                date('Y-m-d', strtotime('-3 months')),
-                date('Y-m-t')
-            ])
-            ->groupBy('display_product_id', 'display_name','month')
-            ->orderBy('month', 'DESC');
+                    MONTHNAME(detail_store_visits.created_at) as month
+                ')
+                // ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
+                ->whereBetween('detail_store_visits.created_at', [
+                    date('Y-m-d', strtotime('-3 months')),
+                    date('Y-m-t')
+                ])
+                // ->groupBy('display_product_id', 'display_name','month')
+                ->groupBy('month')
+                ->orderBy('month', 'DESC');
         $mDisplay = DisplayProduct::all();
         
         return $this->chart->barChart()

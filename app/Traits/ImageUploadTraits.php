@@ -11,6 +11,29 @@ trait ImageUploadTraits{
 
             $image = $request->{$inputName};
             $ext = $image->getClientOriginalExtension();
+            if(strpos($codeItem,"'")){
+                $codeItem = str_replace("'", '', $codeItem);
+            }
+    
+            if(strpos($codeItem, '"')){
+                $codeItem = str_replace('"', '', $codeItem);
+            }
+    
+            if(strpos($codeItem, '/')){
+                $codeItem = str_replace('/', '', $codeItem);
+            }
+
+            if(strpos($namaItem,"'")){
+                $namaItem = str_replace("'", '', $namaItem);
+            }
+    
+            if(strpos($namaItem, '"')){
+                $namaItem = str_replace('"', '', $namaItem);
+            }
+    
+            if(strpos($namaItem, '/')){
+                $namaItem = str_replace('/', '', $namaItem);
+            }
             $imageName = $codeItem.'-'.$namaItem.'-'.$date.'.'.$ext;
 
             $img = Image::make($image);
@@ -29,6 +52,29 @@ trait ImageUploadTraits{
 
             $image = $request->{$inputName};
             $ext = $image->getClientOriginalExtension();
+            if(strpos($codeItem,"'")){
+                $codeItem = str_replace("'", '', $codeItem);
+            }
+    
+            if(strpos($codeItem, '"')){
+                $codeItem = str_replace('"', '', $codeItem);
+            }
+    
+            if(strpos($codeItem, '/')){
+                $codeItem = str_replace('/', '', $codeItem);
+            }
+
+            if(strpos($namaItem,"'")){
+                $namaItem = str_replace("'", '', $namaItem);
+            }
+    
+            if(strpos($namaItem, '"')){
+                $namaItem = str_replace('"', '', $namaItem);
+            }
+    
+            if(strpos($namaItem, '/')){
+                $namaItem = str_replace('/', '', $namaItem);
+            }
             $imageName = $codeItem.'-'.$namaItem.'-'.$date.'.'.$ext;
             
             $img = Image::make($image);
