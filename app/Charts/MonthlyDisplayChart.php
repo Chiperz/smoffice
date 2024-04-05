@@ -16,16 +16,25 @@ class MonthlyDisplayChart
 
     public function build(): \ArielMejiaDev\LarapexCharts\PieChart
     {
-        $display = DetailStoreVisit::selectRaw('count(category_product_id')
-            ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
-            ->groupBy('month' ,'detail_store_visits.display_product_id', 'display_products.name')
-            ->whereBetween('month', [date('m', strtotime('-3 months')), date('m')])
+        $category = DetailStoreVisit::selectRaw('
+                COUNT(detail_store_visits.category_product_id) as count_category,
+                detail_store_visits.category_product_id as category_id,
+                category_products.name as category_name, 
+                MONTHNAME(detail_store_visits.created_at) as month
+            ')
+            ->join('category_products', 'category_products.id', 'detail_store_visits.category_product_id')
+            ->whereBetween('detail_store_visits.created_at', [
+                date('Y-m-01'),
+                date('Y-m-t')
+            ])
+            ->groupBy('category_product_id', 'category_name','month')
+            ->orderBy('count_category', 'DESC')
             ->get();
 
         return $this->chart->pieChart()
-            ->setTitle('')
+            ->setTitle('Top Kategori Produk yang Terdisplay')
             // ->setSubtitle('Season 2021.')
-            ->addData([40, 50, 30])
-            ->setLabels(['Player 7', 'Player 10', 'Player 9']);
+            ->addData(array_map('intval',$category->pluck('count_category')->toArray()))
+            ->setLabels($category->pluck('category_name')->toArray());
     }
 }
