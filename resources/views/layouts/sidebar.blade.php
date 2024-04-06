@@ -192,6 +192,13 @@
               <div data-i18n="Account">Summary Galery Foto</div>
             </a>
           </li>
+
+          <li class="menu-item">
+            <a href="{{ route('report-unproductive') }}" class="menu-link">
+              <div data-i18n="Account">Kunjungan Tidak Produktif</div>
+            </a>
+          </li>
+
         </ul>
       </li>
 

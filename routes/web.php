@@ -19,6 +19,7 @@ use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\GaleryFotoController;
 
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -135,6 +136,9 @@ Route::middleware('auth')->group(function () {
     Route::get('visit/outlet/export', [VisitController::class, 'OutletExport'])->name('visit.outlet-export');
 
     Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
+
+    Route::get('report-unproductive', [ReportController::class, 'UnproductiveReason'])->name('report-unproductive');
+    Route::get('report-unproductive/export', [ReportController::class, 'ExportUnproductiveReason'])->name('report-unproductive.export');
 
     Route::resource('galery', GaleryFotoController::class);
 });
