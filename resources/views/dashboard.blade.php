@@ -102,7 +102,6 @@
                   <h5 class="card-title">Grafik Kunjungan</h5>
 
                   {!! $chartvisit->container() !!}
-                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
                   
                 </div>
               </div>
@@ -114,7 +113,6 @@
                   <h5 class="card-title">Market Share</h5>
 
                   {!! $chartmarketshare->container() !!}
-                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
                   
                 </div>
               </div>
@@ -126,7 +124,6 @@
                   <h5 class="card-title">Increment Display</h5>
 
                   {!! $chartincrement->container() !!}
-                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
                   
                 </div>
               </div>
@@ -138,7 +135,6 @@
                   <h5 class="card-title">Top Kategori Produk Display</h5>
 
                   {!! $chartmonthlydisplay->container() !!}
-                  {{-- <canvas id="myChart" height="100px"></canvas> --}}
                   
                 </div>
               </div>

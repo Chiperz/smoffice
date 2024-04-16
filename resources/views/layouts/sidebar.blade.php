@@ -77,7 +77,7 @@
       </li>
 
       @canany(['branch view', 'position view', 'display view', 'category_product view', 
-      'brand_product view', 'sub_brand_product view', 'product.index', 'store view',
+      'brand_product view', 'sub_brand_product view', 'product view', 'store view',
       'outlet view', 'unproductive_reason view'])
         <li class="menu-header small text-uppercase">
           <span class="menu-header-text">Data</span>
@@ -196,6 +196,12 @@
           <li class="menu-item">
             <a href="{{ route('report-unproductive') }}" class="menu-link">
               <div data-i18n="Account">Kunjungan Tidak Produktif</div>
+            </a>
+          </li>
+
+          <li class="menu-item">
+            <a href="{{ route('report-gift') }}" class="menu-link">
+              <div data-i18n="Account">Pengeluaran Hadiah/Sampel</div>
             </a>
           </li>
 

@@ -139,6 +139,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('report-unproductive', [ReportController::class, 'UnproductiveReason'])->name('report-unproductive');
     Route::get('report-unproductive/export', [ReportController::class, 'ExportUnproductiveReason'])->name('report-unproductive.export');
+    Route::get('report-gift', [ReportController::class, 'GiftingCustomer'])->name('report-gift');
+    Route::get('report-gift/export', [ReportController::class, 'ExportGiftingCustomer'])->name('report-gift.export');
 
     Route::resource('galery', GaleryFotoController::class);
 });

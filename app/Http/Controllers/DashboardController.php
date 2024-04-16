@@ -27,7 +27,6 @@ class DashboardController extends Controller
         $user = User::all()->count();
         $visit = HeaderVisit::where('user_id', Auth::user()->id)
             ->where('date', date('Y-m-d'))->get()->count();
-        
         // $kategori = DetailStoreVisit::selectRaw('
         //     COUNT(detail_store_visits.category_product_id) as count_category,
         //     detail_store_visits.category_product_id as category_id,

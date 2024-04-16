@@ -24,7 +24,13 @@ class UnproductiveReasonVisitExport implements FromCollection ,WithMapping, With
         $query = HeaderVisit::with('user')
         ->with('customer')
         ->with('store_reason')
-        ->with('outlet_reason');
+        ->with('outlet_reason')
+        ->orWhereHas('store_reason', function($query){
+            $query->where('unproductive_reason_id', '!=', null);
+        })
+        ->orWhereHas('outlet_reason', function($query){
+            $query->where('unproductive_reason_id', '!=', null);
+        });
         $query->whereBetween('date', [$this->from, $this->to]);
         if($this->staff != NULL){
             $query->where('user_id', $this->staff);
@@ -49,7 +55,7 @@ class UnproductiveReasonVisitExport implements FromCollection ,WithMapping, With
             $headervisit->customer->code,
             $headervisit->customer->name,
             $type,
-            $type == 'S' ? 
+            $headervisit->customer->type == 'S' ? 
             implode(",", collect($headervisit->store_reason)
                     ->reduce(function($acc, $i) {
                         $acc[] = 

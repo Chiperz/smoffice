@@ -102,17 +102,17 @@ class UnproductiveVisitDataTable extends DataTable
     public function query(HeaderVisit $model): QueryBuilder
     {
         return $model->newQuery()
-        ->with('user')
-        ->with('customer')
-        ->with('store_reason')
-        ->with('outlet_reason');
-        // ->orWhereHas('store_reason', function($query){
-        //     $query->where('unproductive_reason_id', '!=', null);
-        // })
-        // ->orWhereHas('outlet_reason', function($query){
-        //     $query->where('unproductive_reason_id', '!=', null);
-        // })
-        // ->whereBetween('date', [date('Y-m-01'), date('Y-m-t')]);
+            ->with('user')
+            ->with('customer')
+            ->with('store_reason')
+            ->with('outlet_reason')
+            ->orWhereHas('store_reason', function($query){
+                $query->where('unproductive_reason_id', '!=', null);
+            })
+            ->orWhereHas('outlet_reason', function($query){
+                $query->where('unproductive_reason_id', '!=', null);
+            });
+            // ->whereBetween('date', [date('Y-m-01'), date('Y-m-t')]);
     }
 
     /**
@@ -157,7 +157,7 @@ class UnproductiveVisitDataTable extends DataTable
     {
         return [
             ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false, 'searchable' => false, 'visible' => false],
+            'exportable' => false, 'printable' => false, 'searchable' => false, 'visible' => true],
             ['data' => 'date', 'title' => 'tanggal'],
             ['data' => 'staff', 'title' => 'nama staff'],
             ['data' => 'code', 'title' => 'kode'],
