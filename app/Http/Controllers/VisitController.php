@@ -38,6 +38,7 @@ use App\Models\StoreVisitUnproductiveReason;
 use App\Models\DetailOutletVisit;
 use App\Models\OutletVisitProduct;
 use App\Models\OutletVisitUnproductiveReason;
+use App\Models\SwitchCustomer;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -71,9 +72,13 @@ class VisitController extends Controller
             })
             ->orderBy('created_at', 'DESC')
             ->paginate(12);
+        $cekVisit = HeaderVisit::select('customer_id','time_out')
+            ->where('user_id', Auth::user()->id)
+            ->where('date', date('Y-m-d'))
+            ->get();
         // dd($customers);
         
-        return view('visit.search-list', compact('customers', 'type'));
+        return view('visit.search-list', compact('customers', 'type', 'cekVisit'));
     }
 
     public function create(Request $request, $id){
@@ -132,7 +137,12 @@ class VisitController extends Controller
             $customer->save();
         }
 
-        if($customer->type == 'O'){
+        if($customer->type == 'O' && $customer->status_registration != $request->status){
+            $switch = new SwitchCustomer();
+            $switch->visit_id = $id;
+            $switch->status_before = $customer->status_registration;
+            $switch->status_after = $request->status;
+            $switch->save();
             $customer->status_registration = $request->status;
             $customer->save();
         }

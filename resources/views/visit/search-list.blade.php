@@ -24,7 +24,11 @@
               @if(!empty($customers))
                 @foreach ($customers as $customer)
                 <div class="col">
-                  <div class="card h-100">
+                  <div class="card h-100" 
+                    @if (collect($cekVisit)->contains('customer_id', $customer->id))
+                      style="background-color:lime;"
+                    @endif
+                  >
                     <img class="card-img-top" src="{{ asset($customer->photo) }}" alt="{{ $customer->code.' - '.$customer->name }}">
                     <div class="card-body">
                       <h5 class="card-title">{{ $customer->code." - ".$customer->name }}</h5>

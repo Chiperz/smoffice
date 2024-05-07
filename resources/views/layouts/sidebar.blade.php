@@ -204,6 +204,12 @@
               <div data-i18n="Account">Pengeluaran Hadiah/Sampel</div>
             </a>
           </li>
+          
+          <li class="menu-item">
+            <a href="{{ route('report-switching') }}" class="menu-link">
+              <div data-i18n="Account">Pergantian Status Customer</div>
+            </a>
+          </li>
 
         </ul>
       </li>

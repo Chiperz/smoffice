@@ -58,4 +58,8 @@ class HeaderVisit extends Model
     public function outlet_reason(){
         return $this->hasMany(OutletVisitUnproductiveReason::class);
     }
+
+    public function switching(){
+        return $this->hasMany(SwitchCustomer::class);
+    }
 }

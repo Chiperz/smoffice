@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\HeaderVisit;
 use App\Models\User;
 use App\Models\Foto;
+use App\Models\Customer;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -12,6 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\DataTables\UnproductiveVisitDataTable;
 use App\DataTables\GiftingSampleDataTable;
+use App\DataTables\SwitchingCustomerDataTable;
 
 use App\Exports\UnproductiveReasonVisitExport;
 use App\Exports\GiftingSampleCustomerExport;
@@ -90,5 +93,10 @@ class ReportController extends Controller
 
         // return $pdf->stream('testing-pdf_'.date('d-M-Y'), array("Attachment" => false));
         return view('report.print-pdf', compact('summary','data','foto'));
+    }
+
+    public function SwitchingCustomer(SwitchingCustomerDataTable $dataTable){
+        $customers = Customer::all();
+        return $dataTable->render('report.switching-customer', compact('customers'));
     }
 }

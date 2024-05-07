@@ -141,6 +141,7 @@ Route::middleware('auth')->group(function () {
     Route::get('report-unproductive/export', [ReportController::class, 'ExportUnproductiveReason'])->name('report-unproductive.export');
     Route::get('report-gift', [ReportController::class, 'GiftingCustomer'])->name('report-gift');
     Route::get('report-gift/export', [ReportController::class, 'ExportGiftingCustomer'])->name('report-gift.export');
+    Route::get('report-switching', [ReportController::class, 'SwitchingCustomer'])->name('report-switching');
 
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');
 
