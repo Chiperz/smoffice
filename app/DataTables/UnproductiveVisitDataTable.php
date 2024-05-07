@@ -26,10 +26,6 @@ class UnproductiveVisitDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('type', function($query){
-                $type = $query->customer->type;
-                return $type == 'S' ? 'Toko' : 'Gerai';
-            })
             ->addColumn('date', function($query){
                 // return date('d-m-Y', strtotime($query->date));
                 return $query->date;
@@ -46,17 +42,9 @@ class UnproductiveVisitDataTable extends DataTable
             ->addColumn('reason', function($query){
                 $type = $query->customer->type;
                 $data ='';
-                if($type == 'S'){
-                    $reason = StoreVisitUnproductiveReason::where('header_visit_id', $query->id)->get();
-                    foreach($reason as $number => $row){
-                        $data .= $number == 0 ? $row->unproductive_reason->name : ', '.$row->unproductive_reason->name;
-                    }
-                }
-                else{
-                    $reason = OutletVisitUnproductiveReason::where('header_visit_id', $query->id)->get();
-                    foreach($reason as $number => $row){
-                        $data .= $number == 0 ? $row->unproductive_reason->name : ', '.$row->unproductive_reason->name;
-                    }
+                $reason = OutletVisitUnproductiveReason::where('header_visit_id', $query->id)->get();
+                foreach($reason as $number => $row){
+                    $data .= $number == 0 ? $row->unproductive_reason->name : ', '.$row->unproductive_reason->name;
                 }
                 return $data;
             })
@@ -69,11 +57,6 @@ class UnproductiveVisitDataTable extends DataTable
                 }
                 if (!empty($request->get('staff'))) {
                     $instance->where('user_id', $request->get('staff'));
-                }
-                if (!empty($request->get('type'))) {
-                    $instance->whereHas('customer', function($query) use ($request){
-                        $query->where('type', $request->get('type'));
-                    });
                 }
                 if (!empty($request->get('search'))) {
                     $search = $request->get('search');
@@ -104,11 +87,7 @@ class UnproductiveVisitDataTable extends DataTable
         return $model->newQuery()
             ->with('user')
             ->with('customer')
-            ->with('store_reason')
             ->with('outlet_reason')
-            ->orWhereHas('store_reason', function($query){
-                $query->where('unproductive_reason_id', '!=', null);
-            })
             ->orWhereHas('outlet_reason', function($query){
                 $query->where('unproductive_reason_id', '!=', null);
             });
@@ -131,7 +110,6 @@ class UnproductiveVisitDataTable extends DataTable
                             data.start_date = $('input[name=start_date]').val(),
                             data.end_date = $('input[name=end_date]').val(),
                             data.staff = $('select[name=staff]').val(),
-                            data.type = $('select[name=type]').val(),
                             data.search = $('input[type=search]').val();
                         }"
                     ])
@@ -162,7 +140,6 @@ class UnproductiveVisitDataTable extends DataTable
             ['data' => 'staff', 'title' => 'nama staff'],
             ['data' => 'code', 'title' => 'kode'],
             ['data' => 'cust_name', 'title' => 'nama'],
-            ['data' => 'type', 'title' => 'tipe'],
             ['data' => 'reason', 'title' => 'alasan tidak produktif'],
             // ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             // 'exportable' => false, 'printable' => false, 'searchable' => false]

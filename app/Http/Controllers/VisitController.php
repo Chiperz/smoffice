@@ -50,9 +50,14 @@ class VisitController extends Controller
     use ImageUploadTraits;
 
     public function list(String $type){
-        $customers = Customer::where('type', $type)->orderBy('code', 'ASC')->paginate(12);
+        $customers = Customer::where('type', $type)->orderBy('created_at', 'DESC')->paginate(12);
+        $cekVisit = HeaderVisit::select('customer_id','time_out')
+            ->where('user_id', Auth::user()->id)
+            ->where('date', date('Y-m-d'))
+            ->get();
+        // dd($cekVisit);
         
-        return view('visit.list', compact('customers', 'type'));
+        return view('visit.list', compact('customers', 'type', 'cekVisit'));
     }
 
     public function searchList(String $type, Request $request){
@@ -64,6 +69,7 @@ class VisitController extends Controller
                     ->orWhere('area', 'LIKE', '%'.$request->search.'%')
                     ->orWhere('subarea', 'LIKE', '%'.$request->search.'%');
             })
+            ->orderBy('created_at', 'DESC')
             ->paginate(12);
         // dd($customers);
         

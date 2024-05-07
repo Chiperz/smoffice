@@ -24,13 +24,19 @@
             @if(!empty($customers))
               @foreach ($customers as $customer)
               <div class="col">
-                <div class="card h-100">
+                <div class="card h-100" 
+                  @if (collect($cekVisit)->contains('customer_id', $customer->id))
+                    style="background-color:lime;"
+                  @endif
+                >
                   <img class="card-img-top" src="{{ asset($customer->photo) }}" alt="{{ $customer->code.' - '.$customer->name }}">
                   <div class="card-body">
                     <h5 class="card-title">{{ $customer->code." - ".$customer->name }}</h5>
                     <p class="card-text">
                       {!! empty($customer->address) ? '<span class="badge bg-label-danger">Alamat Belum Diketahui</span>' : Str::words($customer->address, 10, '. . . ')!!}<br>
                       {{ $customer->area.' - '.$customer->subarea }}
+                      <br>
+                      
                     </p>
                     @if (!empty($customer->LA) && !empty($customer->LA))
                       <a href="https://maps.google.com/?q={{ $customer->LA.','.$customer->LO }}" class="btn btn-secondary mt-2" target="_blank">Menuju Lokasi</a>

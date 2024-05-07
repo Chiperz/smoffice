@@ -28,11 +28,6 @@
                                             <option value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
                                     </select>
-                                    <select name="type" id="type" class="form-control mt-2">
-                                        <option value="">--Pilih Tipe Pelanggan--</option>
-                                        <option value="S">Toko</option>
-                                        <option value="O">Gerai</option>
-                                    </select>
                                 </div>
                                 <input type="submit" class="btn btn-success" value="Export to Excel">
                             </form>
@@ -67,10 +62,6 @@
         });
 
         $('#staff').change(function(){
-            $('.table').DataTable().draw();
-        });
-
-        $('#type').change(function(){
             $('.table').DataTable().draw();
         });
     </script>

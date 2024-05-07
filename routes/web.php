@@ -142,6 +142,8 @@ Route::middleware('auth')->group(function () {
     Route::get('report-gift', [ReportController::class, 'GiftingCustomer'])->name('report-gift');
     Route::get('report-gift/export', [ReportController::class, 'ExportGiftingCustomer'])->name('report-gift.export');
 
+    Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');
+
     Route::resource('galery', GaleryFotoController::class);
 });
 

@@ -195,7 +195,7 @@
 
           <li class="menu-item">
             <a href="{{ route('report-unproductive') }}" class="menu-link">
-              <div data-i18n="Account">Kunjungan Tidak Produktif</div>
+              <div data-i18n="Account">Kunjungan Gerai Tidak Produktif</div>
             </a>
           </li>
 
