@@ -13,8 +13,8 @@ class SwitchCustomer extends Model
 
     public function getActivitylogOptions(): LogOptions{
         return LogOptions::defaults()
-            ->logOnly(['name', 'type'])
+            ->logOnly(['status_before', 'status_after'])
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} data")
-            ->useLogName('unproductive_reason');
+            ->useLogName('switching_customer');
     }
 }

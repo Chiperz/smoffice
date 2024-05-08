@@ -22,6 +22,22 @@ class SwitchingCustomerDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('date', function($query){
+                // return date('d-m-Y', strtotime($query->date));
+                return $query->date;
+            })
+            ->addColumn('code', function($query){
+                return $query->customer->code != null ? $query->customer->code : '';
+            })
+            ->addColumn('cust_name', function($query){
+                return $query->customer->name != null ? $query->customer->name : '';
+            })
+            ->addColumn('before', function($query){
+                return $query->switching->status_before;
+            })
+            ->addColumn('after', function($query){
+                return $query->switching->status_after;
+            })
             ->addColumn('action', 'switchingcustomer.action')
             ->setRowId('id');
     }
@@ -31,7 +47,9 @@ class SwitchingCustomerDataTable extends DataTable
      */
     public function query(HeaderVisit $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with('customer')
+            ->with('switching');
     }
 
     /**
@@ -47,12 +65,12 @@ class SwitchingCustomerDataTable extends DataTable
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Button::make('excel'),
+                        // Button::make('csv'),
+                        // Button::make('pdf'),
+                        // Button::make('print'),
+                        // Button::make('reset'),
+                        // Button::make('reload')
                     ]);
     }
 
@@ -62,15 +80,13 @@ class SwitchingCustomerDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            ['data' => 'DT_RowIndex', 'title' => '#', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false, 'searchable' => false, 'visible' => true],
+            ['data' => 'date', 'title' => 'tanggal'],
+            ['data' => 'code', 'title' => 'kode'],
+            ['data' => 'cust_name', 'title' => 'nama'],
+            ['data' => 'before', 'title' => 'sebelumnya'],
+            ['data' => 'after', 'title' => 'menjadi'],
         ];
     }
 

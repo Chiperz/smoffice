@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('switch_customers', function (Blueprint $table) {
             $table->id();
-            $table->integer('visit_id')->nullable();
+            $table->integer('header_visit_id')->nullable();
             $table->enum('status_before', ['Y', 'M', 'N'])->default('N');
             $table->enum('status_after', ['Y', 'M', 'N'])->default('N');
             $table->timestamps();
