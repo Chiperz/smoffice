@@ -28,8 +28,8 @@ class Customer extends Model
         'address',
         'LA',
         'LO',
-        'area',
-        'subarea',
+        'area_id',
+        'sub_area_id',
         'status_registration',
         'type',
         'banner',
@@ -46,6 +46,14 @@ class Customer extends Model
 
     public function deploy_branch(){
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
+    }
+
+    public function deploy_area(){
+        return $this->belongsTo(Area::class, 'area_id', 'id');
+    }
+
+    public function deploy_sub_area(){
+        return $this->belongsTo(SubArea::class, 'sub_area_id', 'id');
     }
 
     public function belongs_user(){
