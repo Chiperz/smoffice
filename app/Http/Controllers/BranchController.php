@@ -80,7 +80,6 @@ class BranchController extends Controller
             'name' => 'required | max:100 | string',
         ]);
 
-        
         $branch->code = $request->code;
         $branch->name = $request->name;
         $branch->notes = $request->notes;

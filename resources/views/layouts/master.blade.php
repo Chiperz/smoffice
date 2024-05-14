@@ -297,7 +297,8 @@
                                       data.message,
                                       'success'
                                   )
-                                  window.location.reload();
+                                  //window.location.reload();
+                                  $('.table').DataTable().draw();
                               }else if (data.status == 'error'){
                                   Swal.fire(
                                       'Cant Delete',

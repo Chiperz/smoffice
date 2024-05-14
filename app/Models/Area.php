@@ -17,4 +17,8 @@ class Area extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} data")
             ->useLogName('area');
     }
+
+    public function branch(){
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
+    }
 }

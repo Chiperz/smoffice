@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\SubAreaController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\DisplayProductController;
 use App\Http\Controllers\CategoryProductController;
@@ -56,6 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::get('branch/{id}/restore', [BranchController::class, 'restore'])->name('branch.restore');
     Route::delete('branch/{id}/force-delete', [BranchController::class, 'forceDelete'])->name('branch.force-delete');
     Route::resource('branch', BranchController::class);
+
+    Route::resource('area', AreaController::class);
+
+    Route::resource('subarea', SubAreaController::class);
 
     Route::get('position/trashed', [PositionController::class, 'trashed'])->name('position.trashed');
     Route::get('position/{id}/restore', [PositionController::class, 'restore'])->name('position.restore');

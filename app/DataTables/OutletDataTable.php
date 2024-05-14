@@ -52,6 +52,12 @@ class OutletDataTable extends DataTable
             ->addColumn('branch', function($query){
                 return $query->deploy_branch->name;
             })
+            ->addColumn('area', function($query){
+                return $query->deploy_area == null ? '' : $query->deploy_area->name;
+            })
+            ->addColumn('subarea', function($query){
+                return $query->deploy_sub_area == null ? '' : $query->deploy_sub_area->name;
+            })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('outlet.edit', $query->id)."'>Ubah </a>";
@@ -90,7 +96,7 @@ class OutletDataTable extends DataTable
             //         return 'NRO-'.$query->code;
             //     }
             // })
-            ->rawColumns(['action', 'status', 'branch'])
+            ->rawColumns(['action', 'status', 'branch','area','subarea'])
             ->setRowId('id');
     }
 
