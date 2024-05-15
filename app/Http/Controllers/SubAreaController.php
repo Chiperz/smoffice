@@ -105,4 +105,16 @@ class SubAreaController extends Controller
 
         return response(['status' => 'success', 'message' => 'Sub Area berhasil dihapus']);
     }
+
+    public function autocomplete(Request $request){
+        $data = [];
+
+        if($request->filled('q')){
+            $data = SubArea::select('name', 'id', 'area_id')
+                    ->where('name', 'LIKE', '%'.$request->get('q').'%')
+                    ->get();
+        }
+
+        return response()->json($data);
+    }
 }

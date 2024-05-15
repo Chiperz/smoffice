@@ -69,7 +69,7 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item active">
+      <li class="menu-item {{ setActive([ 'dashboard' ]) }}">
         <a href="{{ route('dashboard') }}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-circle"></i>
           <div data-i18n="Analytics">Dashboard</div>
@@ -82,22 +82,51 @@
         <li class="menu-header small text-uppercase">
           <span class="menu-header-text">Data</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ setActive([ 
+          'branch.*',
+          'area.*',
+          'subarea.*',
+          'position.*',
+          'display.*',
+          'category.*',
+          'brand.*',
+          'sub-brand.*',
+          'product.*',
+          'store.*',
+          'outlet.*',
+          'unproductive-reason.*'
+         ]) }}">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-dock-top"></i>
             <div data-i18n="">Master Data</div>
           </a>
           <ul class="menu-sub">
             @can('branch view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'branch.*' ]) }}">
                 <a href="{{ route('branch.index') }}" class="menu-link">
                   <div data-i18n="Account">Cabang</div>
                 </a>
               </li>
             @endcan
+
+            @can('area view')
+              <li class="menu-item {{ setActive([ 'area.*' ]) }}">
+                <a href="{{ route('area.index') }}" class="menu-link">
+                  <div data-i18n="Account">Area</div>
+                </a>
+              </li>
+            @endcan
+
+            @can('sub_area view')
+              <li class="menu-item {{ setActive([ 'subarea.*' ]) }}">
+                <a href="{{ route('subarea.index') }}" class="menu-link">
+                  <div data-i18n="Account">Sub Area</div>
+                </a>
+              </li>
+            @endcan
             
             @can('position view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'position.*' ]) }}">
                 <a href="{{ route('position.index') }}" class="menu-link">
                   <div data-i18n="Account">Jabatan</div>
                 </a>
@@ -105,7 +134,7 @@
             @endcan
 
             @can('display view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'display.*' ]) }}">
                 <a href="{{ route('display.index') }}" class="menu-link">
                   <div data-i18n="Account">Display Produk</div>
                 </a>
@@ -113,7 +142,7 @@
             @endcan
 
             @can('category_product view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'category.*' ]) }}">
                 <a href="{{ route('category.index') }}" class="menu-link">
                   <div data-i18n="Account">Kategori Produk</div>
                 </a>
@@ -121,7 +150,7 @@
             @endcan
 
             @can('brand_product view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'brand.*' ]) }}">
                 <a href="{{ route('brand.index') }}" class="menu-link">
                   <div data-i18n="Account">Brand Produk</div>
                 </a>
@@ -129,7 +158,7 @@
             @endcan
 
             @can('sub_brand_product view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'sub-brand.*' ]) }}">
                 <a href="{{ route('sub-brand.index') }}" class="menu-link">
                   <div data-i18n="Account">Sub Brand Produk</div>
                 </a>
@@ -137,7 +166,7 @@
             @endcan
             
             @can('product view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'product.*' ]) }}">
                 <a href="{{ route('product.index') }}" class="menu-link">
                   <div data-i18n="Account">Produk</div>
                 </a>
@@ -145,7 +174,7 @@
             @endcan
 
             @can('store view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'store.*' ]) }}">
                 <a href="{{ route('store.index') }}" class="menu-link">
                   <div data-i18n="Account">Toko</div>
                 </a>
@@ -153,7 +182,7 @@
             @endcan
             
             @can('outlet view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'outlet.*' ]) }}">
                 <a href="{{ route('outlet.index') }}" class="menu-link">
                   <div data-i18n="Account">Gerai</div>
                 </a>
@@ -161,7 +190,7 @@
             @endcan
 
             @can('unproductive_reason view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'unproductive-reason.*' ]) }}">
                 <a href="{{ route('unproductive-reason.index') }}" class="menu-link">
                   <div data-i18n="Account">Alasan Tidak Produktif</div>
                 </a>
@@ -175,37 +204,43 @@
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Laporan</span>
       </li>
-      <li class="menu-item">
+      <li class="menu-item {{ setActive([ 
+        'visit.summary',
+        'galery.index',
+        'report-unproductive',
+        'report-gift',
+        'report-switching', 
+        ]) }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
           <div data-i18n="">Kunjungan</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item">
+          <li class="menu-item {{ setActive([ 'visit-summary' ]) }}">
             <a href="{{ route('visit.summary') }}" class="menu-link">
               <div data-i18n="Account">Summary Kunjungan Karyawan</div>
             </a>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item {{ setActive([ 'galery.index' ]) }}">
             <a href="{{ route('galery.index') }}" class="menu-link">
               <div data-i18n="Account">Summary Galery Foto</div>
             </a>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item {{ setActive([ 'report-unproductive' ]) }}">
             <a href="{{ route('report-unproductive') }}" class="menu-link">
               <div data-i18n="Account">Kunjungan Gerai Tidak Produktif</div>
             </a>
           </li>
 
-          <li class="menu-item">
+          <li class="menu-item {{ setActive([ 'report-gift' ]) }}">
             <a href="{{ route('report-gift') }}" class="menu-link">
               <div data-i18n="Account">Pengeluaran Hadiah/Sampel</div>
             </a>
           </li>
           
-          <li class="menu-item">
+          <li class="menu-item {{ setActive([ 'report-switching' ]) }}">
             <a href="{{ route('report-switching') }}" class="menu-link">
               <div data-i18n="Account">Pergantian Status Customer</div>
             </a>
@@ -218,14 +253,19 @@
         <li class="menu-header small text-uppercase">
           <span class="menu-header-text">Pengaturan</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ setActive([ 
+          'user.*',
+          'role.*',
+          'modul.*',
+          'log-activity.*'
+          ]) }}">
           <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-dock-top"></i>
             <div data-i18n="Account Settings">Website</div>
           </a>
           <ul class="menu-sub">
             {{-- @can('user_account view') --}}
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'user.*' ]) }}">
                 <a href="{{ route('user.index') }}" class="menu-link">
                   <div data-i18n="Account">Pengguna</div>
                 </a>
@@ -233,7 +273,7 @@
             {{-- @endcan --}}
 
             @can('group_access view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'role.*' ]) }}">
                 <a href="{{ route('role.index') }}" class="menu-link">
                   <div data-i18n="Account">Grup Akses</div>
                 </a>
@@ -241,7 +281,7 @@
             @endcan
 
             @can('modul view')
-              <li class="menu-item">
+              <li class="menu-ite {{ setActive([ 'modul.*' ]) }}">
                 <a href="{{ route('modul.index') }}" class="menu-link">
                   <div data-i18n="Account">Modul</div>
                 </a>
@@ -249,7 +289,7 @@
             @endcan
 
             @can('log_activity view')
-              <li class="menu-item">
+              <li class="menu-item {{ setActive([ 'log-activity.*' ]) }}">
                 <a href="{{ route('log-activity.index') }}" class="menu-link">
                   <div data-i18n="Account">Log Aktivitas</div>
                 </a>

@@ -7,6 +7,8 @@ use App\Traits\ImageUploadTraits;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Owner;
+use App\Models\Area;
+use App\Models\SubArea;
 
 use App\Datatables\StoreDataTable;
 use App\Datatables\StoreTrashedDataTable;
@@ -29,8 +31,10 @@ class StoreController extends Controller
     public function index(StoreDataTable $dataTable)
     {
         $branches = Branch::all();
+        $areas = Area::all();
+        $subAreas = SubArea::all();
 
-        return $dataTable->render('store.index', compact('branches'));
+        return $dataTable->render('store.index', compact('branches','areas','subAreas'));
     }
 
     /**
@@ -39,8 +43,10 @@ class StoreController extends Controller
     public function create()
     {
         $branches = Branch::all();
+        $areas = Area::all();
+        $subAreas = SubArea::all();
 
-        return view('store.create', compact('branches'));
+        return view('store.create', compact('branches','areas','subAreas'));
     }
 
     /**

@@ -57,6 +57,7 @@ class StoreDataTable extends DataTable
             })
             ->addColumn('subarea', function($query){
                 return $query->deploy_sub_area == null ? '' : $query->deploy_sub_area->name;
+                // return $query->deploy_sub_area;
             })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";

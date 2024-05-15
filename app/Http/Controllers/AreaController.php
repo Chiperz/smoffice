@@ -99,4 +99,16 @@ class AreaController extends Controller
 
         return response(['status' => 'success', 'message' => 'Area berhasil dihapus']);
     }
+
+    public function autocomplete(Request $request){
+        $data = [];
+
+        if($request->filled('q')){
+            $data = Area::select('name', 'id', 'branch_id')
+                    ->where('name', 'LIKE', '%'.$request->get('q').'%')
+                    ->get();
+        }
+
+        return response()->json($data);
+    }
 }

@@ -59,8 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('branch/{id}/force-delete', [BranchController::class, 'forceDelete'])->name('branch.force-delete');
     Route::resource('branch', BranchController::class);
 
+    Route::get('area/autocomplete', [AreaController::class, 'autocomplete'])->name('area.autocomplete');
     Route::resource('area', AreaController::class);
 
+    Route::get('subarea/autocomplete', [SubAreaController::class, 'autocomplete'])->name('subarea.autocomplete');
     Route::resource('subarea', SubAreaController::class);
 
     Route::get('position/trashed', [PositionController::class, 'trashed'])->name('position.trashed');
