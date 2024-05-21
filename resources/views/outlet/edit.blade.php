@@ -54,35 +54,6 @@
                 </div>
 
                 <div class="mb-3 col-md-12">
-                  <label for="area" class="form-label">Area</label>
-                  <input class="form-control" type="text" id="area" name="area" value="{{ $customer->area }}"/>
-                </div>
-
-                <div class="mb-3 col-md-12">
-                  <label for="subarea" class="form-label">Sub Area</label>
-                  <input class="form-control" type="text" id="subarea" name="subarea" value="{{ $customer->subarea }}"/>
-                </div>
-
-                <div class="mb-3 col-md-12">
-                  <label class="form-label d-block">Status Registrasi</label>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="regist" id="regist" value="Y" {{ $customer->status_registration == 'Y' ? 'checked' : '' }}/>
-                        <label class="form-check-label" for="inlineRadio1">Sudah Registrasi/RO</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="regist" id="regist" value="N" {{ $customer->status_registration == 'N' ? 'checked' : '' }}/>
-                      <label class="form-check-label" for="inlineRadio2">Belum Registrasi/NRO</label>
-                    </div>
-                </div>
-
-                <div class="mb-3 col-md-12">
-                  <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" value="1" id="banner" name="banner" {{ $customer->status_registration == 1 ? 'checked' : '' }}/>
-                    <label class="form-check-label" for="defaultCheck1"> Sudah pasang spanduk </label>
-                  </div>
-                </div>
-
-                <div class="mb-3 col-md-12">
                   <label class="form-label" for="sub-brand">Cabang</label>
                   <select id="branch" class="select2 form-select" name="branch">
                     <option value="0">Pilih Cabang</option>
@@ -90,6 +61,48 @@
                       <option value="{{ $branch->id }}" {{ $customer->branch_id == $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
                     @endforeach
                   </select>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                  <label for="code" class="form-label">Area</label>
+                  <select name="area" id="area" class="form-control">
+                    @if ($customer->area_id)
+                      <option value="{{ $customer->area_id }}" selected>{{ $customer->deploy_area->name }}</option>
+                    @endif
+                  </select>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                  <label for="code" class="form-label">Sub Area</label>
+                  <select name="subarea" id="subarea" class="form-control">
+                    @if ($customer->sub_area_id)
+                      <option value="{{ $customer->sub_area_id }}" selected>{{ $customer->deploy_sub_area->name }}</option>
+                    @endif
+                  </select>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                  <label class="form-label d-block">Status Registrasi</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="regist" id="regist" value="Y" {{ $customer->status_registration == 'Y' ? 'checked' : '' }}/>
+                        <label class="form-check-label" for="inlineRadio1">Sudah Menjadi Member</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="regist" id="regist" value="M" {{ $customer->status_registration == 'M' ? 'checked' : '' }}/>
+                      <label class="form-check-label" for="inlineRadio1">Mixing</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="regist" id="regist" value="N" {{ $customer->status_registration == 'N' ? 'checked' : '' }}/>
+                      <label class="form-check-label" for="inlineRadio2">Belum Menjadi Member</label>
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                  <label class="form-label d-block">Centang Apabila Gerai Sudah Memakai Spanduk</label>
+                  <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" value="1" id="banner" name="banner" {{ $customer->status_registration == 1 ? 'checked' : '' }}/>
+                    <label class="form-check-label" for="defaultCheck1"> Sudah pasang spanduk </label>
+                  </div>
                 </div>
 
               </div>
@@ -147,3 +160,52 @@
     </div>
   </div>
 @endsection
+
+@push('select2')
+<script type="text/javascript">
+  $(document).ready(function(){
+    var areaPath = "{{ route('area.autocomplete') }}";
+    var subAreaPath = "{{ route('subarea.autocomplete') }}";
+
+    $('#area').select2({
+        placeholder: 'Pilih Area',
+        ajax: {
+          url: areaPath,
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results:  $.map(data, function (item) {
+                    return {
+                        text: item.name,
+                        id: item.id
+                    }
+                })
+            };
+          },
+          cache: true
+        }
+    });
+
+    $('#subarea').select2({
+        placeholder: 'Pilih Sub Area',
+        ajax: {
+          url: subAreaPath,
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+            return {
+              results:  $.map(data, function (item) {
+                    return {
+                        text: item.name,
+                        id: item.id
+                    }
+                })
+            };
+          },
+          cache: true
+        }
+    });
+  });
+</script>
+@endpush

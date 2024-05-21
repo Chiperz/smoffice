@@ -62,11 +62,12 @@ class StoreController extends Controller
         ]);
 
         if(empty($request->code)){
+            $code='';
             $codeBranch = Branch::findOrFail($request->branch)->code;
             $lastCodeCustomer = Customer::orderBy('code', 'desc')->where('code', 'LIKE', '%'.$codeBranch.'%')->first();
 
             if(empty($lastCodeCustomer)){
-                $request->code = $codeBranch.'001';
+                $code = $codeBranch.'001';
             }else{
                 $lastDigit = intval(substr($lastCodeCustomer->code,3));
                 if($lastDigit < 10){
@@ -80,7 +81,7 @@ class StoreController extends Controller
                 }else{
                     $generator = $lastDigit+1;
                 }
-                $request->code = $codeBranch.$generator;
+                $code = $codeBranch.$generator;
             }
         }
 
@@ -98,20 +99,20 @@ class StoreController extends Controller
                 }else{
                     $generator = $lastDigit+1;
                 }
-                $request->code = $codeBranch.$generator;
+                $code = $codeBranch.$generator;
         }
 
         $customer = new Customer();
         $imagePath = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->customer_name, 'photo', 'uploads/customer/');
-        $customer->code = str_replace('/', ' - ',$request->code);
+        $customer->code = str_replace('/', ' - ',$code);
         $customer->name = str_replace('/', ' - ',$request->customer_name);
         $customer->phone = $request->customer_phone;
         $customer->photo = $imagePath;
         $customer->address = $request->customer_address;
         $customer->LA = $request->la;
         $customer->LO = $request->lo;
-        $customer->area = $request->area;
-        $customer->subarea = $request->subarea;
+        $customer->area_id = $request->area;
+        $customer->sub_area_id = $request->subarea;
         $customer->status_registration = $request->regist;
         $customer->type = 'S';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;
@@ -181,8 +182,8 @@ class StoreController extends Controller
         $customer->address = $request->customer_address;
         $customer->LA = $request->la;
         $customer->LO = $request->lo;
-        $customer->area = $request->area;
-        $customer->subarea = $request->subarea;
+        $customer->area_id = $request->area;
+        $customer->sub_area_id = $request->subarea;
         $customer->status_registration = $request->regist;
         $customer->type = 'S';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;

@@ -34,8 +34,26 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('area_id');
-            $table->dropColumn('sub_area_id');
+            if (Schema::hasColumn('customers', 'area')) {
+                Schema::table('customers', function (Blueprint $table) {
+                    $table->dropColumn('area');
+                });
+            }
+            if (Schema::hasColumn('customers', 'subarea')) {
+                Schema::table('customers', function (Blueprint $table) {
+                    $table->dropColumn('subarea');
+                });
+            }
+            if (Schema::hasColumn('customers', 'area_id')) {
+                Schema::table('customers', function (Blueprint $table) {
+                    $table->dropColumn('area_id');
+                });
+            }
+            if (Schema::hasColumn('customers', 'sub_area_id')) {
+                Schema::table('customers', function (Blueprint $table) {
+                    $table->dropColumn('sub_area_id');
+                });
+            }
         });
     }
 };
