@@ -25,4 +25,10 @@ class SubArea extends Model
     public function area(){
         return $this->belongsTo(Area::class, 'area_id', 'id');
     }
+
+    protected $fillable = [
+        'branch_id',
+        'area_id',
+        'name'
+    ];
 }

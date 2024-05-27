@@ -21,4 +21,9 @@ class Area extends Model
     public function branch(){
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
+
+    protected $fillable = [
+        'branch_id',
+        'name'
+    ];
 }
