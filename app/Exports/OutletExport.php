@@ -18,18 +18,29 @@ class OutletExport implements FromCollection ,WithMapping, WithHeadings
         return Customer::where('type', 'O')->get();
     }
 
-    public function map($store): array
+    public function map($outlet): array
     {
+        $status;
+        if($outlet->status_registration == 'Y'){
+            $status = 'SMClub';
+        }elseif($outlet->status_registration == 'M'){
+            $status = 'Mixing';
+        }else{
+            $status = 'Non-SM';
+        }
+
         return [
-            $store->code,
-            $store->name,
-            $store->phone,
-            $store->address,
-            $store->LA,
-            $store->LO,
-            empty($store->deploy_area) ? '' : $store->deploy_area->name,
-            empty($store->deploy_sub_area) ? '' : $store->deploy_sub_area->name,
-            empty($store->deploy_branch) ? '' : $store->deploy_branch->name,
+            $outlet->code,
+            $outlet->name,
+            $outlet->phone,
+            $outlet->address,
+            $outlet->LA,
+            $outlet->LO,
+            $status,
+            $outlet->banner == 1 ? 'Sudah Pasang' : 'Belum Pasang',
+            empty($outlet->deploy_area) ? '' : $outlet->deploy_area->name,
+            empty($outlet->deploy_sub_area) ? '' : $outlet->deploy_sub_area->name,
+            empty($outlet->deploy_branch) ? '' : $outlet->deploy_branch->name,
         ];
     }
 
@@ -41,6 +52,8 @@ class OutletExport implements FromCollection ,WithMapping, WithHeadings
             'Alamat',
             'Latitude',
             'Longitude',
+            'Status Gerai',
+            'Spanduk',
             'Area',
             'Sub Area',
             'Cabang'
