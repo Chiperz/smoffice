@@ -272,8 +272,16 @@
               </li>
             {{-- @endcan --}}
 
+            {{-- @can('user_account view') --}}
+              <li class="menu-item {{ setActive([ 'user.*' ]) }}">
+                <a href="{{ route('user.index') }}" class="menu-link">
+                  <div data-i18n="Account">Jadwal Kunjungan</div>
+                </a>
+              </li>
+            {{-- @endcan --}}
+
             {{-- @can('group_access view') --}}
-              <li class="menu-item {{ setActive([ 'role.*' ]) }}">
+              <li class="menu-item ">
                 <a href="{{ route('role.index') }}" class="menu-link">
                   <div data-i18n="Account">Grup Akses</div>
                 </a>
@@ -281,7 +289,7 @@
             {{-- @endcan --}}
 
             {{-- @can('modul view') --}}
-              <li class="menu-ite {{ setActive([ 'modul.*' ]) }}">
+              <li class="menu-item {{ setActive([ 'modul.*' ]) }}">
                 <a href="{{ route('modul.index') }}" class="menu-link">
                   <div data-i18n="Account">Modul</div>
                 </a>
