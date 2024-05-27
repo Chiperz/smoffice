@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('schedule_visits', function (Blueprint $table) {
             $table->id();
+            $table->date('date_start')->nullable();
+            $table->date('date_end')->nullable();
+            $table->integer('looping')->nullable();
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

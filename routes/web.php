@@ -152,6 +152,8 @@ Route::middleware('auth')->group(function () {
     Route::get('report-switching', [ReportController::class, 'SwitchingCustomer'])->name('report-switching');
     Route::get('report-switching/export', [ReportController::class, 'ExportSwitchingCustomer'])->name('report-switching.export');
 
+    Route::resource('schedule-visit', ScheduleVisitController::class);
+
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');
 
     Route::resource('galery', GaleryFotoController::class);
