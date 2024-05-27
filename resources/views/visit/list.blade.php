@@ -11,8 +11,10 @@
         <input type="text" class="form-control" placeholder="Cari..." aria-label="Cari..." aria-describedby="basic-addon-search31" name="search">
       </form>
       @if ($type == 'S')
+        <a href="{{ route('store.create') }}" class="btn btn-success mt-2 col-md-12">Tambah Toko Baru</a>
         <a href="{{ route('visit.list', 'O') }}" class="btn btn-primary mt-2 col-md-12">Campaign Gerai</a>
       @else
+        <a href="{{ route('outlet.create') }}" class="btn btn-success mt-2 col-md-12">Tambah Gerai Baru</a>
         <a href="{{ route('visit.list', 'S') }}" class="btn btn-secondary mt-2 col-md-12">Kunjungan Toko</a>
       @endif
           <div class="row">
