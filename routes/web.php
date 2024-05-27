@@ -150,6 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::get('report-gift', [ReportController::class, 'GiftingCustomer'])->name('report-gift');
     Route::get('report-gift/export', [ReportController::class, 'ExportGiftingCustomer'])->name('report-gift.export');
     Route::get('report-switching', [ReportController::class, 'SwitchingCustomer'])->name('report-switching');
+    Route::get('report-switching/export', [ReportController::class, 'ExportSwitchingCustomer'])->name('report-switching.export');
 
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');
 

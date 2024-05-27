@@ -16,7 +16,7 @@
                         </h2>
   
                         <div id="accordionOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample" style="">
-                            <form action="{{ route('report-unproductive.export') }}">
+                            <form action="{{ route('report-switching.export') }}">
                                 <div class="accordion-body">
                                     <label for="" class="form-label mt-2">Tanggal Mulai</label>
                                     <input type="date" name="start_date" id="start_date" class="form-control" aria-label="Tanggal Mulai" value="{{ date('Y-m-01') }}">

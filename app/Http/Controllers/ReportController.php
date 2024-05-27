@@ -18,6 +18,7 @@ use App\DataTables\SwitchingCustomerDataTable;
 
 use App\Exports\UnproductiveReasonVisitExport;
 use App\Exports\GiftingSampleCustomerExport;
+use App\Exports\ReportSwitchingOutletExport;
 
 class ReportController extends Controller
 {
@@ -98,5 +99,9 @@ class ReportController extends Controller
     public function SwitchingCustomer(SwitchingCustomerDataTable $dataTable){
         $customers = Customer::all();
         return $dataTable->render('report.switching-customer', compact('customers'));
+    }
+
+    public function ExportSwitchingCustomer(Request $request){
+        return Excel::download(new ReportSwitchingOutletExport($request->start_date, $request->end_date), 'Report Perubahan Status Outlet_'.date('d-M-Y H-i-s').'.xlsx');
     }
 }
