@@ -25,6 +25,19 @@ class DashboardController extends Controller
         $store = Customer::where('type', 'S')->get()->count();
         $outlet = Customer::where('type', 'O')->get()->count();
         $user = User::all()->count();
+        $storeVisit = HeaderVisit::with('customer')
+            ->with('detail_store')
+            ->whereHas('detail_store', function($q){
+                $q->where('display_product_id', '!=', null);
+            })
+            ->distinct()
+            ->get()
+            ->count();
+        $storeVisitAll = HeaderVisit::with('customer')
+            ->where('time_out', '!=', null)
+            ->distinct()
+            ->get()
+            ->count();
         $visit = HeaderVisit::where('user_id', Auth::user()->id)
             ->where('date', date('Y-m-d'))->get()->count();
         // $kategori = DetailStoreVisit::selectRaw('
@@ -47,6 +60,6 @@ class DashboardController extends Controller
             'chartmarketshare' => $chartmarketshare->build(),
             'chartincrement' => $chartincrement->build(),
             'chartmonthlydisplay' => $chartmonthlydisplay->build()],
-            compact('store', 'outlet', 'user', 'visit'));
+            compact('store', 'outlet', 'user', 'visit', 'storeVisit', 'storeVisitAll'));
     }
 }
