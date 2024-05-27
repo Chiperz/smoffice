@@ -67,8 +67,12 @@ class VisitController extends Controller
             ->where(function($query) use ($request){
                 $query->where('code', 'LIKE', '%'.$request->search.'%')
                     ->orWhere('name', 'LIKE', '%'.$request->search.'%')
-                    ->orWhere('area', 'LIKE', '%'.$request->search.'%')
-                    ->orWhere('subarea', 'LIKE', '%'.$request->search.'%');
+                    ->orWhereHas('deploy_area', function($q) use ($request){
+                        $q->where('name', 'LIKE', '%'.$request->search.'%');
+                    })
+                    ->orWhereHas('deploy_sub_area', function($q) use ($request){
+                        $q->where('name', 'LIKE', '%'.$request->search.'%');
+                    });
             })
             ->orderBy('created_at', 'DESC')
             ->paginate(12);
