@@ -6,6 +6,8 @@ use App\Models\Customer;
 use App\Models\Branch;
 use App\Models\User;
 use App\Models\Owner;
+use App\Models\Area;
+use App\Models\SubArea;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +29,7 @@ class OutletImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row ) 
         {   
             // return dd($row);
+            $area;$subArea;
             if(empty($row['Kode Toko'])){
                 $branch = Branch::where('code', $row['Kode Cabang'])->first();
                 $user = User::where('username', $row['Username'])->first();
@@ -52,6 +55,32 @@ class OutletImport implements ToCollection, WithHeadingRow
                     $row['Kode Toko'] = $codeBranch.$generator;
                 }
 
+                if(!empty($row['Area'])){
+                    $area = Area::where('name', 'LIKE', '%'.strtoupper($row['Area']).'%')->first();
+
+                    if(empty($area)){
+                        $area = Area::create([
+                            'branch_id' => $branch->id,
+                            'name' => strtoupper($row['Area'])
+                        ]);
+                        $area = Area::latest()->first();
+                    }
+
+                    if(!empty($row['Sub Area'])){
+                        $subArea = SubArea::where('name', 'LIKE', '%'.strtoupper($row['Sub Area']).'%')->first();
+    
+                        if(empty($subArea)){
+                            $subArea = SubArea::create([
+                                'branch_id' => $branch->id,
+                                'area_id' => $area->id,
+                                'name' => strtoupper($row['Sub Area'])
+                            ]);
+                            $subArea = SubArea::latest()->first();
+                        }
+                    }
+
+                }
+
                 Customer::create([
                     'code' => str_replace('/',' - ',$row['Kode Toko']),
                     'name' => str_replace('/',' - ',$row['Nama Toko']),
@@ -59,8 +88,8 @@ class OutletImport implements ToCollection, WithHeadingRow
                     'address' => $row['Alamat Toko'],
                     'LA' => $row['Latitude'],
                     'LO' => $row['Longitude'],
-                    'area' => $row['Area'],
-                    'subarea' => $row['Sub Area'],
+                    'area_id' => empty($area) ? '' : $area->id,
+                    'sub_area_id' => empty($subArea) ? '' : $subArea->id,
                     'status_registration' => empty($row['Registrasi']) ? 'N' : $row['Registrasi'],
                     'type' => 'O',
                     'banner' => empty($row['Spanduk']) ? 0 : $row['Spanduk'],
@@ -75,15 +104,66 @@ class OutletImport implements ToCollection, WithHeadingRow
                 $branch = Branch::where('code', $row['Kode Cabang'])->first();
                 $user = User::where('username', $row['Username'])->first();
 
+                if(!empty($row['Area'])){
+                    $area = Area::where('name', 'LIKE', '%'.strtoupper($row['Area']).'%')->first();
+
+                    if(empty($area)){
+                        $area = Area::create([
+                            'branch_id' => $branch->id,
+                            'name' => strtoupper($row['Area'])
+                        ]);
+                        $area = Area::latest()->first();
+                    }
+
+                    if(!empty($row['Sub Area'])){
+                        $subArea = SubArea::where('name', 'LIKE', '%'.strtoupper($row['Sub Area']).'%')->first();
+    
+                        if(empty($subArea)){
+                            $subArea = SubArea::create([
+                                'branch_id' => $branch->id,
+                                'area_id' => $area->id,
+                                'name' => strtoupper($row['Sub Area'])
+                            ]);
+                            $subArea = SubArea::latest()->first();
+                        }
+                    }
+                    
+                }
+
                 if($customer){
+                    if(!empty($row['Area'])){
+                        $area = Area::where('name', 'LIKE', '%'.strtoupper($row['Area']).'%')->first();
+    
+                        if(empty($area)){
+                            $area = Area::create([
+                                'branch_id' => $branch->id,
+                                'name' => strtoupper($row['Area'])
+                            ]);
+                            $area = Area::latest()->first();
+                        }
+    
+                        if(!empty($row['Sub Area'])){
+                            $subArea = SubArea::where('name', 'LIKE', '%'.strtoupper($row['Sub Area']).'%')->first();
+        
+                            if(empty($subArea)){
+                                $subArea = SubArea::create([
+                                    'branch_id' => $branch->id,
+                                    'area_id' => $area->id,
+                                    'name' => strtoupper($row['Sub Area'])
+                                ]);
+                                $subArea = SubArea::latest()->first();
+                            }
+                        }
+                        
+                    }
                     $customer->update([
                         'name' => str_replace('/',' - ',$row['Nama Toko']),
                         'phone' => $row['No Telepon Toko'],
                         'address' => $row['Alamat Toko'],
                         'LA' => $row['Latitude'],
                         'LO' => $row['Longitude'],
-                        'area' => $row['Area'],
-                        'subarea' => $row['Sub Area'],
+                        'area_id' => empty($area) ? 0 : $area->id,
+                        'sub_area_id' => empty($subArea) ? 0 : $subArea->id,
                         'status_registration' => empty($row['Registrasi']) ? 'N' : $row['Registrasi'],
                         'type' => 'O',
                         'banner' => empty($row['Spanduk']) ? 0 : $row['Spanduk'],
@@ -94,6 +174,32 @@ class OutletImport implements ToCollection, WithHeadingRow
                         'updated_at' => date('Y-m-d H:i:s')
                     ]);
                 }else{
+                    if(!empty($row['Area'])){
+                        $area = Area::where('name', 'LIKE', '%'.strtoupper($row['Area']).'%')->first();
+    
+                        if(empty($area)){
+                            $area = Area::create([
+                                'branch_id' => $branch->id,
+                                'name' => strtoupper($row['Area'])
+                            ]);
+                            $area = Area::latest()->first();
+                        }
+    
+                        if(!empty($row['Sub Area'])){
+                            $subArea = SubArea::where('name', 'LIKE', '%'.strtoupper($row['Sub Area']).'%')->first();
+        
+                            if(empty($subArea)){
+                                $subArea = SubArea::create([
+                                    'branch_id' => $branch->id,
+                                    'area_id' => $area->id,
+                                    'name' => strtoupper($row['Sub Area'])
+                                ]);
+                                $subArea = SubArea::latest()->first();
+                            }
+                        }
+                        
+                    }
+
                     Customer::create([
                         'code' => str_replace('/',' - ',$row['Kode Toko']),
                         'name' => str_replace('/',' - ',$row['Nama Toko']),
@@ -101,8 +207,8 @@ class OutletImport implements ToCollection, WithHeadingRow
                         'address' => $row['Alamat Toko'],
                         'LA' => $row['Latitude'],
                         'LO' => $row['Longitude'],
-                        'area' => $row['Area'],
-                        'subarea' => $row['Sub Area'],
+                        'area_id' => empty($area) ? '' : $area->id,
+                        'sub_area_id' => empty($subArea) ? '' : $subArea->id,
                         'status_registration' => empty($row['Registrasi']) ? 'N' : $row['Registrasi'],
                         'type' => 'O',
                         'banner' => empty($row['Spanduk']) ? 0 : $row['Spanduk'],

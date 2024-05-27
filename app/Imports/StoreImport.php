@@ -84,8 +84,6 @@ class StoreImport implements ToCollection, WithHeadingRow
 
                 }
 
-                
-
                 Customer::create([
                     'code' => str_replace('/',' - ',$row['Kode Toko']),
                     'name' => str_replace('/',' - ',$row['Nama Toko']),
