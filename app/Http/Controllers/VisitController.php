@@ -143,10 +143,11 @@ class VisitController extends Controller
 
         if($customer->type == 'O' && $customer->status_registration != $request->status){
             $switch = new SwitchCustomer();
-            $switch->visit_id = $id;
+            $switch->header_visit_id = $id;
             $switch->status_before = $customer->status_registration;
             $switch->status_after = $request->status;
             $switch->save();
+
             $customer->status_registration = $request->status;
             $customer->save();
         }

@@ -59,7 +59,7 @@ class HeaderVisit extends Model
         return $this->hasMany(OutletVisitUnproductiveReason::class);
     }
 
-    public function switching(){
-        return $this->hasMany(SwitchCustomer::class);
+    public function status_changed(){
+        return $this->hasOne(SwitchCustomer::class, 'header_visit_id', 'id');
     }
 }

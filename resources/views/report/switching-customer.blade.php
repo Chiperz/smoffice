@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <h5>Tabel Visit Tidak Produktif</h5>
+                <h5>Tabel Switching Gerai</h5>
                 <div class="card-header-action">
                     <div class="card accordion-item">
                         <h2 class="accordion-header" id="headingOne">
@@ -22,12 +22,12 @@
                                     <input type="date" name="start_date" id="start_date" class="form-control" aria-label="Tanggal Mulai" value="{{ date('Y-m-01') }}">
                                     <label for="" class="form-label mt-2">Tanggal Selesai</label>
                                     <input type="date" name="end_date" id="end_date" class="form-control" aria-label="Tanggal Selesai" value="{{ date('Y-m-t') }}">
-                                    <select name="staff" id="staff" class="form-control mt-2">
+                                    {{-- <select name="staff" id="staff" class="form-control mt-2">
                                         <option value="">--Pilih Nama Staff--</option>
                                         @foreach ($customers as $row)
                                             <option value="{{ $row->id }}">{{ $row->name }}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                                 <input type="submit" class="btn btn-success" value="Export to Excel">
                             </form>

@@ -11,6 +11,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Http\Request;
 
 class SwitchingCustomerDataTable extends DataTable
 {
@@ -19,12 +20,30 @@ class SwitchingCustomerDataTable extends DataTable
      *
      * @param QueryBuilder $query Results from query() method.
      */
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+    public function dataTable(QueryBuilder $query, Request $request): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addIndexColumn()
+            ->filter(function ($instance) use ($request) {
+                if (!empty($request->get('start_date'))) {
+                    $instance->whereBetween('date', [$request->get('start_date'),$request->get('end_date') ]);
+                }
+                if (!empty($request->get('end_date'))) {
+                    $instance->whereBetween('date', [$request->get('start_date'),$request->get('end_date') ]);
+                }
+                if (!empty($request->get('search'))) {
+                    $instance->where(function($w) use($request){
+                       $search = $request->get('search');
+                       $w->whereHas('customer', function($q) use ($search){
+                        $q->where('code', 'LIKE', '%'.$search.'%')
+                            ->orWhere('name', 'LIKE', '%'.$search.'%');
+                       });
+                   });
+               }
+            })
             ->addColumn('date', function($query){
-                // return date('d-m-Y', strtotime($query->date));
-                return $query->date;
+                return date('d-m-Y', strtotime($query->date));
+                // return $query->date;
             })
             ->addColumn('code', function($query){
                 return $query->customer->code != null ? $query->customer->code : '';
@@ -33,12 +52,23 @@ class SwitchingCustomerDataTable extends DataTable
                 return $query->customer->name != null ? $query->customer->name : '';
             })
             ->addColumn('before', function($query){
-                return $query->switching->status_before;
+                if($query->status_changed->status_before == 'Y'){
+                    return 'SMClub';
+                }elseif($query->status_changed->status_before == 'M'){
+                    return 'Mixing';
+                }else{
+                    return 'Non-SMClub';
+                }
             })
             ->addColumn('after', function($query){
-                return $query->switching->status_after;
+                if($query->status_changed->status_after == 'Y'){
+                    return 'SMClub';
+                }elseif($query->status_changed->status_after == 'M'){
+                    return 'Mixing';
+                }else{
+                    return 'Non-SMClub';
+                }
             })
-            ->addColumn('action', 'switchingcustomer.action')
             ->setRowId('id');
     }
 
@@ -49,7 +79,10 @@ class SwitchingCustomerDataTable extends DataTable
     {
         return $model->newQuery()
             ->with('customer')
-            ->with('switching');
+            ->with('status_changed')
+            ->whereHas('status_changed', function($q){
+                $q->where('status_before', '!=', null);
+            });
     }
 
     /**
@@ -60,10 +93,21 @@ class SwitchingCustomerDataTable extends DataTable
         return $this->builder()
                     ->setTableId('switchingcustomer-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    // ->minifiedAjax()
+                    ->ajax([
+                        'url'  => route('report-switching'),
+                        'type' => 'GET',
+                        'data' => "function(data){
+                            data.start_date = $('input[name=start_date]').val(),
+                            data.end_date = $('input[name=end_date]').val(),
+                            data.search = $('input[type=search]').val();
+                        }"
+                    ])
+                    // ->dom('Bfrtip')
+                    // ->dom('lBrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
+                    ->responsive()
                     ->buttons([
                         // Button::make('excel'),
                         // Button::make('csv'),
