@@ -43,9 +43,9 @@ class OutletDataTable extends DataTable
                     $instance->where(function($w) use($request){
                        $search = $request->get('search');
                        $w->orWhere('code', 'LIKE', "%$search%")
-                       ->orWhere('name', 'LIKE', "%$search%")
-                       ->orWhere('area', 'LIKE', "%$search%")
-                       ->orWhere('subarea', 'LIKE', "%$search%");
+                       ->orWhere('name', 'LIKE', "%$search%");
+                    //    ->orWhere('area', 'LIKE', "%$search%")
+                    //    ->orWhere('subarea', 'LIKE', "%$search%");
                    });
                }
             })
