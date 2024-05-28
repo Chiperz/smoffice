@@ -274,7 +274,7 @@
 
             {{-- @can('user_account view') --}}
               <li class="menu-item {{ setActive([ 'schedule-visit.*' ]) }}">
-                <a href="{{ route('user.index') }}" class="menu-link">
+                <a href="{{ route('schedule-visit.index') }}" class="menu-link">
                   <div data-i18n="Account">Jadwal Kunjungan</div>
                 </a>
               </li>

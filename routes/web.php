@@ -19,6 +19,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnproductiveReasonController;
 use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\GaleryFotoController;
+use App\Http\Controllers\ScheduleVisitController;
 
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ReportController;
@@ -152,6 +153,8 @@ Route::middleware('auth')->group(function () {
     Route::get('report-switching', [ReportController::class, 'SwitchingCustomer'])->name('report-switching');
     Route::get('report-switching/export', [ReportController::class, 'ExportSwitchingCustomer'])->name('report-switching.export');
 
+    Route::get('schedule-visit/export', [ScheduleVisitController::class, 'export'])->name('schedule-visit.export');
+    Route::post('schedule-visit/import', [ScheduleVisitController::class, 'import'])->name('schedule-visit.import');
     Route::resource('schedule-visit', ScheduleVisitController::class);
 
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');

@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ScheduleVisit;
+use App\Models\Customer;
+use App\Models\User;
+
+use App\DataTables\ScheduleVisitDataTable;
+
 use Illuminate\Http\Request;
 
 class ScheduleVisitController extends Controller
@@ -9,9 +15,11 @@ class ScheduleVisitController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ScheduleVisitDataTable $dataTable)
     {
-        //
+        $users = User::all();
+
+        return $dataTable->render('schedule-visit.index', compact('users'));
     }
 
     /**
@@ -60,5 +68,13 @@ class ScheduleVisitController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function export(){
+
+    }
+
+    public function import(){
+        
     }
 }
