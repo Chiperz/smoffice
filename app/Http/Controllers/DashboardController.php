@@ -26,6 +26,9 @@ class DashboardController extends Controller
         $outlet = Customer::where('type', 'O')->get()->count();
         $user = User::all()->count();
         $storeVisit = HeaderVisit::with('customer')
+            ->whereHas('customer', function($q){
+                $q->where('type', 'S');
+            })
             ->with('detail_store')
             ->whereHas('detail_store', function($q){
                 $q->where('display_product_id', '!=', null);
@@ -34,6 +37,9 @@ class DashboardController extends Controller
             ->get()
             ->count();
         $storeVisitAll = HeaderVisit::with('customer')
+            ->whereHas('customer', function($q){
+                $q->where('type', 'S');
+            })
             ->where('time_out', '!=', null)
             ->distinct()
             ->get()
