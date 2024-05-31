@@ -63,7 +63,8 @@ class DetailScheduleVisitDataTable extends DataTable
      */
     public function query(DetailScheduleVisit $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->where('schedule_visit_id', $this->id);
     }
 
     /**

@@ -61,7 +61,7 @@ class ScheduleVisitController extends Controller
 
         $scheduleId = ScheduleVisit::latest()->get();
 
-        return redirect()->route('schedule-visit.detail', $scheduleId->id);
+        return redirect()->route('schedule-visit.show', $scheduleId->id);
     }
 
     /**
@@ -71,7 +71,7 @@ class ScheduleVisitController extends Controller
     {
         $scheduleMaster = ScheduleVisit::findOrFail($id);
 
-        return $dataTable->render('schedule-visit.detail', compact('scheduleMaster'));
+        return $dataTable->with('id', $id)->render('schedule-visit.detail', compact('scheduleMaster'));
     }
 
     /**
