@@ -12,6 +12,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class ScheduleVisitDataTable extends DataTable
 {
     /**
@@ -27,19 +29,19 @@ class ScheduleVisitDataTable extends DataTable
                 return empty($query->user) ? '' : $query->user->name;
             })
             ->addColumn('start', function($query){
-                return date('d-m-Y', $query->date_start);
+                return date('d-m-Y', strtotime($query->date_start));
             })
             ->addColumn('end', function($query){
-                return date('d-m-Y', $query->date_end);
+                return date('d-m-Y', strtotime($query->date_end));
             })
             ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
+                $btnShow = "<a class='btn btn-info' href='".route('schedule-visit.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('schedule-visit.edit', $query->id)."'>Ubah </a>";
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('schedule-visit.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                if(Auth::user()->hasPermissionTo('schedule-visit edit') && Auth::user()->hasPermissionTo('schedule-visit delete')){
-                    return $btnEdit.'&nbsp'.$btnDelete;
+                if(Auth::user()->hasPermissionTo('schedule-visit edit') && Auth::user()->hasPermissionTo('schedule-visit view') && Auth::user()->hasPermissionTo('schedule-visit delete')){
+                    return $btnShow.'&nbsp'.$btnEdit.'&nbsp'.$btnDelete;
                 }elseif(Auth::user()->hasPermissionTo('schedule-visit edit')){
                     return $btnEdit;
                 }elseif(Auth::user()->hasPermissionTo('schedule-visit delete')){

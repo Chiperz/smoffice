@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::post('store/import', [StoreController::class, 'import'])->name('store.import');
     Route::get('store/example-file-import/{file}', [StoreController::class, 'downloadFormatImport'])->name('store.file-import');
     Route::get('store/autocomplete', [StoreController::class, 'autocomplete'])->name('store.autocomplete');
+    Route::get('customer/autocomplete', [StoreController::class, 'customerAutocomplete'])->name('customer.autocomplete');
     Route::resource('store', StoreController::class);
 
     Route::get('outlet/trashed', [OutletController::class, 'trashed'])->name('outlet.trashed');
@@ -155,6 +156,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('schedule-visit/export', [ScheduleVisitController::class, 'export'])->name('schedule-visit.export');
     Route::post('schedule-visit/import', [ScheduleVisitController::class, 'import'])->name('schedule-visit.import');
+    Route::post('schedule-visit/{id}/add-detail', [ScheduleVisitController::class, 'addDetailSchedule'])->name('schedule-visit.add-detail');
     Route::resource('schedule-visit', ScheduleVisitController::class);
 
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');

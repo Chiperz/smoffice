@@ -16,4 +16,9 @@ class DetailScheduleVisit extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
+
+    protected $fillable = [
+        'schedule_visit_id',
+        'customer_id'
+    ];
 }

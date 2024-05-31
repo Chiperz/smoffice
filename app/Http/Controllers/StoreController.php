@@ -295,4 +295,17 @@ class StoreController extends Controller
 
         return response()->json($data);
     }
+
+    public function customerAutocomplete(Request $request){
+        $data = [];
+
+        if($request->filled('q')){
+            $data = Customer::select('name','code' ,'id', 'address')
+                    ->where('name', 'LIKE', '%'.$request->get('q').'%')
+                    ->orWhere('code', 'LIKE', '%'.$request->get('q').'%')
+                    ->get();
+        }
+
+        return response()->json($data);
+    }
 }
