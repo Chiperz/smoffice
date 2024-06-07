@@ -153,6 +153,8 @@
 
     $('#area').select2({
         placeholder: 'Pilih Area',
+        class: 'form-control',
+        tags: true,
         ajax: {
           url: areaPath,
           dataType: 'json',
@@ -167,12 +169,13 @@
                 })
             };
           },
-          cache: true
+          cache: true,
         }
     });
 
     $('#subarea').select2({
         placeholder: 'Pilih Sub Area',
+        tags: true,
         ajax: {
           url: subAreaPath,
           dataType: 'json',

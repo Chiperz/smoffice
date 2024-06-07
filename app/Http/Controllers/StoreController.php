@@ -60,9 +60,9 @@ class StoreController extends Controller
             'regist' => 'required',
             'branch' => 'required | integer',
         ]);
+        $code='';$area='';$subArea='';
 
         if(empty($request->code)){
-            $code='';
             $codeBranch = Branch::findOrFail($request->branch)->code;
             $lastCodeCustomer = Customer::orderBy('code', 'desc')->where('code', 'LIKE', '%'.$codeBranch.'%')->first();
 
@@ -85,7 +85,7 @@ class StoreController extends Controller
             }
         }
 
-        $cekCode = Customer::where('code', $request->code)->first();
+        $cekCode = Customer::where('code', $code)->first();
         if(!empty($cekCode)){
             $lastDigit = intval(substr($cekCode->code,3));
                 if($lastDigit < 10){
@@ -102,6 +102,25 @@ class StoreController extends Controller
                 $code = $codeBranch.$generator;
         }
 
+        $areaId = Area::where('name', 'LIKE', '%'.$request->area.'%')->first();
+        $subAreaId = SubArea::where('name', 'LIKE', '%'.$request->subarea.'%')->first();
+        if(empty($areaId)){
+            Area::create([
+                'branch_id' => $request->branch,
+                'name' => strtoupper($request->area)
+            ]);
+            $area = Area::latest()->first();
+        }
+
+        if(empty($subAreaId)){
+            SubArea::create([
+                'branch_id' => $request->branch,
+                'area_id' => is_numeric($request->area) ? $request->area : $area->id,
+                'name' => strtoupper($request->subarea)
+            ]);
+            $subArea = SubArea::latest()->first();
+        }
+
         $customer = new Customer();
         $imagePath = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->customer_name, 'photo', 'uploads/customer/');
         $customer->code = str_replace('/', ' - ',$code);
@@ -111,8 +130,8 @@ class StoreController extends Controller
         $customer->address = $request->customer_address;
         $customer->LA = $request->la;
         $customer->LO = $request->lo;
-        $customer->area_id = $request->area;
-        $customer->sub_area_id = $request->subarea;
+        $customer->area_id = is_numeric($request->area) ? $request->area : $area->id;
+        $customer->sub_area_id = is_numeric($request->subarea) ? $request->subarea : $subArea->id;
         $customer->status_registration = $request->regist;
         $customer->type = 'S';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;
@@ -128,7 +147,7 @@ class StoreController extends Controller
         }
 
         $owner = New Owner();
-        $idCust = Customer::where('code', $request->code)->first()->id;
+        $idCust = Customer::where('code', $code)->first()->id;
         $owner->name = $request->owner_name;
         $owner->nik = $request->nik;
         $owner->phone = $request->owner_phone;
