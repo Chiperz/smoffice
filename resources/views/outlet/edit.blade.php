@@ -169,6 +169,7 @@
 
     $('#area').select2({
         placeholder: 'Pilih Area',
+        tags: true,
         ajax: {
           url: areaPath,
           dataType: 'json',
@@ -189,6 +190,7 @@
 
     $('#subarea').select2({
         placeholder: 'Pilih Sub Area',
+        tags: true,
         ajax: {
           url: subAreaPath,
           dataType: 'json',

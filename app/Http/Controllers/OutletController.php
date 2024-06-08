@@ -7,6 +7,8 @@ use App\Traits\ImageUploadTraits;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Owner;
+use App\Models\Area;
+use App\Models\SubArea;
 
 use App\Datatables\OutletDataTable;
 use App\Datatables\OutletTrashedDataTable;
@@ -54,6 +56,7 @@ class OutletController extends Controller
             'regist' => 'required',
             'branch' => 'required | integer',
         ]);
+        $code='';$area='';$subArea='';
 
         if(empty($request->code)){
             $code = '';
@@ -77,27 +80,47 @@ class OutletController extends Controller
                 }
                 $code = $codeBranch.$generator;
             }
+            $cekCode = Customer::where('code', $code)->first();
+            if(!empty($cekCode)){
+                $lastDigit = intval(substr($cekCode->code,3));
+                    if($lastDigit < 10){
+                        if($lastDigit == 0){
+                            $generator = '001';    
+                        }else{
+                            $generator = '00'.$lastDigit+1;
+                        }
+                    }elseif($lastDigit >= 10 && $lastDigit <100){
+                        $generator = '0'.$lastDigit+1;
+                    }else{
+                        $generator = $lastDigit+1;
+                    }
+                    $code = $codeBranch.$generator;
+            }
+        }else{
+            $code = $request->code;
         }
 
-        $cekCode = Customer::where('code', $request->code)->first();
-        if(!empty($cekCode)){
-            $lastDigit = intval(substr($cekCode->code,3));
-                if($lastDigit < 10){
-                    if($lastDigit == 0){
-                        $generator = '001';    
-                    }else{
-                        $generator = '00'.$lastDigit+1;
-                    }
-                }elseif($lastDigit >= 10 && $lastDigit <100){
-                    $generator = '0'.$lastDigit+1;
-                }else{
-                    $generator = $lastDigit+1;
-                }
-                $code = $codeBranch.$generator;
+        $areaId = Area::where('name', 'LIKE', '%'.$request->area.'%')->first();
+        $subAreaId = SubArea::where('name', 'LIKE', '%'.$request->subarea.'%')->first();
+        if(empty($areaId)){
+            Area::create([
+                'branch_id' => $request->branch,
+                'name' => strtoupper($request->area)
+            ]);
+            $area = Area::latest()->first();
+        }
+
+        if(empty($subAreaId)){
+            SubArea::create([
+                'branch_id' => $request->branch,
+                'area_id' => is_numeric($request->area) ? $request->area : $area->id,
+                'name' => strtoupper($request->subarea)
+            ]);
+            $subArea = SubArea::latest()->first();
         }
 
         $customer = new Customer();
-        $imagePath = $this->uploadImage($request, date('d-M-Y His'), $request->code, $request->customer_name, 'photo', 'uploads/customer/');
+        $imagePath = $this->uploadImage($request, date('d-M-Y His'), $code, $request->customer_name, 'photo', 'uploads/customer/');
         $customer->code = str_replace('/',' - ',$code);
         $customer->name = str_replace('/',' - ',$request->customer_name);
         $customer->phone = $request->customer_phone;
@@ -105,8 +128,8 @@ class OutletController extends Controller
         $customer->address = $request->customer_address;
         $customer->LA = $request->la;
         $customer->LO = $request->lo;
-        $customer->area_id = $request->area;
-        $customer->sub_area_id = $request->subarea;
+        $customer->area_id = is_numeric($request->area) ? $request->area : $area->id;
+        $customer->sub_area_id = is_numeric($request->subarea) ? $request->subarea : $subArea->id;
         $customer->status_registration = $request->regist;
         $customer->type = 'O';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;
@@ -118,11 +141,16 @@ class OutletController extends Controller
             toastr()->warning('Gerai yang ditambahkan tidak memiliki data pemilik');
             toastr()->success('Gerai berhasil ditambahkan');
 
-            return redirect()->route('outlet.index');
+            if($request->savevisit == 1){
+                $newOutlet = Customer::where('code', $code)->first();
+                return redirect()->route('visit.create', $newOutlet->id);
+            }else{
+                return redirect()->route('outlet.index');
+            }
         }
 
         $owner = New Owner();
-        $idCust = Customer::where('code', $request->code)->first()->id;
+        $idCust = Customer::where('code', $code)->first()->id;
         $owner->name = $request->owner_name;
         $owner->nik = $request->nik;
         $owner->phone = $request->owner_phone;
@@ -133,7 +161,14 @@ class OutletController extends Controller
 
         toastr()->success('Gerai berhasil ditambahkan');
         
-        return redirect()->route('outlet.index');
+        if($request->savevisit == 1){
+            toastr()->success('Gerai berhasil ditambahkan');
+            $newOutlet = Customer::where('code', $code)->first();
+            return redirect()->route('visit.create', $newOutlet->id);
+        }else{
+            toastr()->success('Gerai berhasil ditambahkan');
+            return redirect()->route('outlet.index');
+        }
     }
 
     /**
@@ -167,6 +202,26 @@ class OutletController extends Controller
             'photo' => 'image | mimes:jpeg,jpg,png',
             'regist' => 'required',
         ]);
+        $area='';$subArea='';
+
+        $areaId = Area::where('name', 'LIKE', '%'.$request->area.'%')->first();
+        $subAreaId = SubArea::where('name', 'LIKE', '%'.$request->subarea.'%')->first();
+        if(empty($areaId)){
+            Area::create([
+                'branch_id' => $request->branch,
+                'name' => strtoupper($request->area)
+            ]);
+            $area = Area::latest()->first();
+        }
+
+        if(empty($subAreaId)){
+            SubArea::create([
+                'branch_id' => $request->branch,
+                'area_id' => is_numeric($request->area) ? $request->area : $area->id,
+                'name' => strtoupper($request->subarea)
+            ]);
+            $subArea = SubArea::latest()->first();
+        }
 
         $customer = Customer::findOrFail($id);
         $imagePath = $this->updateImage($request, date('d-M-Y His'), $request->code, $request->customer_name, 'photo', 'uploads/customer/');
@@ -176,8 +231,8 @@ class OutletController extends Controller
         $customer->address = $request->customer_address;
         $customer->LA = $request->la;
         $customer->LO = $request->lo;
-        $customer->area_id = $request->area;   
-        $customer->sub_area_id = $request->subarea;
+        $customer->area_id = is_numeric($request->area)  ? $request->area : $area->id;
+        $customer->sub_area_id = is_numeric($request->subarea) ? $request->subarea : $subArea->id;
         $customer->status_registration = $request->regist;
         $customer->type = 'O';
         $customer->banner = empty($request->banner) ? 0 : $request->banner;

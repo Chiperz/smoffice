@@ -136,7 +136,8 @@
 
               </div>
               <div class="mt-2">
-                <button type="submit" class="btn btn-primary me-2">Simpan</button>
+                <button type="submit" class="btn btn-primary me-2" name="save" value="0">Simpan</button>
+                <button type="submit" class="btn btn-success me-2" name="savevisit" value="1">Simpan & Kunjungi</button>
                 <a href="{{ route('outlet.index') }}" class="btn btn-outline-secondary">Kembali</a>
               </div>
             </form>
@@ -157,6 +158,7 @@
 
     $('#area').select2({
         placeholder: 'Pilih Area',
+        tags: true,
         ajax: {
           url: areaPath,
           dataType: 'json',
@@ -177,6 +179,7 @@
 
     $('#subarea').select2({
         placeholder: 'Pilih Sub Area',
+        tags: true,
         ajax: {
           url: subAreaPath,
           dataType: 'json',
