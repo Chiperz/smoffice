@@ -100,14 +100,16 @@ class OutletController extends Controller
             $code = $request->code;
         }
 
-        $areaId = Area::where('name', 'LIKE', '%'.$request->area.'%')->first();
-        $subAreaId = SubArea::where('name', 'LIKE', '%'.$request->subarea.'%')->first();
+        $areaId = Area::where('name', $request->area)->first();
+        $subAreaId = SubArea::where('name',$request->subarea)->first();
         if(empty($areaId)){
             Area::create([
                 'branch_id' => $request->branch,
                 'name' => strtoupper($request->area)
             ]);
             $area = Area::latest()->first();
+        }else{
+            $area = $areaId;
         }
 
         if(empty($subAreaId)){
@@ -117,6 +119,8 @@ class OutletController extends Controller
                 'name' => strtoupper($request->subarea)
             ]);
             $subArea = SubArea::latest()->first();
+        }else{
+            $subArea = $subAreaId;
         }
 
         $customer = new Customer();
@@ -204,14 +208,16 @@ class OutletController extends Controller
         ]);
         $area='';$subArea='';
 
-        $areaId = Area::where('name', 'LIKE', '%'.$request->area.'%')->first();
-        $subAreaId = SubArea::where('name', 'LIKE', '%'.$request->subarea.'%')->first();
+        $areaId = Area::where('name', $request->area)->first();
+        $subAreaId = SubArea::where('name',$request->subarea)->first();
         if(empty($areaId)){
             Area::create([
                 'branch_id' => $request->branch,
                 'name' => strtoupper($request->area)
             ]);
             $area = Area::latest()->first();
+        }else{
+            $area = $areaId;
         }
 
         if(empty($subAreaId)){
@@ -221,6 +227,8 @@ class OutletController extends Controller
                 'name' => strtoupper($request->subarea)
             ]);
             $subArea = SubArea::latest()->first();
+        }else{
+            $subArea = $subAreaId;
         }
 
         $customer = Customer::findOrFail($id);
