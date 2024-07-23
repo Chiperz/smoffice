@@ -59,7 +59,7 @@ class ScheduleVisitController extends Controller
 
         toastr()->success('Jadwal kunjung berhasil dibuat');
 
-        $scheduleId = ScheduleVisit::latest()->get();
+        $scheduleId = ScheduleVisit::latest()->first();
 
         return redirect()->route('schedule-visit.show', $scheduleId->id);
     }
@@ -146,5 +146,12 @@ class ScheduleVisitController extends Controller
         toastr()->success('Pelanggan berhasil ditambahkan ke jadwal kunjung');
 
         return redirect()->route('schedule-visit.show', $id);
+    }
+
+    public function destroyDetailSchedule(Request $request, string $id){
+        $detailSchedule = DetailScheduleVisit::findOrFail($id);
+        $detailSchedule->delete();
+
+        return response(['status' => 'success', 'message' => 'Detail jadwal kunjung berhasil dihapus']);
     }
 }

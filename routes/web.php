@@ -133,7 +133,9 @@ Route::middleware('auth')->group(function () {
     Route::get('role/{id}/reset-permission', [RoleController::class, 'resetPermission'])->name('role.reset-permission');
     Route::resource('role', RoleController::class);
 
-    Route::get('visit/{type}/list', [VisitController::class, 'list'])->name('visit.list');
+    // Route::get('visit/{type}/list', [VisitController::class, 'list'])->name('visit.list');
+    Route::get('visit/{type}/list/{time}', [VisitController::class, 'list'])->name('visit.list');
+    // Route::get('visit/{type}/list/search', [VisitController::class, 'searchList'])->name('visit.search-list');
     Route::get('visit/{type}/list/search', [VisitController::class, 'searchList'])->name('visit.search-list');
     Route::get('visit/{id}/create', [VisitController::class, 'create'])->name('visit.create');
     Route::post('visit/{id}/store', [VisitController::class, 'store'])->name('visit.store');
@@ -157,6 +159,7 @@ Route::middleware('auth')->group(function () {
     Route::get('schedule-visit/export', [ScheduleVisitController::class, 'export'])->name('schedule-visit.export');
     Route::post('schedule-visit/import', [ScheduleVisitController::class, 'import'])->name('schedule-visit.import');
     Route::post('schedule-visit/{id}/add-detail', [ScheduleVisitController::class, 'addDetailSchedule'])->name('schedule-visit.add-detail');
+    Route::delete('schedule-visit/{id}/delete-detail', [ScheduleVisitController::class, 'destroyDetailSchedule'])->name('schedule-visit.delete-detail');
     Route::resource('schedule-visit', ScheduleVisitController::class);
 
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');

@@ -116,7 +116,7 @@
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Mulai Kunjungan Toko</h5>
-                  <a href="{{ route('visit.list', 'S') }}" class="btn btn-primary">Menuju Daftar Toko</a>
+                  <a href="{{ route('visit.list', ['type' => 'S' ,'time' => 'schedule']) }}" class="btn btn-primary">Menuju Daftar Toko</a>
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Mulai Kunjungan Gerai</h5>
-                  <a href="{{ route('visit.list', 'O') }}" class="btn btn-secondary">Menuju Daftar Gerai</a>
+                  <a href="{{ route('visit.list', ['type' => 'O' ,'time' => 'schedule']) }}" class="btn btn-secondary">Menuju Daftar Gerai</a>
                 </div>
               </div>
             </div>

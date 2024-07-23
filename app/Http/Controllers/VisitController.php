@@ -39,6 +39,9 @@ use App\Models\DetailOutletVisit;
 use App\Models\OutletVisitProduct;
 use App\Models\OutletVisitUnproductiveReason;
 use App\Models\SwitchCustomer;
+use App\Models\ScheduleVisit;
+use App\Models\DetailScheduleVisit;
+
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -50,15 +53,35 @@ class VisitController extends Controller
 {
     use ImageUploadTraits;
 
-    public function list(String $type){
-        $customers = Customer::where('type', $type)->orderBy('created_at', 'DESC')->paginate(12);
+    public function list(String $type, $time){
+        $scheduledCustomer = ''; $customers = '';
+        if($time == 'schedule'){
+            $scheduleId = ScheduleVisit::where('user_id', Auth::user()->id)
+                ->whereDate('date_start', date('Y-m-d'))
+                ->first();
+            if(empty($scheduleId)){
+                $scheduledCustomer = '';
+            }else{
+                $scheduledCustomer = DetailScheduleVisit::where('schedule_visit_id',$scheduleId->id)
+                ->whereHas('customer', function($q) use($type){
+                    $q->where('type', $type);
+                })
+                ->paginate(12);
+                // ->get();
+            }
+            
+        }else{
+            $customers = Customer::where('type', $type)->orderBy('created_at', 'DESC')->paginate(12);
+        }
+        // dd($customers);
+
         $cekVisit = HeaderVisit::select('customer_id','time_out')
             ->where('user_id', Auth::user()->id)
             ->where('date', date('Y-m-d'))
             ->get();
-        // dd($cekVisit);
-        
-        return view('visit.list', compact('customers', 'type', 'cekVisit'));
+            // dd($cekVisit);
+            
+        return view('visit.list', compact('customers', 'scheduledCustomer', 'type', 'time', 'cekVisit'));
     }
 
     public function searchList(String $type, Request $request){

@@ -41,7 +41,7 @@ class DetailScheduleVisitDataTable extends DataTable
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('schedule-visit.show', $query->id)."'>Detail </a>";
                 // $btnEdit = "<a class='btn btn-warning' href='".route('schedule-visit.edit', $query->id)."'>Ubah </a>";
-                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('schedule-visit.destroy', $query->id)."'>Hapus </a>";
+                $btnDelete = "<a class='btn btn-danger delete-item' href='".route('schedule-visit.delete-detail', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
                 // if(Auth::user()->hasPermissionTo('schedule-visit edit') && Auth::user()->hasPermissionTo('schedule-visit view') && Auth::user()->hasPermissionTo('schedule-visit delete')){
