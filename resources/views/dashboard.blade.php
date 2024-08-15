@@ -35,8 +35,8 @@
                         class="rounded"/>
                     </div>
                   </div>
-                  <span>Gerai</span>
-                  <h3 class="card-title text-nowrap mb-1">{{ $outlet }}</h3>
+                  <span class="fw-semibold d-block mb-1">Gerai</span>
+                  <h3 class="card-title mb-2">{{ $outlet }}</h3>
                   {{-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> --}}
                 </div>
               </div>
@@ -53,8 +53,8 @@
                     </div>
                     
                   </div>
-                  <span>Pengguna</span>
-                  <h3 class="card-title text-nowrap mb-1">{{ $user }}</h3>
+                  <span class="fw-semibold d-block mb-1">Pengguna</span>
+                  <h3 class="card-title mb-2">{{ $user }}</h3>
                   {{-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> --}}
                 </div>
               </div>
@@ -71,8 +71,8 @@
                       </div>
                       
                     </div>
-                    <span>Kunjungan</span>
-                    <h3 class="card-title text-nowrap mb-1">{{ $visit }}</h3>
+                    <span class="fw-semibold d-block mb-1">Kunjungan</span>
+                    <h3 class="card-title mb-2">{{ $visit }}</h3>
                     {{-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> --}}
                   </div>
                 </div>

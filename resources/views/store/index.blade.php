@@ -26,6 +26,20 @@
                                     <option value="{{ $row->id }}">{{ $row->name }}</option>
                                 @endforeach
                         </select>
+
+                        <select name="area" id="area" class="form-control mt-2">
+                            <option value="">--Pilih Area--</option>
+                                @foreach ($areas as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                        </select>
+
+                        <select name="subarea" id="subarea" class="form-control mt-2">
+                            <option value="">--Pilih Sub Area--</option>
+                                @foreach ($subAreas as $row)
+                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -91,6 +105,14 @@
         });
 
         $('#branch').change(function(){
+            $('.table').DataTable().draw();
+        });
+
+        $('#area').change(function(){
+            $('.table').DataTable().draw();
+        });
+        
+        $('#subarea').change(function(){
             $('.table').DataTable().draw();
         });
     </script>

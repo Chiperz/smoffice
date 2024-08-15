@@ -20,6 +20,7 @@ use App\Http\Controllers\UnproductiveReasonController;
 use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\GaleryFotoController;
 use App\Http\Controllers\ScheduleVisitController;
+use App\Http\Controllers\ReportSummaryController;
 
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ReportController;
@@ -165,6 +166,9 @@ Route::middleware('auth')->group(function () {
     Route::get('print-pdf', [ReportController::class, 'ClaimVisitStaffPDF'])->name('print-pdf');
 
     Route::resource('galery', GaleryFotoController::class);
+
+    Route::get('summary-by-branch', [ReportSummaryController::class, 'summaryCustomer'])->name('summary-customer');
+    Route::get('summary-by-area/{id}', [ReportSummaryController::class, 'summaryArea'])->name('summary-area');
 });
 
 require __DIR__.'/auth.php';

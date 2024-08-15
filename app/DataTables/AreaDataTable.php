@@ -26,7 +26,7 @@ class AreaDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('branch', function($query){
-                return $query->branch->name;
+                return $query->branch == NULL ? '' : $query->branch->name;
             })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";

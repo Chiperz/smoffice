@@ -75,4 +75,12 @@ class Customer extends Model
     public function store_buy(){
         return $this->hasMany(DetailOutletVisit::class, 'customer_id', 'id');
     }
+
+    public function visit(){
+        return $this->hasMany(HeaderVisit::class, 'customer_id', 'id');
+    }
+
+    public function switch_status(){
+        return $this->hasMany(SwitchCustomer::class);
+    }
 }

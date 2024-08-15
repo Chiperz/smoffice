@@ -33,6 +33,12 @@ class StoreDataTable extends DataTable
                 if (!empty($request->get('branch'))) {
                     $instance->where('branch_id', $request->get('branch'));
                 }
+                if (!empty($request->get('area'))) {
+                    $instance->where('area_id', $request->get('area'));
+                }
+                if (!empty($request->get('subarea'))) {
+                    $instance->where('sub_area_id', $request->get('subarea'));
+                }
                 // if (!empty($request->get('area'))) {
                 //     $instance->where('area', 'LIKE', "%".$request->get('area')."%");
                 // }
@@ -59,6 +65,16 @@ class StoreDataTable extends DataTable
                 return $query->deploy_sub_area == null ? '' : $query->deploy_sub_area->name;
                 // return $query->deploy_sub_area;
             })
+            // ->addColumn('visited', function($query){
+            //     $data = $query->visit()
+            //         // ->whereMonth('date', date('m'))
+            //         ->orderBy('date', 'DESC')
+            //         ->latest()->get();
+
+            //     foreach($data as $row){
+            //         return date('d F Y', strtotime($row->date));
+            //     }
+            // })
             ->addColumn('action', function($query){
                 // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('store.edit', $query->id)."'>Ubah </a>";
@@ -119,6 +135,8 @@ class StoreDataTable extends DataTable
                         'data' => "function(data){
                             data.status = $('select[name=status]').val(),
                             data.branch = $('select[name=branch]').val(),
+                            data.area = $('select[name=area]').val(),
+                            data.subarea = $('select[name=subarea]').val(),
                             data.search = $('input[type=search]').val();
                         }"
                     ])
@@ -150,6 +168,7 @@ class StoreDataTable extends DataTable
             ['data' => 'branch', 'title' => 'cabang'],
             ['data' => 'area', 'title' => 'area'],
             ['data' => 'subarea', 'title' => 'sub area'],
+            // ['data' => 'visited', 'title' => 'terkunjungi'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false]
         ];

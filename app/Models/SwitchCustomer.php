@@ -17,4 +17,8 @@ class SwitchCustomer extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName} data")
             ->useLogName('switching_customer');
     }
+
+    public function from_visit(){
+        return $this->belongsTo(HeaderVisit::class);
+    }
 }

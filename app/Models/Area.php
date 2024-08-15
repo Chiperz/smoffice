@@ -26,4 +26,8 @@ class Area extends Model
         'branch_id',
         'name'
     ];
+
+    public function customer(){
+        return $this->hasMany(Customer::class);
+    }
 }

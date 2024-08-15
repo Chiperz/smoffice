@@ -30,4 +30,16 @@ class Branch extends Model
     public function updated_actor(){
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
+
+    public function area(){
+        return $this->hasMany(Area::class);
+    }
+
+    public function subarea(){
+        return $this->hasMany(SubArea::class);
+    }
+
+    public function customer(){
+        return $this->hasMany(Customer::class);
+    }
 }

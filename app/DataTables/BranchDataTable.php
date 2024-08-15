@@ -41,6 +41,18 @@ class BranchDataTable extends DataTable
                     return '';
                 }
             })
+            ->addColumn('area', function($query){
+                return $query->area()->count();
+            })
+            ->addColumn('subarea', function($query){
+                return $query->subarea()->count();
+            })
+            ->addColumn('store', function($query){
+                return $query->customer()->where('type', 'S')->count();
+            })
+            ->addColumn('outlet', function($query){
+                return $query->customer()->where('type', 'O')->count();
+            })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';
                 $inactive = '<i class="badge badge-danger">Inactive</i>';
@@ -100,6 +112,10 @@ class BranchDataTable extends DataTable
             ['data' => 'name', 'title' => 'nama'],
             ['data' => 'notes', 'title' => 'catatan'],
             ['data' => 'status', 'title' => 'status'],
+            // ['data' => 'area', 'title' => 'total area'],
+            // ['data' => 'subarea', 'title' => 'total sub area'],
+            // ['data' => 'store', 'title' => 'total toko'],
+            // ['data' => 'outlet', 'title' => 'total gerai'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false]
         ];
