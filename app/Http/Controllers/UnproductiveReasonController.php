@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UnproductiveReason;
+use App\Models\SegmentationUnproductiveReason;
 
 use App\Datatables\UnproductiveReasonDataTable;
 
@@ -24,7 +25,9 @@ class UnproductiveReasonController extends Controller
      */
     public function create()
     {
-        return view('unproductive-reason.create');
+        $segment = SegmentationUnproductiveReason::all();
+
+        return view('unproductive-reason.create', compact('segment'));
     }
 
     /**
@@ -40,6 +43,7 @@ class UnproductiveReasonController extends Controller
         $reason = new UnproductiveReason();
         $reason->name = strtolower($request->name);
         $reason->type = $request->type;
+        $reason->segmentation_id = $request->segment;
         $reason->created_by = Auth::user()->id;
         $reason->created_at = date('Y-m-d H:i:s');
         $reason->save();
@@ -63,8 +67,9 @@ class UnproductiveReasonController extends Controller
     public function edit(string $id)
     {
         $reason = UnproductiveReason::findOrFail($id);
+        $segment = SegmentationUnproductiveReason::all();
 
-        return view('unproductive-reason.edit', compact('reason'));
+        return view('unproductive-reason.edit', compact('reason', 'segment'));
     }
 
     /**
@@ -80,6 +85,7 @@ class UnproductiveReasonController extends Controller
         $reason = UnproductiveReason::findOrFail($id);
         $reason->name = strtolower($request->name);
         $reason->type = $request->type;
+        $reason->segmentation_id = $request->segment;
         $reason->created_by = Auth::user()->id;
         $reason->created_at = date('Y-m-d H:i:s');
         $reason->save();

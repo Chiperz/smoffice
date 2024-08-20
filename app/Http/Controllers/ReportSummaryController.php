@@ -9,6 +9,7 @@ use App\Models\Branch;
 
 use App\Datatables\SummaryByBranchDataTable;
 use App\Datatables\SummaryByAreaDataTable;
+use App\Datatables\SummaryUnproductiveReasonBranchDataTable;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,5 +24,9 @@ class ReportSummaryController extends Controller
         $branchData = Branch::findOrFail($id);
 
         return $dataTable->render('analyst.summary-by-area', compact('branchData'));
+    }
+
+    public function summaryUnproductiveReasonBranch(SummaryUnproductiveReasonBranchDataTable $dataTable, string $branch){
+        return $dataTable->render('analyst.summary-unproductive-by-branch');
     }
 }

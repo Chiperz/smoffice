@@ -25,4 +25,8 @@ class UnproductiveReason extends Model
     public function updated_actor(){
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
+
+    public function segment(){
+        return $this->belongsTo(SegmentationUnproductiveReason::class, 'segmentation_id', 'id');
+    }
 }

@@ -30,6 +30,16 @@
                     <label class="form-check-label" for="inlineRadio2">Gerai</label>
                   </div>
                 </div>
+
+                <div class="mb-3 col-md-12">
+                  <label for="name" class="form-label">Segmentasi</label>
+                  <select name="segment" id="" class="form-control">
+                    <option value="">-- Pilih Segmentasi --</option>
+                    @foreach ($segment as $row)
+                      <option value="{{ $row->id }}">{{ $row->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Simpan</button>

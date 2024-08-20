@@ -26,13 +26,13 @@
             <div class="row">
                 <h5>Tabel Schedule Visit</h5>
                 <div class="card-header-action">
-                    @can('schedule-visit create')
+                    {{-- @can('schedule-visit create') --}}
                         <a href="{{ route('schedule-visit.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
-                    @endcan
-                    @can('schedule-visit export')
+                    {{-- @endcan --}}
+                    {{-- @can('schedule-visit export') --}}
                         <a href="{{ route('schedule-visit.export') }}" class="btn btn-success">Export ke excel</a>
-                    @endcan
-                    @can('schedule-visit import')
+                    {{-- @endcan --}}
+                    {{-- @can('schedule-visit import') --}}
                         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Import dari Excel
                         </button>
@@ -60,7 +60,7 @@
                             </div>
                             </form>
                         </div>
-                    @endcan
+                    {{-- @endcan --}}
                     
                 </div>
             </div>

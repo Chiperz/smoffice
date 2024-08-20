@@ -21,6 +21,7 @@ use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\GaleryFotoController;
 use App\Http\Controllers\ScheduleVisitController;
 use App\Http\Controllers\ReportSummaryController;
+use App\Http\Controllers\SegmentationUnproductiveReasonController;
 
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\ReportController;
@@ -169,6 +170,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('summary-by-branch', [ReportSummaryController::class, 'summaryCustomer'])->name('summary-customer');
     Route::get('summary-by-area/{id}', [ReportSummaryController::class, 'summaryArea'])->name('summary-area');
+    Route::get('summary-unproductive-branch/{branch}', [ReportSummaryController::class, 'summaryUnproductiveReasonBranch'])->name('summary-unproductive-branch');
+
+    Route::resource('segmentation-reason', SegmentationUnproductiveReasonController::class);
 });
 
 require __DIR__.'/auth.php';

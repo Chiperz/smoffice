@@ -32,6 +32,15 @@
                   </div>
                 </div>
               </div>
+              <div class="mb-3 col-md-12">
+                <label for="name" class="form-label">Segmentasi</label>
+                <select name="segment" id="" class="form-control">
+                  <option value="">-- Pilih Segmentasi --</option>
+                  @foreach ($segment as $row)
+                    <option {{ $reason->segmentation_id == $row->id ? 'selected' : '' }} value="{{ $row->id }}">{{ $row->name }}</option>
+                  @endforeach
+                </select>
+              </div>
               <div class="mt-2">
                 <button type="submit" class="btn btn-primary me-2">Simpan</button>
                 <a href="{{ route('unproductive-reason.index') }}" class="btn btn-outline-secondary">Kembali</a>

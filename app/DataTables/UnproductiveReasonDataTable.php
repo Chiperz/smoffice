@@ -56,6 +56,9 @@ class UnproductiveReasonDataTable extends DataTable
             ->addColumn('type', function($query){
                 return $query->type == 'S' ? 'Toko' : 'Gerai';
             })
+            ->addColumn('segment' , function($query){
+                return empty($query->segment) ? '' : $query->segment->name;
+            })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
@@ -100,6 +103,7 @@ class UnproductiveReasonDataTable extends DataTable
             'exportable' => false, 'printable' => false, 'searchable' => false],
             ['data' => 'name', 'title' => 'nama'],
             ['data' => 'type', 'title' => 'type'],
+            ['data' => 'segment', 'title' => 'segmentasi'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false, 'searchable' => false]
         ];

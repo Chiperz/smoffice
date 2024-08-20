@@ -190,6 +190,14 @@
             {{-- @endcan --}}
 
             {{-- @can('unproductive_reason view') --}}
+            <li class="menu-item {{ setActive([ 'segmentation-reason.*' ]) }}">
+              <a href="{{ route('segmentation-reason.index') }}" class="menu-link">
+                <div data-i18n="Account">Segmentasi Alasan Tidak Produktif</div>
+              </a>
+            </li>
+          {{-- @endcan --}}
+
+            {{-- @can('unproductive_reason view') --}}
               <li class="menu-item {{ setActive([ 'unproductive-reason.*' ]) }}">
                 <a href="{{ route('unproductive-reason.index') }}" class="menu-link">
                   <div data-i18n="Account">Alasan Tidak Produktif</div>
@@ -250,6 +258,7 @@
       </li>
       <li class="menu-item {{ setActive([
         'summary-customer',
+        'summary-unproductive-branch'
         ]) }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
@@ -259,6 +268,12 @@
           <li class="menu-item {{ setActive([ 'summary-customer' ]) }}">
             <a href="{{ route('summary-customer') }}" class="menu-link">
               <div data-i18n="Account">Summary Customer by Branch</div>
+            </a>
+          </li>
+
+          <li class="menu-item {{ setActive([ 'summary-unproductive-branch' ]) }}">
+            <a href="{{ route('summary-unproductive-branch', ['branch' => 1]) }}" class="menu-link">
+              <div data-i18n="Account">Summary Alasan tidak Produktif Gerai By Branch</div>
             </a>
           </li>
 
