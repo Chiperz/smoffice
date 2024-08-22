@@ -21,4 +21,18 @@ class SegmentationUnproductiveReason extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function unproductive_reason(){
+        return $this->hasMany(UnproductiveReason::class, 'id', 'unproductive_reason_id');
+    }
+
+    public function store_reason(){
+        return $this->hasManyThrough(
+            StoreVisitUnproductiveReason::class, 
+            UnproductiveReason::class, 
+            'segmentation_id',
+            'unproductive_reason_id',
+            'id',
+            'id');
+    }
 }

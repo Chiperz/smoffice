@@ -42,4 +42,9 @@ class Branch extends Model
     public function customer(){
         return $this->hasMany(Customer::class);
     }
+
+    public function visit_customer()
+    {
+        return $this->hasManyThrough(HeaderVisit::class, Customer::class, 'id', 'id');
+    }
 }

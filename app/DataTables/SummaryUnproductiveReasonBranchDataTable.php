@@ -23,8 +23,36 @@ class SummaryUnproductiveReasonBranchDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('reason', function($query){
-                // return $query->outlet_reason->unproductive_reason()->get();
+            // ->addColumn('branch', function($query){
+            //     return $query->visit->customer->deploy_branch->name;
+            // })
+            // ->addColumn('staff', function($query){
+            //     return $query->visit->user->name;
+            // })
+            // ->addColumn('reason', function($query){
+            //     return $query->unproductive_reason->name;
+            // })
+            ->addColumn('date', function($query){
+                return date('d F Y', strtotime($query->date));
+            })
+            ->addColumn('code', function($query){
+                return $query->customer->code;
+            })
+            ->addColumn('name', function($query){
+                return $query->customer->name;
+            })
+            ->addColumn('staff', function($query){
+                return $query->user->name;
+            })
+            ->addColumn('store_reason', function($query){
+                $details = $query->store_reason()->get();
+                $data = '';
+
+                foreach($details as $number => $row){
+                    $data .= $number == 0 ? $row->unproductive_reason->name : ', '.$row->unproductive_reason->name;
+                }
+
+                return $data;
             })
             // ->addColumn('action', 'summaryunproductivereasonbranch.action')
             ->setRowId('id');
@@ -35,7 +63,16 @@ class SummaryUnproductiveReasonBranchDataTable extends DataTable
      */
     public function query(HeaderVisit $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model
+            // ->groupBy('user_id')
+            ->whereHas('customer', function($filter){
+                $filter->where('type', 'S');
+            })
+            ->whereHas('store_reason', function($filter){
+                $filter->where('unproductive_reason_id', '!=', NULL);
+            })
+            ->orderBy('date', 'DESC')
+            ->newQuery();
     }
 
     /**
@@ -70,7 +107,12 @@ class SummaryUnproductiveReasonBranchDataTable extends DataTable
                 ->data('DT_RowIndex')
                 ->orderable(false)
                 ->searchable(false),
-            Column::make('reason'),
+            // Column::make('branch'),
+            Column::make('date'),
+            Column::make('code'),
+            Column::make('name'),
+            Column::make('staff'),
+            Column::make('store_reason'),
             // Column::computed('action')
             //       ->exportable(false)
             //       ->printable(false)

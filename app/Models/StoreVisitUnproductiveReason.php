@@ -26,4 +26,8 @@ class StoreVisitUnproductiveReason extends Model
     public function unproductive_reason(){
         return $this->belongsTo(UnproductiveReason::class, 'unproductive_reason_id', 'id');
     }
+
+    public function visit(){
+        return $this->belongsTo(HeaderVisit::class, 'header_visit_id', 'id');
+    }
 }
