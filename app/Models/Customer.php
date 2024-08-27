@@ -83,4 +83,13 @@ class Customer extends Model
     public function switch_status(){
         return $this->hasMany(SwitchCustomer::class);
     }
+
+    public function visitDisplay(){
+        return $this->hasManyThrough(
+            HeaderVisit::class,
+            DetailStoreVisit::class,
+            'customer_id',
+            'header_visit_id'
+        );
+    }
 }

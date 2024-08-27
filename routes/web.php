@@ -171,6 +171,8 @@ Route::middleware('auth')->group(function () {
     Route::get('summary-by-branch', [ReportSummaryController::class, 'summaryCustomer'])->name('summary-customer');
     Route::get('summary-by-area/{id}', [ReportSummaryController::class, 'summaryArea'])->name('summary-area');
     Route::get('summary-unproductive-branch/{branch}', [ReportSummaryController::class, 'summaryUnproductiveReasonBranch'])->name('summary-unproductive-branch');
+    Route::get('trial-report', [ReportSummaryController::class, 'trialReport'])->name('trial-report');
+    Route::get('summary-store/{id}', [ReportSummaryController::class, 'summaryStore'])->name('summary-store');
 
     Route::resource('segmentation-reason', SegmentationUnproductiveReasonController::class);
 });

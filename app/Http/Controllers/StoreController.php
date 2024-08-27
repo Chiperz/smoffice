@@ -172,7 +172,12 @@ class StoreController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $branches = Branch::all();
+        $customer = Customer::findOrFail($id);
+        $owner = Owner::where('customer_id', $id)->first();
+        // dd($owner);
+
+        return view('store.show', compact('customer', 'branches', 'owner'));
     }
 
     /**

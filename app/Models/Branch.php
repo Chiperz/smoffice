@@ -39,7 +39,7 @@ class Branch extends Model
         return $this->hasMany(SubArea::class);
     }
 
-    public function customer(){
+    public function customers(){
         return $this->hasMany(Customer::class);
     }
 

@@ -76,13 +76,13 @@ class StoreDataTable extends DataTable
             //     }
             // })
             ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('position.show', $query->id)."'>Detail </a>";
+                $btnShow = "<a class='btn btn-info' href='".route('store.show', $query->id)."'>Detail </a>";
                 $btnEdit = "<a class='btn btn-warning' href='".route('store.edit', $query->id)."'>Ubah </a>";
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('store.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
                 if(Auth::user()->hasPermissionTo('store edit') && Auth::user()->hasPermissionTo('store delete')){
-                    return $btnEdit.'&nbsp'.$btnDelete;
+                    return $btnShow.'&nbsp'.$btnEdit.'&nbsp'.$btnDelete;
                 }elseif(Auth::user()->hasPermissionTo('store edit')){
                     return $btnEdit;
                 }elseif(Auth::user()->hasPermissionTo('store delete')){
@@ -170,7 +170,7 @@ class StoreDataTable extends DataTable
             ['data' => 'subarea', 'title' => 'sub area'],
             // ['data' => 'visited', 'title' => 'terkunjungi'],
             ['data' => 'action', 'title' => 'aksi', 'class' => 'text-center', 
-            'exportable' => false, 'printable' => false, 'searchable' => false]
+            'exportable' => false, 'printable' => false, 'searchable' => false, 'width' => 400]
         ];
     }
 
