@@ -50,7 +50,7 @@
                                             ->where('branch_id', $branch->id);
                                     })->whereBetween('date', [date('Y-m-01'), date('Y-m-t')])->count() }}</b> --}}
                                     <hr>Menuju Laporan
-                                <a class="btn btn-primary" href="{{ route('summary-store', $branch->id) }}">Toko</a>
+                                <a class="btn btn-primary" href="{{ route('summary-store', ['id' => $branch->id, 'dateFrom' => date('Y-m-01'), 'dateTo' => date('Y-m-d')]) }}">Toko</a>
                                 <button class="btn btn-secondary">Gerai</button>
                             </div>
                         </div>

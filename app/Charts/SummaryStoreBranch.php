@@ -20,6 +20,8 @@ class SummaryStoreBranch
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
         $id = request()->id;
+        $dateFrom = request()->dateFrom;
+        $dateTo = request()->dateTo;
         // return $this->chart->barChart()
         //     ->setTitle('San Francisco vs Boston.')
         //     ->setSubtitle('Wins during season 2021.')
@@ -30,21 +32,20 @@ class SummaryStoreBranch
         //             detail_store_visits.display_product_id as display_id,
         //             display_products.name as display_name, 
         $display = DetailStoreVisit::selectRaw('
-                    MONTHNAME(detail_store_visits.created_at) as month
+                    monthname(detail_store_visits.created_at) as month_name,
+                    month(detail_store_visits.created_at) as serial
                 ')
-                // ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
                 ->whereHas('header_visit', function($query) use ($id){
                     $query->whereHas('customer', function($q) use ($id){
                         $q->where('branch_id', $id);
                     });
                 })
                 ->whereBetween('detail_store_visits.created_at', [
-                    date('Y-m-d', strtotime('-3 months')),
-                    date('Y-m-t')
+                    $dateFrom,
+                    $dateTo
                 ])
-                // ->groupBy('display_product_id', 'display_name','month')
-                ->groupBy('month')
-                ->orderBy('month', 'DESC');
+                ->groupBy('month_name', 'serial')
+                ->orderBy('serial', 'asc');
         $mDisplay = DisplayProduct::all();
         
         if($mDisplay->isEmpty()){
@@ -53,14 +54,14 @@ class SummaryStoreBranch
             $branch = Branch::findOrFail($id);
             return $this->chart->barChart()
                 ->setTitle('Peningkatan Pendataan Display '.$branch->name)
-                // ->setSubtitle('Wins during season 2021.')
                 ->addData($mDisplay[0]->name, 
                     array_map('intval',
                         DetailStoreVisit::selectRaw('
                             COUNT(detail_store_visits.display_product_id) as count_display,
                             detail_store_visits.display_product_id as display_id,
                             display_products.name as display_name, 
-                            MONTHNAME(detail_store_visits.created_at) as month
+                            MONTHNAME(detail_store_visits.created_at) as month,
+                            MONTH(detail_store_visits.created_at) as serial
                         ')
                         ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
                         ->whereHas('header_visit', function($query) use ($id){
@@ -69,11 +70,11 @@ class SummaryStoreBranch
                             });
                         })
                         ->whereBetween('detail_store_visits.created_at', [
-                            date('Y-m-d', strtotime('-3 months')),
-                            date('Y-m-t')
+                            $dateFrom,
+                            $dateTo
                         ])
-                        ->groupBy('display_product_id', 'display_name','month')
-                        ->orderBy('month', 'DESC')
+                        ->groupBy('display_product_id', 'display_name','month','serial')
+                        ->orderBy('serial', 'asc')
                         ->where('display_product_id', $mDisplay[0]->id)
                         ->get()
                         ->pluck('count_display')
@@ -86,7 +87,8 @@ class SummaryStoreBranch
                             COUNT(detail_store_visits.display_product_id) as count_display,
                             detail_store_visits.display_product_id as display_id,
                             display_products.name as display_name, 
-                            MONTHNAME(detail_store_visits.created_at) as month
+                            MONTHNAME(detail_store_visits.created_at) as month,
+                            MONTH(detail_store_visits.created_at) as serial
                         ')
                         ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
                         ->whereHas('header_visit', function($query) use ($id){
@@ -95,11 +97,11 @@ class SummaryStoreBranch
                             });
                         })
                         ->whereBetween('detail_store_visits.created_at', [
-                            date('Y-m-d', strtotime('-3 months')),
-                            date('Y-m-t')
+                            $dateFrom,
+                            $dateTo
                         ])
-                        ->groupBy('display_product_id', 'display_name','month')
-                        ->orderBy('month', 'DESC')
+                        ->groupBy('display_product_id', 'display_name','month','serial')
+                        ->orderBy('serial', 'asc')
                         ->where('display_product_id', $mDisplay[1]->id)
                         ->get()
                         ->pluck('count_display')
@@ -112,7 +114,8 @@ class SummaryStoreBranch
                             COUNT(detail_store_visits.display_product_id) as count_display,
                             detail_store_visits.display_product_id as display_id,
                             display_products.name as display_name, 
-                            MONTHNAME(detail_store_visits.created_at) as month
+                            MONTHNAME(detail_store_visits.created_at) as month,
+                            MONTH(detail_store_visits.created_at) as serial
                         ')
                         ->join('display_products', 'display_products.id', 'detail_store_visits.display_product_id')
                         ->whereHas('header_visit', function($query) use ($id){
@@ -121,11 +124,11 @@ class SummaryStoreBranch
                             });
                         })
                         ->whereBetween('detail_store_visits.created_at', [
-                            date('Y-m-d', strtotime('-3 months')),
-                            date('Y-m-t')
+                            $dateFrom,
+                            $dateTo
                         ])
-                        ->groupBy('display_product_id', 'display_name','month')
-                        ->orderBy('month', 'DESC')
+                        ->groupBy('display_product_id', 'display_name','month','serial')
+                        ->orderBy('serial', 'asc')
                         ->where('display_product_id', $mDisplay[2]->id)
                         ->get()
                         ->pluck('count_display')
@@ -134,7 +137,7 @@ class SummaryStoreBranch
                 )
                 // ->addData('Boston', [7, 3, 8, 2, 6, 4])
                 ->setXAxis(
-                    $display->get()->pluck('month')->toArray()
+                    $display->get()->pluck('month_name')->toArray()
                     // [
                         // date('F', ),
                         // date('F', mktime(null,null,null,2,null,null)),
