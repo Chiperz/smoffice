@@ -7,9 +7,19 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-2">
             <div class="card-header">
-                <h5>Pengaturan Laporan</h5>
+                <h5>Pengaturan dan Summary Laporan</h5>
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-md-6 mb-2">
+                        <label><b>Jumlah Total Toko</b></label>
+                        <input type="text" class="form-control" value="{{ $branch->customers()->where('type', 'S')->count() }}" readonly>
+                    </div>
+                    <div class="form-group col-md-6 mb-2">
+                        <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
+                        <input type="text" class="form-control" value="{{ $branch->customers-> }}">
+                    </div>
+                </div>
                 <div class="card accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                       <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">

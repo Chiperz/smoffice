@@ -28,13 +28,13 @@ class BreakdownVisitDailyDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function($query){
-                // $btnShow = "<a class='btn btn-info' href='".route('visit.detail-daily', ['date' => $query->date, 'user' => $query->user_id])."'>Detail </a>";
-                // $btnEdit = "<a class='btn btn-warning' href='".route('unproductive-reason.edit', $query->date)."'>Ubah </a>";
+                $btnShow = "<a class='btn btn-info' href='".route('visit.show', $query->id)."'>Detail </a>";
+                $btnEdit = "<a class='btn btn-warning' href='".route('visit.edit', $query->id)."'>Ubah </a>";
                 // $btnDelete = "<a class='btn btn-danger delete-item' href='".route('unproductive-reason.destroy', $query->date)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                // return $btnEdit.$btnDelete;
-                // return $btnShow;
+                // return $btnEdit.$btnShow;
+                return $btnShow;
             })
             ->addColumn('status', function($query){
                 $active = '<i class="badge badge-success">Active</i>';
@@ -138,11 +138,11 @@ class BreakdownVisitDailyDataTable extends DataTable
             ['data' => 'type_customer', 'title' => 'tipe'],
             ['data' => 'cekin', 'title' => 'mulai'],
             ['data' => 'cekout', 'title' => 'selesai'],
-            ['data' => 'note', 'title' => 'catatan'],
+            // ['data' => 'note', 'title' => 'catatan'],
             ['data' => 'visit_foto', 'title' => 'foto kunjungan'],
             // ['data' => 'display_foto', 'title' => 'foto display'],
-            // ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
-            // 'exportable' => false, 'printable' => false]
+            ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
+            'exportable' => false, 'printable' => false]
         ];
     }
 

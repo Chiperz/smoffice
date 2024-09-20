@@ -40,7 +40,7 @@ class HeaderVisit extends Model
     }
 
     public function detail_outlet(){
-        return $this->hasMany(DetailOutletVisit::class);
+        return $this->hasOne(DetailOutletVisit::class, 'header_visit_id', 'id');
     }
 
     public function available_stok(){
@@ -48,7 +48,7 @@ class HeaderVisit extends Model
     }
 
     public function store_reason(){
-        return $this->hasMany(StoreVisitUnproductiveReason::class);
+        return $this->hasMany(StoreVisitUnproductiveReason::class, 'header_visit_id', 'id');
     }
 
     public function used_product(){
@@ -56,7 +56,7 @@ class HeaderVisit extends Model
     }
 
     public function outlet_reason(){
-        return $this->hasMany(OutletVisitUnproductiveReason::class);
+        return $this->hasMany(OutletVisitUnproductiveReason::class, 'header_visit_id', 'id');
     }
 
     public function status_changed(){

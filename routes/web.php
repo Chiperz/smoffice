@@ -148,6 +148,8 @@ Route::middleware('auth')->group(function () {
     Route::get('visit/{date}/detail/{user}/outlet', [VisitController::class, 'DailyVisitOutlet'])->name('visit.detail-outlet-daily');
     Route::get('visit/store/export', [VisitController::class, 'StoreExport'])->name('visit.store-export');
     Route::get('visit/outlet/export', [VisitController::class, 'OutletExport'])->name('visit.outlet-export');
+    Route::get('visit/{id}/edit', [VisitController::class, 'edit'])->name('visit.edit');
+    Route::get('visit/{id}/show', [VisitController::class, 'show'])->name('visit.show');
 
     Route::get('log-activity', [LogActivityController::class, 'index'])->name('log-activity.index');
 

@@ -444,4 +444,44 @@ class VisitController extends Controller
     public function OutletExport(){
         return Excel::download(new ReportVisitOutlet, 'Report Visit_Gerai_'.date('d-M-Y H-i-s').'.xlsx');
     }
+
+    public function edit(string $id){
+        $headerVisit = HeaderVisit::findOrFail($id);
+        $reasons = UnproductiveReason::where('type', $headerVisit->customer()->type)->get();
+
+        return view('visit.edit', compact('customer', 'reasons', 'generalVisit'));
+        
+    }
+
+    public function show(string $id){
+        $headerVisit = HeaderVisit::findOrFail($id);
+        // $reasons = UnproductiveReason::where('type', $headerVisit->customer->type)->get();
+        $reasonStore = $headerVisit->store_reason()->get('unproductive_reason_id');
+        $reasonOutlet = $headerVisit->outlet_reason()->get('unproductive_reason_id');
+        $displays = $headerVisit->detail_store()->get('display_product_id');
+        $categories = $headerVisit->detail_store()->get('category_product_id');
+        $products = $headerVisit->available_stok()->get('brand_product_id');
+        $productUsed = $headerVisit->used_product()->get();
+        $storeBuy = $headerVisit->detail_outlet()->first();
+        $sample = $headerVisit->gift()->get();
+        $fotoVisit = $headerVisit->foto()->where('type', 'V')->first() ?? null;
+        $fotoDisplay = $headerVisit->foto()->where('type', 'D')->first() ?? null;
+        $fotoCampaign = $headerVisit->foto()->where('type', 'S')->first() ?? null;
+        // dd($productUsed);
+
+        return view('visit.show', compact(
+            'headerVisit',
+            'reasonStore',
+            'reasonOutlet',
+            'fotoVisit',
+            'fotoDisplay',
+            'fotoCampaign',
+            'displays',
+            'categories',
+            'products',
+            'productUsed',
+            'storeBuy',
+            'sample'
+        ));
+    }
 }
