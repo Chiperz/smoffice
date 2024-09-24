@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\ImageUploadTraits;
+use File;
 
+use App\Models\Owner;
 use App\Models\Branch;
 use App\Models\Customer;
-use App\Models\Owner;
 
-use App\Datatables\CustomerDataTable;
-use App\Datatables\CustomerTrashedDataTable;
-
+use Illuminate\Http\Request;
 use App\Exports\CustomerExport;
+
 use App\Imports\CustomerImport;
+use App\Traits\ImageUploadTraits;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as Image;
 use Maatwebsite\Excel\Facades\Excel;
-use File;
+use App\Datatables\CustomerDataTable;
+use App\Datatables\CustomerTrashedDataTable;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class CustomerController extends Controller
 {

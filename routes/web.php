@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('store/{id}/force-delete', [StoreController::class, 'forceDelete'])->name('store.force-delete');
     Route::get('store/export', [StoreController::class, 'export'])->name('store.export');
     Route::post('store/import', [StoreController::class, 'import'])->name('store.import');
+    Route::post('store/import-update-display', [StoreController::class, 'importDisplayImport'])->name('store.import-update-display');
     Route::get('store/example-file-import/{file}', [StoreController::class, 'downloadFormatImport'])->name('store.file-import');
     Route::get('store/autocomplete', [StoreController::class, 'autocomplete'])->name('store.autocomplete');
     Route::get('customer/autocomplete', [StoreController::class, 'customerAutocomplete'])->name('customer.autocomplete');
@@ -176,6 +177,7 @@ Route::middleware('auth')->group(function () {
     Route::get('trial-report', [ReportSummaryController::class, 'trialReport'])->name('trial-report');
     Route::get('summary-store/{id}/{dateFrom}/{dateTo}', [ReportSummaryController::class, 'summaryStore'])->name('summary-store');
     Route::post('summary-store-search', [ReportSummaryController::class, 'summarySearchStore'])->name('summary-store-search');
+    Route::get('store-has-display/{id}', [ReportSummaryController::class, 'storeHasDisplay'])->name('store-has-display');
 
     Route::resource('segmentation-reason', SegmentationUnproductiveReasonController::class);
 });

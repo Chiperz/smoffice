@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\ImageUploadTraits;
+use File;
 
-use App\Models\Branch;
-use App\Models\Customer;
-use App\Models\Owner;
 use App\Models\Area;
+use App\Models\Owner;
+use App\Models\Branch;
 use App\Models\SubArea;
-
-use App\Datatables\StoreDataTable;
-use App\Datatables\StoreTrashedDataTable;
+use App\Models\Customer;
 
 use App\Exports\StoreExport;
 use App\Imports\StoreImport;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as Image;
+use App\Traits\ImageUploadTraits;
+
+use App\Datatables\StoreDataTable;
+use App\Imports\UpdateStoreImport;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use File;
+use App\Datatables\StoreTrashedDataTable;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class StoreController extends Controller
 {
@@ -329,6 +330,16 @@ class StoreController extends Controller
         Excel::import(new StoreImport, $request->file('import'));
 
         toastr()->success('Data toko berhasil diimpor');
+        return redirect()->back();
+    }
+
+    public function importDisplayImport(Request $request){
+        $request->validate([
+            'import' => 'required | file',
+        ]);
+        Excel::import(new UpdateStoreImport, $request->file('import'));
+
+        toastr()->success('Data toko berhasil diimpor update');
         return redirect()->back();
     }
 

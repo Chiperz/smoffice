@@ -5,7 +5,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="card">
         <div class="card-header">
-            <div class="card accordion-item">
+            {{-- <div class="card accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                   <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
                     Filter
@@ -42,10 +42,11 @@
                         </select>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+            
             <div class="row">
-                <h5>Tabel Toko</h5>
-                <div class="card-header-action">
+                <h5>Tabel Toko yang Sudah Pasang Display</h5>
+                {{-- <div class="card-header-action">
                     @can('store create')
                         <a href="{{ route('store.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
                     @endcan
@@ -101,7 +102,6 @@
                                 @csrf
                                 <label for="import" class="form-label">Unggah File</label>
                                 <input type="file" name="import" class="form-control mb-2">
-                                {{-- <a href="{{ route('store.file-import', 'Format Impor Toko - SMOffice.xlsx') }}" class="mt-2">Unduh Contoh File Disini</a> --}}
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -112,7 +112,7 @@
                         </form>
                     </div>
                     
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="card-body">
@@ -126,7 +126,7 @@
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
-    <script>
+    {{-- <script>
         $('#status').change(function(){
             $('.table').DataTable().draw();
         });
@@ -142,5 +142,5 @@
         $('#subarea').change(function(){
             $('.table').DataTable().draw();
         });
-    </script>
+    </script> --}}
 @endpush

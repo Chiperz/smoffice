@@ -31,6 +31,8 @@ class Customer extends Model
         'area_id',
         'sub_area_id',
         'status_registration',
+        'status_display',
+        'date_display',
         'type',
         'banner',
         'branch_id',

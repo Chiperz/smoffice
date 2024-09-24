@@ -10,14 +10,34 @@
                 <h5>Pengaturan dan Summary Laporan</h5>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="form-group col-md-6 mb-2">
+                <div class="row mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Total Toko</b></label>
-                        <input type="text" class="form-control" value="{{ $branch->customers()->where('type', 'S')->count() }}" readonly>
+                        <input type="text" class="form-control" value="{{ $totalStore }}" readonly>
+                        <a href="{{ route('store.index') }}">Lihat Lebih Lengkap</a>
                     </div>
-                    <div class="form-group col-md-6 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
-                        <input type="text" class="form-control" value="{{ $branch->customers-> }}">
+                        <input type="text" class="form-control" value="{{ $storeHasDisplay }}" readonly>
+                        <a href="{{ route('store-has-display', $branch->id) }}">Lihat Lebih Lengkap</a>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Coverage (%)</b></label>
+                        <input type="text" class="form-control" value="{{ number_format($coverage, 2) }}%" readonly>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Toko Terkunjungi</b></label>
+                        <input type="text" class="form-control" value="{{ $visitedStore }}" readonly>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Toko Belum Terkunjungi</b></label>
+                        <input type="text" class="form-control" value="{{ $notVisitedStore }}" readonly>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Terkunjungi (%)</b></label>
+                        <input type="text" class="form-control" value="{{ number_format($visited, 2) }}%" readonly>
                     </div>
                 </div>
                 <div class="card accordion-item">

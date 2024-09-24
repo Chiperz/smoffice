@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 class SummaryVisitDataTable extends DataTable
 {
-    // protected $exportColumns = [
-    //     ['data' => 'date', 'title' => 'tanggal'],
-    //     ['data' => 'user', 'title' => 'nama staff'],
-    // ];
     /**
      * Build the DataTable class.
      *
