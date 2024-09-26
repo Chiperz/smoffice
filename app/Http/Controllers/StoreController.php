@@ -188,10 +188,12 @@ class StoreController extends Controller
     {
         $branches = Branch::all();
         $customer = Customer::findOrFail($id);
+        $areas = Area::all();
+        $subAreas = SubArea::all();
         $owner = Owner::where('customer_id', $id)->first();
         // dd($owner);
 
-        return view('store.edit', compact('customer', 'branches', 'owner'));
+        return view('store.edit', compact('customer', 'branches', 'owner', 'areas', 'subAreas'));
     }
 
     /**

@@ -27,10 +27,17 @@
                 <div class="mb-3 col-md-12">
                   <label for="area" class="form-label">Area</label>
                   <select name="area" id="area" class="form-control">
-                    <option value="">--Pilih Area--</option>
+                    @if(empty($subarea->area_id))
+                      <option value="">--Pilih Area--</option>
+                      @foreach ($areas as $area)
+                        <option value="{{ $area->id }}">{{ $area->name }}</option>
+                      @endforeach
+                    @else
+                      <option value="">--Pilih Area--</option>
                       @foreach ($areas as $area)
                         <option value="{{ $area->id }}" {{ $subarea->area_id == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
                       @endforeach
+                    @endif
                   </select>
                 </div>
                 <div class="mb-3 col-md-12">

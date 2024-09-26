@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\User;
 use App\Models\Customer;
 use App\Models\DetailStoreVisit;
 use Yajra\DataTables\Html\Button;
@@ -26,6 +27,9 @@ class StoreHasDisplayDataTable extends DataTable
             ->addColumn('date', function($query){
                 return date('d F Y', strtotime($query->visit()->whereHas('detail_store')->latest()->first()->date));
             })
+            // ->addColumn('area', function($query){
+            //     return $query->deploy_area->name;
+            // })
             ->addColumn('category', function($query){
                 $dataVisit = $query->visit()->whereHas('detail_store')->latest()->first()->id;
                 $data ='';
@@ -40,27 +44,21 @@ class StoreHasDisplayDataTable extends DataTable
                 $dataVisit = $query->visit()->whereHas('detail_store')->latest()->first()->id;
                 $data ='';
                 $displays = DetailStoreVisit::where('header_visit_id', $dataVisit)->distinct()->get('display_product_id');
-                // return DetailStoreVisit::where('header_visit_id', $dataVisit)->get('category_product_id');
                 foreach($displays as $number => $row){
                     $data .= $number == 0 ? $row->display->name : ', '.$row->display->name;
                 }
                 return $data;
             })
-            ->addColumn('display', function($query){
-                $dataVisit = $query->visit()->whereHas('detail_store')->latest()->first()->id;
-                $data ='';
-                $displays = DetailStoreVisit::where('header_visit_id', $dataVisit)->distinct()->get('display_product_id');
-                // return DetailStoreVisit::where('header_visit_id', $dataVisit)->get('category_product_id');
-                foreach($displays as $number => $row){
-                    $data .= $number == 0 ? $row->display->name : ', '.$row->display->name;
-                }
-                return $data;
+            ->addColumn('person', function($query){
+                $userId = $query->visit()->whereHas('detail_store')->latest()->first()->user_id;
+                return User::findOrFail($userId)->name;
             })
             ->addColumn('action', function($query){
                 $btnShow = "<a class='btn btn-info' href='".route('visit.show', $query->visit()->whereHas('detail_store')->latest()->first()->id)."'>Detail </a>";
                 return $btnShow;
             })
             ->rawColumns(['action'])
+            ->addIndexColumn()
             ->setRowId('id');
     }
 
@@ -72,7 +70,7 @@ class StoreHasDisplayDataTable extends DataTable
 
         return $model->newQuery()
             ->where('type', 'S')
-            ->where('branch_id', $this->id)
+            ->where('area_id', $this->id)
             ->whereHas('visit', function ($query){
                 return $query
                     ->whereNotNull('time_out')
@@ -111,20 +109,28 @@ class StoreHasDisplayDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('no')
+                ->title('#')
+                ->data('DT_RowIndex')
+                ->sortable(false),
             Column::make('code')
                 ->title('kode'),
             Column::make('name')
                 ->title('nama'),
+            // Column::make('area')
+            //     ->title('area'),
             Column::make('date')
                 ->title('tanggal visit'),
             Column::make('display')
                 ->title('jenis display'),
             Column::make('category')
                 ->title('kategori display'),
+            Column::make('person')
+                ->title('nama staff'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
+                ->sortable(false)
                 ->width(60)
                 ->addClass('text-center'),
         ];

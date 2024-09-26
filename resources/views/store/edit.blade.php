@@ -66,8 +66,16 @@
                 <div class="mb-3 col-md-12">
                   <label for="code" class="form-label">Area</label>
                   <select name="area" id="area" class="form-control">
-                    @if ($customer->area_id)
-                      <option value="{{ $customer->area_id }}" selected>{{ $customer->deploy_area->name }}</option>
+                    @if(empty($customer->area_id))
+                      <option value="">--Pilih Area--</option>
+                      @foreach ($areas as $area)
+                        <option value="{{ $area->id }}">{{ $area->name }}</option>
+                      @endforeach
+                    @else
+                      <option value="">--Pilih Area--</option>
+                      @foreach ($areas as $area)
+                        <option value="{{ $area->id }}" {{ $customer->area_id == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
+                      @endforeach
                     @endif
                   </select>
                 </div>
@@ -75,8 +83,16 @@
                 <div class="mb-3 col-md-12">
                   <label for="code" class="form-label">Sub Area</label>
                   <select name="subarea" id="subarea" class="form-control">
-                    @if ($customer->sub_area_id)
-                      <option value="{{ $customer->sub_area_id }}" selected>{{ $customer->deploy_sub_area->name }}</option>
+                    @if(empty($customer->sub_area_id))
+                      <option value="">--Pilih Sub Area--</option>
+                      @foreach ($subAreas as $subArea)
+                        <option value="{{ $subArea->id }}">{{ $subArea->name }}</option>
+                      @endforeach
+                    @else
+                      <option value="">--Pilih Area--</option>
+                      @foreach ($subAreas as $subArea)
+                        <option value="{{ $subArea->id }}" {{ $customer->sub_area_id == $subArea->id ? 'selected' : '' }}>{{ $subArea->name }}</option>
+                      @endforeach
                     @endif
                   </select>
                 </div>

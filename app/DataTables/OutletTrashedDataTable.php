@@ -112,10 +112,10 @@ class OutletTrashedDataTable extends DataTable
             ['data' => 'DT_RowIndex', 'title' => '#'],
             ['data' => 'code', 'title' => 'kode'],
             ['data' => 'name', 'title' => 'nama'],
-            ['data' => 'area', 'title' => 'area'],
-            ['data' => 'subarea', 'title' => 'sub area'],
+            // ['data' => 'area', 'title' => 'area'],
+            // ['data' => 'subarea', 'title' => 'sub area'],
             ['data' => 'deleted_at', 'title' => 'tanggal hapus'],
-            ['data' => 'by', 'title' => 'dihapus oleh'],
+            // ['data' => 'by', 'title' => 'dihapus oleh'],
             ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false]
         ];

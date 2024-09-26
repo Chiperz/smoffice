@@ -178,6 +178,9 @@ Route::middleware('auth')->group(function () {
     Route::get('summary-store/{id}/{dateFrom}/{dateTo}', [ReportSummaryController::class, 'summaryStore'])->name('summary-store');
     Route::post('summary-store-search', [ReportSummaryController::class, 'summarySearchStore'])->name('summary-store-search');
     Route::get('store-has-display/{id}', [ReportSummaryController::class, 'storeHasDisplay'])->name('store-has-display');
+    Route::get('summary-store-has-display/{id}', [ReportSummaryController::class, 'summaryStoreHasDisplay'])->name('summary-store-has-display');
+    // Route::get('store-has-display/{id}', [ReportSummaryController::class, 'storeHasDisplay'])->name('store-has-display');
+    Route::get('summary-store-has-visited/{id}', [ReportSummaryController::class, 'summaryStoreHasVisited'])->name('summary-store-has-visited');
 
     Route::resource('segmentation-reason', SegmentationUnproductiveReasonController::class);
 });

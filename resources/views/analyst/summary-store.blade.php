@@ -7,29 +7,32 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card mb-2">
             <div class="card-header">
-                <h5>Pengaturan dan Summary Laporan</h5>
+                <h5>Summary Laporan</h5>
             </div>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Total Toko</b></label>
                         <input type="text" class="form-control" value="{{ $totalStore }}" readonly>
-                        <a href="{{ route('store.index') }}">Lihat Lebih Lengkap</a>
+                        <a href="{{ route('store.index') }}">Daftar Total Toko</a>
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
                         <input type="text" class="form-control" value="{{ $storeHasDisplay }}" readonly>
-                        <a href="{{ route('store-has-display', $branch->id) }}">Lihat Lebih Lengkap</a>
+                        <a href="{{ route('summary-store-has-display', $branch->id) }}">Summary Perhitungan Per-Area</a>
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Coverage (%)</b></label>
                         <input type="text" class="form-control" value="{{ number_format($coverage, 2) }}%" readonly>
+                        <b>( Toko Sudah Pasang Display Vs Total Toko)</b>
                     </div>
                 </div>
+
                 <div class="row mb-2">
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Toko Terkunjungi</b></label>
                         <input type="text" class="form-control" value="{{ $visitedStore }}" readonly>
+                        <a href="{{ route('summary-store-has-visited', $branch->id) }}">Summary Perhitungan Per-Area</a>
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Toko Belum Terkunjungi</b></label>
@@ -38,9 +41,42 @@
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Terkunjungi (%)</b></label>
                         <input type="text" class="form-control" value="{{ number_format($visited, 2) }}%" readonly>
+                        <b>( Toko Terkunjungi Vs Total Toko)</b>
                     </div>
                 </div>
-                <div class="card accordion-item">
+                
+                <div class="row mb-2">
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
+                        <input type="text" class="form-control" value="{{ $storeHasDisplay }}" readonly>
+                        <a href="{{ route('summary-store-has-display', $branch->id) }}">Summary Perhitungan per-Area</a>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Toko Terkunjungi</b></label>
+                        <input type="text" class="form-control" value="{{ $visitedStore }}" readonly>
+                        
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Akurasi Kunjungan (%)</b></label>
+                        <input type="text" class="form-control" value="{{ number_format($accurate, 2) }}%" readonly>
+                        <b>( Toko Sudah Pasang Display Vs Toko Terkunjungi )</b>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+
+        <div class="card mb-2">
+            <div class="card-header">
+                <div class="row">
+                    <h5>Peningkatan Display Cabang {{ $branch->name }}</h5>
+                </div>
+                {{-- <a class="btn btn-primary" href="{{ route('trial-report') }}">Kembali</a> --}}
+            </div>
+            <div class="card-body">
+
+                <div class="card accordion-item mb-2">
                     <h2 class="accordion-header" id="headingOne">
                       <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionOne" aria-expanded="false" aria-controls="accordionOne">
                         Filter 
@@ -70,18 +106,9 @@
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="card mb-2">
-            <div class="card-header">
-                <div class="row">
-                    <h5>Peningkatan Display Cabang {{ $branch->name }}</h5>
                 </div>
-                {{-- <a class="btn btn-primary" href="{{ route('trial-report') }}">Kembali</a> --}}
-            </div>
-            <div class="card-body">
+
                 {!! $summaryStoreBranch->container() !!}
             </div>
         </div>

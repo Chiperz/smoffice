@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\Branch;
 
-use App\Datatables\AreaDataTable;
+use App\Models\SubArea;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Datatables\AreaDataTable;
+use Illuminate\Support\Facades\Auth;
 
 class AreaController extends Controller
 {
@@ -95,6 +97,8 @@ class AreaController extends Controller
     public function destroy(string $id)
     {
         $area = Area::findOrFail($id);
+        $subArea = SubArea::where('area_id', $id)->delete();
+        $customer = Customer::where('area_id', $id)->delete();
         $area->delete();
 
         return response(['status' => 'success', 'message' => 'Area berhasil dihapus']);

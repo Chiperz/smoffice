@@ -55,7 +55,7 @@ class StoreTrashedDataTable extends DataTable
                 return $formatedDate;
             })
             ->addColumn('by', function($query){
-                return $query->deleted_actor->name;
+                // return $query->deleted_actor->name;
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
@@ -110,10 +110,10 @@ class StoreTrashedDataTable extends DataTable
             ['data' => 'DT_RowIndex', 'title' => '#'],
             ['data' => 'code', 'title' => 'kode'],
             ['data' => 'name', 'title' => 'nama'],
-            ['data' => 'area', 'title' => 'area'],
-            ['data' => 'subarea', 'title' => 'sub area'],
+            // ['data' => 'area', 'title' => 'area'],
+            // ['data' => 'subarea', 'title' => 'sub area'],
             ['data' => 'deleted_at', 'title' => 'tanggal hapus'],
-            ['data' => 'by', 'title' => 'dihapus oleh'],
+            // ['data' => 'by', 'title' => 'dihapus oleh'],
             ['data' => 'action', 'title' => 'Aksi', 'class' => 'text-center', 
             'exportable' => false, 'printable' => false]
         ];

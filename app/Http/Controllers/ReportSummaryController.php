@@ -19,6 +19,8 @@ use App\Datatables\SummaryByAreaDataTable;
 use App\DataTables\StoreHasDisplayDataTable;
 use App\Datatables\SummaryByBranchDataTable;
 use App\Datatables\IncrementDisplayBranchDataTable;
+use App\DataTables\SummaryStoreHasDisplayDataTable;
+use App\DataTables\SummaryStoreHasVisitedDataTable;
 use App\Datatables\SummaryUnproductiveReasonBranchDataTable;
 
 class ReportSummaryController extends Controller
@@ -85,7 +87,7 @@ class ReportSummaryController extends Controller
         // $notVisitedStore = $branch->customers()->where('type', 'S')->doesntHave('visit')->count();
         $notVisitedStore = $totalStore-$visitedStore;
         $visited = ($visitedStore/$totalStore)*100;
-
+        $accurate = ($storeHasDisplay/$visitedStore)*100;
         
         return $dataTable->render(
             'analyst.summary-store', 
@@ -102,7 +104,8 @@ class ReportSummaryController extends Controller
                 'notVisitedStore',
                 'visited',
                 'areas',
-                'months'
+                'months',
+                'accurate'
             )
         );
     }
@@ -116,9 +119,59 @@ class ReportSummaryController extends Controller
     }
 
     public function storeHasDisplay(StoreHasDisplayDataTable $dataTable,string $id){
-        // dd($id);
+        $area = Area::findOrFail($id);
         return $dataTable
             ->with('id', $id)
-            ->render('analyst.store-has-display');
+            ->render('analyst.store-has-display', compact('area'));
+    }
+
+    public function summaryStoreHasDisplay(SummaryStoreHasDisplayDataTable $dataTable,string $id){
+        $branch = Branch::findOrFail($id);
+        $totalStore = $branch->customers()->where('type', 'S')->count();
+        $area = Area::where('branch_id', $id)->get('id');
+        $totalStoreHasDisplay = $branch->customers()
+            ->where('status_display', true)
+            ->count();
+        $totalStoreArea = Customer::where('type', 'S')
+            ->where('status_display', true)
+            ->where('branch_id', $id)
+            ->whereIn('area_id', $area)
+            ->count();
+        $totalStoreNotArea = $totalStoreHasDisplay - $totalStoreArea;
+        $coverage = ($totalStoreHasDisplay/$totalStore)*100;
+        return $dataTable
+
+
+            ->with('id', $id)
+            ->render('analyst.summary-store-has-display', compact([
+                'branch',
+                'totalStoreHasDisplay',
+                'totalStore',
+                'totalStoreNotArea',
+                'coverage'
+            ]));
+    }
+
+    public function summaryStoreHasVisited(SummaryStoreHasVisitedDataTable $dataTable, string $id){
+        $branch = Branch::findOrFail($id);
+        $totalStore = $branch->customers()->where('type', 'S')->count();
+        $visitedStore = $branch->customers()->where('type', 'S')->whereHas('visit', function($query){
+            return $query->whereNotNull('time_out');
+        })->count();
+        $visited = ($visitedStore/$totalStore)*100;
+        $notVisitedStore = $branch->customers()->where('type', 'S')->whereDoesntHave('visit')->count();
+        $notEfectiveVisit = $branch->customers()->where('type', 'S')->whereHas('visit', function($query){
+            return $query->whereNull('time_out');
+        })->count();
+        return $dataTable
+            ->with('id', $id)
+            ->render('analyst.summary-store-has-visited', compact(
+                'branch',
+                'totalStore',
+                'visitedStore',
+                'visited',
+                'notVisitedStore',
+                'notEfectiveVisit'
+            ));
     }
 }

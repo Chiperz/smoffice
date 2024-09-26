@@ -45,7 +45,31 @@
             </div> --}}
             
             <div class="row">
-                <h5>Tabel Toko yang Sudah Pasang Display Area {{ $area->name }}</h5>
+                <h5>Tabel Jumlah Toko yang Terkunjungi per-Area Cabang {{ $branch->name }}</h5>
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Jumlah Total Toko</b></label>
+                        <input type="text" class="form-control" value="{{ $totalStore }}" readonly>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Jumlah Terkunjungi</b></label>
+                        <input type="text" class="form-control" value="{{ $visitedStore }}" readonly>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Coverage (%)</b></label>
+                        <input type="text" class="form-control" value="{{ number_format($visited, 2) }}%" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6 mb-2">
+                        <label><b>Jumlah Toko yang Belum terkunjungi</b></label>
+                        <input type="text" class="form-control" value="{{ $notVisitedStore }}" readonly>
+                    </div>
+                    <div class="form-group col-md-6 mb-2">
+                        <label><b>Jumlah Toko Terkunjungi Tidak ada Hasil</b></label>
+                        <input type="text" class="form-control" value="{{ $notEfectiveVisit }}" readonly>
+                    </div>
+                </div>
                 {{-- <div class="card-header-action">
                     @can('store create')
                         <a href="{{ route('store.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>
