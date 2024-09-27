@@ -53,8 +53,9 @@ class VisitController extends Controller
 {
     use ImageUploadTraits;
 
-    public function list(String $type, $time){
-        $scheduledCustomer = ''; $customers = '';
+    public function list(String $type, $time, Request $request){
+        $scheduledCustomer = ''; $customers = ''; $time =='';
+        // dd(!empty($request));
         if($time == 'schedule'){
             $scheduleId = ScheduleVisit::where('user_id', Auth::user()->id)
                 ->whereDate('date_start', date('Y-m-d'))
@@ -62,16 +63,42 @@ class VisitController extends Controller
             if(empty($scheduleId)){
                 $scheduledCustomer = '';
             }else{
-                $scheduledCustomer = DetailScheduleVisit::where('schedule_visit_id',$scheduleId->id)
-                ->whereHas('customer', function($q) use($type){
-                    $q->where('type', $type);
-                })
-                ->paginate(12);
-                // ->get();
+                if(empty($request)){
+                    $scheduledCustomer = DetailScheduleVisit::where('schedule_visit_id',$scheduleId->id)
+                    ->whereHas('customer', function($q) use($type){
+                        $q->where('type', $type);
+                    })
+                    ->paginate(12);
+                }else{
+                    $scheduledCustomer = DetailScheduleVisit::where('schedule_visit_id',$scheduleId->id)
+                    ->whereHas('customer', function($q) use($type, $request){
+                        $q->where('type', $type)
+                            ->where(function($query) use($request){
+                                $query->where('code', 'LIKE', '%'.$request->search.'%')
+                                    ->orWhere('name', 'LIKE', '%'.$request->search.'%');
+                            });
+                            // ->where('code', 'LIKE', '%'.$request->search.'%')
+                            // ->orWhere('name', 'LIKE', '%'.$request->search.'%');
+                    })
+                    ->paginate(12);
+                }
             }
             
         }else{
-            $customers = Customer::where('type', $type)->orderBy('created_at', 'DESC')->paginate(12);
+            if(empty($request)){
+                $customers = Customer::where('type', $type)->orderBy('created_at', 'DESC')->paginate(12);
+                $time = "all";
+            }else{
+                $customers = Customer::where('type', $type)
+                    // ->where('code', 'LIKE', '%'.$request->search.'%')
+                    // ->orWhere('name', 'LIKE', '%'.$request->search.'%')
+                    ->where(function($query) use($request){
+                        $query->where('code', 'LIKE', '%'.$request->search.'%')
+                        ->orWhere('name', 'LIKE', '%'.$request->search.'%');
+                    })
+                    ->orderBy('created_at', 'DESC')->paginate(12);
+                $time = "all";
+            }
         }
         // dd($customers);
 
@@ -85,18 +112,16 @@ class VisitController extends Controller
     }
 
     public function searchList(String $type, Request $request){
-        // dd($request->all());
+        dd($request->all());
         $customers = Customer::where('type', $type)
-            ->where(function($query) use ($request){
-                $query->where('code', 'LIKE', '%'.$request->search.'%')
-                    ->orWhere('name', 'LIKE', '%'.$request->search.'%')
-                    ->orWhereHas('deploy_area', function($q) use ($request){
-                        $q->where('name', 'LIKE', '%'.$request->search.'%');
-                    })
-                    ->orWhereHas('deploy_sub_area', function($q) use ($request){
-                        $q->where('name', 'LIKE', '%'.$request->search.'%');
-                    });
-            })
+            ->where('code', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('name', 'LIKE', '%'.$request->search.'%')
+                // ->orWhereHas('deploy_area', function($query) use($request){
+                //     return $query->where('name', 'LIKE', '%'.$request->search.'%');
+                // })
+                // ->orWhereHas('deploy_sub_area', function($query) use($request){
+                //     return $query->where('name', 'LIKE', '%'.$request->search.'%');
+                // })
             ->orderBy('created_at', 'DESC')
             ->paginate(12);
         $cekVisit = HeaderVisit::select('customer_id','time_out')
@@ -105,7 +130,7 @@ class VisitController extends Controller
             ->get();
         // dd($customers);
         
-        return view('visit.search-list', compact('customers', 'type', 'cekVisit'));
+        // return view('visit.search-list', compact('customers', 'type', 'cekVisit'));
     }
 
     public function create(Request $request, $id){
@@ -224,6 +249,10 @@ class VisitController extends Controller
 
         if($customer->type == 'S'){
             if(!empty($request->display) && !empty($request->category)){
+                $customer = Customer::findOrFail($request->id_customer);
+                $customer->status_display = 1;
+                $customer->date_display = date('Y-m-d H:i:s');
+                $customer->save();
                 if(count($request->display) > count($request->category)){
                     foreach($request->display as $number => $row){
                         $detailStoreVisit = DetailStoreVisit::insert([

@@ -5,7 +5,7 @@
     <!-- Content -->
 
     <div class="container-xxl flex-grow-1 container-p-y">
-      <form action="{{ route('visit.search-list', $type) }}" method="GET" class="input-group input-group-merge">
+      <form action="{{ route('visit.list', $type) }}" method="GET" class="input-group input-group-merge">
         <input type="hidden" value="{{ $type }}" name="type">
         <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
         <input type="text" class="form-control" placeholder="Cari..." aria-label="Cari..." aria-describedby="basic-addon-search31" name="search">

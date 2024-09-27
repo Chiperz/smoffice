@@ -14,12 +14,12 @@
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Total Toko</b></label>
                         <input type="text" class="form-control" value="{{ $totalStore }}" readonly>
-                        <a href="{{ route('store.index') }}">Daftar Total Toko</a>
+                        <a href="{{ route('store.index') }}" target="_blank">Daftar Total Toko</a>
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
                         <input type="text" class="form-control" value="{{ $storeHasDisplay }}" readonly>
-                        <a href="{{ route('summary-store-has-display', $branch->id) }}">Summary Perhitungan Per-Area</a>
+                        <a href="{{ route('summary-store-has-display', $branch->id) }}" target="_blank">Summary Perhitungan Per-Area</a>
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Coverage (%)</b></label>
@@ -32,7 +32,7 @@
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Toko Terkunjungi</b></label>
                         <input type="text" class="form-control" value="{{ $visitedStore }}" readonly>
-                        <a href="{{ route('summary-store-has-visited', $branch->id) }}">Summary Perhitungan Per-Area</a>
+                        {{-- <a href="{{ route('summary-store-has-visited', $branch->id) }}">Summary Perhitungan Per-Area</a> --}}
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Toko Belum Terkunjungi</b></label>
@@ -49,7 +49,7 @@
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
                         <input type="text" class="form-control" value="{{ $storeHasDisplay }}" readonly>
-                        <a href="{{ route('summary-store-has-display', $branch->id) }}">Summary Perhitungan per-Area</a>
+                        {{-- <a href="{{ route('summary-store-has-display', $branch->id) }}">Summary Perhitungan per-Area</a> --}}
                     </div>
                     <div class="form-group col-md-4 mb-2">
                         <label><b>Toko Terkunjungi</b></label>

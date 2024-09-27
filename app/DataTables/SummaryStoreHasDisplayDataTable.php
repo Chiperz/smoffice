@@ -41,7 +41,7 @@ class SummaryStoreHasDisplayDataTable extends DataTable
                         ->whereHas('detail_store');
                 })->count();
                 $all = $query->customer()->where('type', 'S')->count();
-                return $data = number_format(($display/$all)*100, 2)."%";
+                return $data = $display == 0 ? "0%" : number_format(($display/$all)*100, 2)."%";
             })
             ->addColumn('action', function($query){
                 $btnShow = "<a class='btn btn-info' href='".route('store-has-display', $query->id)."'>Detail </a>";

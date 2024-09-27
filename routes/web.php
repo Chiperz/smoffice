@@ -137,9 +137,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('role', RoleController::class);
 
     // Route::get('visit/{type}/list', [VisitController::class, 'list'])->name('visit.list');
-    Route::get('visit/{type}/list/{time}', [VisitController::class, 'list'])->name('visit.list');
+    Route::get('visit/{type}/list/{time}/', [VisitController::class, 'list'])->name('visit.list');
     // Route::get('visit/{type}/list/search', [VisitController::class, 'searchList'])->name('visit.search-list');
-    Route::get('visit/{type}/list/search', [VisitController::class, 'searchList'])->name('visit.search-list');
+    // Route::get('visit/{type}/list/{time}', [VisitController::class, 'searchList'])->name('visit.search-list');
     Route::get('visit/{id}/create', [VisitController::class, 'create'])->name('visit.create');
     Route::post('visit/{id}/store', [VisitController::class, 'store'])->name('visit.store');
     Route::get('visit', [VisitController::class, 'SummaryVisit'])->name('visit.summary');
@@ -174,7 +174,7 @@ Route::middleware('auth')->group(function () {
     Route::get('summary-by-branch', [ReportSummaryController::class, 'summaryCustomer'])->name('summary-customer');
     Route::get('summary-by-area/{id}', [ReportSummaryController::class, 'summaryArea'])->name('summary-area');
     Route::get('summary-unproductive-branch/{branch}', [ReportSummaryController::class, 'summaryUnproductiveReasonBranch'])->name('summary-unproductive-branch');
-    Route::get('trial-report', [ReportSummaryController::class, 'trialReport'])->name('trial-report');
+    Route::get('summary-all-branch', [ReportSummaryController::class, 'SummaryAllBranch'])->name('summary-all-branch');
     Route::get('summary-store/{id}/{dateFrom}/{dateTo}', [ReportSummaryController::class, 'summaryStore'])->name('summary-store');
     Route::post('summary-store-search', [ReportSummaryController::class, 'summarySearchStore'])->name('summary-store-search');
     Route::get('store-has-display/{id}', [ReportSummaryController::class, 'storeHasDisplay'])->name('store-has-display');

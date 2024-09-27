@@ -10,12 +10,13 @@ use App\Models\Customer;
 use App\Models\HeaderVisit;
 
 use Illuminate\Http\Request;
+use App\Models\DisplayProduct;
 use App\Models\DetailStoreVisit;
 use App\Charts\SummaryStoreBranch;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Datatables\SummaryByAreaDataTable;
-
 use App\DataTables\StoreHasDisplayDataTable;
 use App\Datatables\SummaryByBranchDataTable;
 use App\Datatables\IncrementDisplayBranchDataTable;
@@ -39,15 +40,8 @@ class ReportSummaryController extends Controller
         return $dataTable->render('analyst.summary-unproductive-by-branch');
     }
 
-    public function trialReport(){
+    public function SummaryAllBranch(){
         $branches = Branch::all();
-        // $visitToko = HeaderVisit::whereHas('customer', function($query){
-        //     $query->where('type', 'S');
-        // })->get();
-        // $visitGerai = HeaderVisit::whereHas('customer', function($query){
-        //     $query->where('type', 'O');
-        // })->get();
-        // dd($visitGerai);
 
         return view('analyst.summary-all-branch', compact('branches'));
     }
@@ -120,9 +114,36 @@ class ReportSummaryController extends Controller
 
     public function storeHasDisplay(StoreHasDisplayDataTable $dataTable,string $id){
         $area = Area::findOrFail($id);
+        $totalStore = $area->customer()->count();
+        $storeHasDisplay = $area->customer()->where('status_display', true)->count();
+        $precentageDisplay = $storeHasDisplay == 0 ? 0 : ($storeHasDisplay/$totalStore)*100;
+        $display = DisplayProduct::whereHas('visit', function ($query){
+            return $query->whereHas('header_visit', function($q){
+                return $q->with('customer');
+            });
+        })->latest()->get();
+        // $customerHasManyDisplay = Customer::where('type', 'S')
+        //     ->where('area_id', $id)
+        //     ->distinct()
+        //     ->with('visit')
+        //     ->whereHas('visit', function($query){
+        //         return $query->with('detail_store')
+        //         ->whereHas('detail_store', function($q){
+        //             return $q->whereNotNull('display_product_id');
+        //         });
+        //     })
+        //     ->get();
+        // dd($customerHasManyDisplay);
         return $dataTable
             ->with('id', $id)
-            ->render('analyst.store-has-display', compact('area'));
+            ->render('analyst.store-has-display', 
+            compact(
+                'area',
+                'totalStore',
+                'storeHasDisplay',
+                'precentageDisplay',
+                'display'
+            ));
     }
 
     public function summaryStoreHasDisplay(SummaryStoreHasDisplayDataTable $dataTable,string $id){
@@ -140,8 +161,6 @@ class ReportSummaryController extends Controller
         $totalStoreNotArea = $totalStoreHasDisplay - $totalStoreArea;
         $coverage = ($totalStoreHasDisplay/$totalStore)*100;
         return $dataTable
-
-
             ->with('id', $id)
             ->render('analyst.summary-store-has-display', compact([
                 'branch',

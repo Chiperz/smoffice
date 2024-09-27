@@ -24,8 +24,8 @@
                     <label for="name" class="form-label">Nama</label>
                     <input class="form-control" type="text" id="name" name="name" value="{{ $customer->name }}" readonly/>
                 </div>
-                <input class="form-control" type="hidden" id="lat" name="lat" value="{{ old('lat') }}" readonly/>
-                <input class="form-control" type="hidden" id="lon" name="lon" value="{{ old('lon') }}" readonly/>
+                <input class="form-control" type="text" id="lat" name="lat" value="{{ old('lat') }}" readonly/>
+                <input class="form-control" type="text" id="lon" name="lon" value="{{ old('lon') }}" readonly/>
 
                 <div class="mb-3 col-md-12">
                   <label for="name" class="form-label">Foto Kunjungan</label>

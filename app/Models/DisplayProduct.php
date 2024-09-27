@@ -30,4 +30,8 @@ class DisplayProduct extends Model
     public function updated_actor(){
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
+
+    public function visit(){
+        return $this->hasMany(DetailStoreVisit::class, 'display_product_id', 'id');
+    }
 }

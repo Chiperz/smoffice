@@ -46,6 +46,51 @@
             
             <div class="row">
                 <h5>Tabel Toko yang Sudah Pasang Display Area {{ $area->name }}</h5>
+
+                <div class="row">
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Jumlah Total Toko</b></label>
+                        <input type="text" class="form-control" value="{{ $totalStore }}" readonly>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Jumlah Toko yang Sudah Pasang Display</b></label>
+                        <input type="text" class="form-control" value="{{ $storeHasDisplay }}" readonly>
+                    </div>
+                    <div class="form-group col-md-4 mb-2">
+                        <label><b>Coverage (%)</b></label>
+                        <input type="text" class="form-control" value="{{ number_format($precentageDisplay, 2) }}%" readonly>
+                    </div>
+                </div>
+
+                @foreach ($display as $row)
+                    @php
+                        $displayId = $row->id;
+                        $count = \App\Models\Customer::where('type', 'S')
+                            ->where('area_id', $area->id)
+                            ->whereHas('visit', function ($query) use ($displayId){
+                                return $query
+                                    ->whereNotNull('time_out')
+                                    ->whereHas('detail_store', function ($q) use ($displayId){
+                                        return $q->where('display_product_id', $displayId);
+                                    });
+                            })
+                            ->latest()->count();
+                            // ->get(['code', 'name']);
+                            // dd($count);
+                    @endphp
+                    <div class="row">
+                        <div class="form-group col-md-6 mb-2">
+                            <label><b>Jumlah Display {{ $row->name }}</b></label>
+                            <input type="text" class="form-control" value="{{ $count }}" readonly>
+                        </div>
+                        
+                        <div class="form-group col-md-6 mb-2">
+                            <label><b>Precentage</b></label>
+                            <input type="text" class="form-control" value="{{ $count == 0 ? 0 : number_format(($count/$storeHasDisplay)*100,2) }}%" readonly>
+                        </div>
+                    </div>
+                @endforeach
+                
                 {{-- <div class="card-header-action">
                     @can('store create')
                         <a href="{{ route('store.create') }}" class="btn btn-primary"><box-icon name='plus' ></box-icon> Tambah Data</a>

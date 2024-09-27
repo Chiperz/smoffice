@@ -257,15 +257,16 @@
         </ul>
       </li>
       <li class="menu-item {{ setActive([
-        'summary-customer',
-        'summary-unproductive-branch'
+        // 'summary-customer',
+        // 'summary-unproductive-branch',
+        'summary-all-branch'
         ]) }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-dock-top"></i>
           <div data-i18n="">Analisa</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item {{ setActive([ 'summary-customer' ]) }}">
+          {{-- <li class="menu-item {{ setActive([ 'summary-customer' ]) }}">
             <a href="{{ route('summary-customer') }}" class="menu-link">
               <div data-i18n="Account">Summary Customer by Branch</div>
             </a>
@@ -274,6 +275,12 @@
           <li class="menu-item {{ setActive([ 'summary-unproductive-branch' ]) }}">
             <a href="{{ route('summary-unproductive-branch', ['branch' => 1]) }}" class="menu-link">
               <div data-i18n="Account">Summary Alasan tidak Produktif Gerai By Branch</div>
+            </a>
+          </li> --}}
+
+          <li class="menu-item {{ setActive([ 'summary-all-branch' ]) }}">
+            <a href="{{ route('summary-all-branch') }}" class="menu-link">
+              <div data-i18n="Account">Summary Semua Cabang</div>
             </a>
           </li>
 

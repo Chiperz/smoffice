@@ -40,15 +40,16 @@ class ScheduleVisitDataTable extends DataTable
                 $btnDelete = "<a class='btn btn-danger delete-item' href='".route('schedule-visit.destroy', $query->id)."'>Hapus </a>";
 
                 // return $btnShow.$btnEdit.$btnDelete;
-                if(Auth::user()->hasPermissionTo('schedule-visit edit') && Auth::user()->hasPermissionTo('schedule-visit view') && Auth::user()->hasPermissionTo('schedule-visit delete')){
-                    return $btnShow.'&nbsp'.$btnEdit.'&nbsp'.$btnDelete;
-                }elseif(Auth::user()->hasPermissionTo('schedule-visit edit')){
-                    return $btnEdit;
-                }elseif(Auth::user()->hasPermissionTo('schedule-visit delete')){
-                    return $btnDelete;
-                }else{
-                    return '';
-                }
+                // if(Auth::user()->hasPermissionTo('schedule-visit edit') && Auth::user()->hasPermissionTo('schedule-visit view') && Auth::user()->hasPermissionTo('schedule-visit delete')){
+                //     return $btnShow.'&nbsp'.$btnEdit.'&nbsp'.$btnDelete;
+                // }elseif(Auth::user()->hasPermissionTo('schedule-visit edit')){
+                //     return $btnEdit;
+                // }elseif(Auth::user()->hasPermissionTo('schedule-visit delete')){
+                //     return $btnDelete;
+                // }else{
+                //     return '';
+                // }
+                return $btnShow.'&nbsp'.$btnEdit.'&nbsp'.$btnDelete;
             })
             ->rawColumns(['action', 'status'])
             ->setRowId('id');
