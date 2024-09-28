@@ -72,7 +72,7 @@
                                     ->whereNotNull('time_out')
                                     ->whereHas('detail_store', function ($q) use ($displayId){
                                         return $q->where('display_product_id', $displayId);
-                                    });
+                                    })->latest();
                             })
                             ->latest()->count();
                             // ->get(['code', 'name']);

@@ -9,6 +9,17 @@ class ScheduleVisit extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'date_start',
+        'date_end',
+        'looping',
+        'looping_type',
+        'user_id',
+        'created_at',
+        'updated_at'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }

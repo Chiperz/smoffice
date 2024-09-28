@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ScheduleVisit;
-use App\Models\DetailScheduleVisit;
-use App\Models\Customer;
 use App\Models\User;
+use App\Models\Customer;
+use Illuminate\Http\Request;
+use App\Models\ScheduleVisit;
 
+use App\Models\DetailScheduleVisit;
+use App\Imports\ScheduleVisitImport;
+
+use Maatwebsite\Excel\Facades\Excel;
 use App\DataTables\ScheduleVisitDataTable;
 use App\DataTables\DetailScheduleVisitDataTable;
-
-use Illuminate\Http\Request;
 
 class ScheduleVisitController extends Controller
 {
@@ -127,8 +129,14 @@ class ScheduleVisitController extends Controller
 
     }
 
-    public function import(){
-        
+    public function import(Request $request){
+        $request->validate([
+            'import' => 'required | file',
+        ]);
+        Excel::import(new ScheduleVisitImport, $request->file('import'));
+
+        toastr()->success('Data jadwal kunjungan berhasil diimpor');
+        return redirect()->back();
     }
 
     public function addDetailSchedule(Request $request, string $id){
